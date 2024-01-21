@@ -1,0 +1,69 @@
+.user-information {
+    max-width: 200px;
+    height: 200px;
+    font-size: 1.2rem;
+    background-color: transparent;
+    margin-right: 50px;
+    border-radius: 5px;
+    .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+
+        .avatar-container {
+            margin-right: 10px;
+            .avatar {
+                max-width: 40px;
+                max-height: 40px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+    }
+    .container:hover {
+        border-radius: 5px;
+        background-color: #e3e3e3;
+    }
+    .AccountDropdown {
+        width: 100%;
+        height: 180px;
+        margin-top: 5px;
+        font-size: 14px;
+        border-radius: 3px;
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+        .dropdown-line {
+            width: 100%;
+            height: 42px;
+            text-align: left;
+            .dropdown--detail {
+                height: 100%;
+                width: 100%;
+                display: block;
+                color: #233142;
+                padding-left: 30px;
+                padding-top: 15px;
+                text-decoration: none;
+            }
+        }
+    }
+    .info-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        .name {
+            font-weight: 600;
+            // margin-bottom: 0.2rem;
+            font-size: 16px;
+            margin: 0;
+            color: burlywood;
+        }
+        .email {
+            margin: 0;
+            font-size: 14px;
+        }
+    }
+}

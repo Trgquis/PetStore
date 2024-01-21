@@ -1,0 +1,332 @@
+@charset "UTF-8";
+/* content begin */
+.home-img {
+  display: inline-block;
+  background-repeat: no-repeat;
+  max-height: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15), 0 2px 2px rgba(0, 0, 0, 0.05), 0 4px 4px rgba(0, 0, 0, 0.05), 0 8px 8px rgba(0, 0, 0, 0.05);
+}
+.home-img img {
+  vertical-align: middle;
+  width: 100%;
+  height: 100%;
+}
+
+#content {
+  max-width: 100%;
+  min-height: 100%;
+}
+
+/* cấu trúc grid(dạng lưới) */
+.post-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: #000;
+  transition: 0.5s;
+  border: solid 1px rgba(51, 51, 51, 0.2);
+}
+.post-item .over-btn {
+  width: 100%;
+  height: 28px;
+}
+.post-item .indetail {
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.post-item--banner {
+  width: 100%;
+  height: 100%;
+}
+
+.post-item:first-child {
+  grid-area: h1;
+  overflow: hidden;
+}
+
+.post-item:hover .detail-btn {
+  opacity: 1;
+  bottom: 30px;
+}
+
+.overlayout {
+  max-width: 100%;
+  max-height: 70%;
+}
+.overlayout .overlayout-img {
+  height: 100%;
+  background-position: center;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+  background-size: cover;
+}
+.overlayout .overlayout-img img {
+  width: 100%;
+  height: 100%;
+  transition: 0.5s;
+}
+.overlayout .overlayout-img :hover {
+  transform: scale(1.1);
+}
+
+#largest-img,
+#largest-img--sp {
+  height: 100%;
+  width: 100%;
+}
+
+#largest-img--bg {
+  height: 325px;
+  width: 100%;
+}
+
+.post-item--banner #largest-img,
+.post-item--banner #largest-img--bg,
+.post-item #largest-img--sp {
+  transition: 0.6s;
+}
+
+.post-item--banner:hover #largest-img,
+.post-item:hover #largest-img--sp {
+  transform: scale(1.1);
+  opacity: 0.6;
+}
+
+.post-item--banner:hover #largest-img--bg {
+  transform: scale(1.055);
+  opacity: 0.6;
+}
+
+.content_img {
+  display: flex;
+  flex-direction: column;
+  border-radius: 0px;
+  width: 100%;
+  height: 232px;
+  margin: auto;
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 25 0px;
+  flex-shrink: 0;
+}
+
+.post-content {
+  background-color: #eeeeee;
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
+  text-align: center;
+  padding: 0 10px;
+}
+.post-content a {
+  text-decoration: none;
+  color: #000;
+  font-weight: 600;
+  z-index: 10;
+}
+.post-content a:hover {
+  font-weight: 600;
+  text-decoration: none;
+  color: #ec7263;
+}
+.post-content .price {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #000 !important;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-left: 18px;
+}
+.post-content .price #old-price {
+  color: #333333;
+  font-weight: 400;
+  font-size: 12px;
+  margin-bottom: 0;
+  margin-left: 20px;
+  -webkit-text-decoration: line-through #333333;
+          text-decoration: line-through #333333;
+}
+
+.title {
+  text-align: center;
+  padding-top: 20px;
+  /* margin-left: 50px; */
+  color: #ec7263 !important;
+  font-size: 10px;
+}
+
+.title h2 {
+  padding-bottom: 8px;
+}
+
+.post-grid {
+  width: 100%;
+  height: auto;
+  display: grid;
+  justify-content: center;
+  top: 0;
+  grid-template-columns: 476px 225px 225px 225px;
+  grid-template-rows: 1fr auto;
+  grid-gap: 25px;
+  grid-template-areas: "h1 h2 h3 h4" "h1 h5 h6 h7";
+  padding: 35px;
+}
+
+.post-grid--sc {
+  width: 100%;
+  height: auto;
+  display: grid;
+  justify-content: center;
+  top: 0;
+  grid-template-columns: 600px 500px;
+  grid-template-rows: 360px 316px;
+  grid-column-gap: 45px;
+  grid-template-areas: "h2 h1" "h2 h1";
+  padding: 35px;
+}
+
+.post-grid--sc2 {
+  width: 100%;
+  height: auto;
+  display: grid;
+  justify-content: center;
+  top: 0;
+  grid-template-columns: 570px 570px;
+  grid-template-rows: auto;
+  grid-column-gap: 30px;
+  grid-template-areas: "h1 h2" "h1 h2";
+  padding: 25px;
+}
+
+.preview_title {
+  position: absolute;
+  margin-top: -110px;
+  font-weight: 22px;
+  color: #fff;
+  text-shadow: 1.5px 0 rgba(36, 36, 34, 0.4588235294);
+  text-transform: uppercase;
+  margin-left: 25px;
+}
+
+.preview_title h2 {
+  margin-bottom: 10px;
+}
+
+.preview {
+  margin-top: 25px;
+  margin-bottom: 15px;
+  height: 33px;
+  width: 100%;
+}
+
+.preview a {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 33px;
+  background-color: #ec7263;
+  padding: 10px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+.preview a:hover {
+  color: #000;
+  text-shadow: none;
+}
+
+#discount-percent {
+  display: flex;
+  justify-content: flex-start;
+  z-index: 2;
+  max-height: 25px;
+  width: 100%;
+  margin: 0;
+}
+#discount-percent #discount-percent--content {
+  background-color: #dc2f2f;
+  height: 100%;
+  width: auto;
+  margin-right: 30px;
+  padding: 3px;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 5px;
+  color: #fff;
+}
+
+/* content end */
+/* add to cart css */
+.over-btn {
+  position: absolute;
+  max-width: 200px;
+  max-height: 28px;
+}
+
+.detail-btn {
+  display: flex;
+  justify-content: space-around;
+  width: 90%;
+  margin: auto;
+  background-color: #ff894c;
+  border-radius: 5px;
+  height: 100%;
+  position: relative;
+  bottom: -100px;
+  overflow: hidden;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.detail-btn button {
+  border: none;
+  background-color: transparent;
+  margin: 0px 3px;
+  margin-top: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+#cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 70%;
+  cursor: pointer;
+}
+#cart i {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.indetail {
+  height: 80%;
+  width: 90%;
+  background-color: #ffffff !important;
+  border-radius: 5px;
+  color: #ff894c;
+  cursor: pointer;
+  margin: 3px 3px !important;
+  font-size: 14px;
+  transition: 0.5s;
+}
+
+.indetail:hover {
+  background-color: #ff894c !important;
+  transition: 0.5s;
+  color: #ffffff;
+}
+
+/* add to cart end *//*# sourceMappingURL=Main.css.map */

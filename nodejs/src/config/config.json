@@ -1,0 +1,45 @@
+{
+    "development": {
+        "username": "postgres",
+        "password": "",
+        "database": "petstore",
+        "host": "127.0.0.1",
+        "port": 7777,
+        "dialect": "postgres",
+        "query": {
+            "raw": true
+        },
+        "migration": {
+            "storage": "./sequelize-meta.json",
+            "seederStorage": "sequelize",
+            "seederStorageTableName": "seeds_meta",
+            "sequelize": {
+                "define": {
+                    "timestamps": false
+                },
+                "migration": {
+                    "tableName": "migrations",
+                    "options": {
+                        "sort": true
+                    }
+                }
+            }
+        },
+
+        "timezone": "+07:00"
+    },
+    "test": {
+        "username": "postgres",
+        "password": null,
+        "database": "database_test",
+        "host": "127.0.0.1",
+        "dialect": "postgres"
+    },
+    "production": {
+        "username": "postgres",
+        "password": null,
+        "database": "database_production",
+        "host": "127.0.0.1",
+        "dialect": "postgres"
+    }
+}

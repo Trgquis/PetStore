@@ -1,0 +1,38 @@
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 80px auto;
+
+    .user-details {
+        width: 60%;
+        padding-left: 50px;
+        .userInfo {
+            display: flex;
+            .userTag {
+                padding-left: 30px;
+            }
+        }
+        /* Các kiểu CSS cho phần thông tin người dùng */
+    }
+    .formOrder {
+        display: flex;
+        flex-direction: column;
+        input {
+            width: 521px;
+            height: 40px;
+        }
+    }
+    .order-details {
+        width: 40%;
+        background-color: #fafafa;
+        border-left: 1px solid #999;
+        /* Các kiểu CSS cho phần thông tin đơn hàng */
+        .productList {
+            display: flex;
+            li {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+}
