@@ -156,7 +156,7 @@ export const registerUser = async (user, dispatch, navigate) => {
         const res = await dispatch(Regist(user));
         const regUser = unwrapResult(res);
         console.log("Regist", regUser);
-        navigate("/");
+        // navigate("/");
     } catch (e) {
         console.log(e);
     }

@@ -32,10 +32,8 @@ const userAPI = {
     },
 
     Regist: async (user) => {
-        const res = await axios.post(
-            "http://localhost:8081/api/create-new-user",
-            user
-        );
+        console.log(user);
+        const res = await axios.post("http://localhost:8888/api/regist", user);
         return res;
     },
     AddUserByAdmin: async (user) => {

@@ -57,7 +57,7 @@ const userService = {
     Regist: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                let inspect = await userService.checkEmailExisted(data.email); // Note the change here
+                let inspect = await userService.checkEmailExisted(data.email);
                 if (inspect) {
                     resolve({
                         errCode: 1,
@@ -66,7 +66,7 @@ const userService = {
                 } else {
                     let hashedPassWord = await userService.hashPassword(
                         data.password
-                    ); // Note the change here
+                    );
                     await db.User.create({
                         email: data.email,
                         password: hashedPassWord,

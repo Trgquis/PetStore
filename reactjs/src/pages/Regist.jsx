@@ -23,8 +23,8 @@ export default function Regist() {
             lastName: lastName,
             firstName: firstName,
             address: address,
-            gender: gender,
-            phonenumber: phonenumber,
+            gender: parseInt(gender),
+            phonenumber: parseInt(phonenumber),
         };
         await registerUser(newUser, dispatch, navigate);
     };

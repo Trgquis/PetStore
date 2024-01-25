@@ -21,7 +21,7 @@ const userController = {
             address: String(req.body.address),
             phonenumber: String(req.body.phonenumber),
             gender: parseInt(req.body.gender, 10),
-            roleId: parseInt(req.body.roleId, 10),
+            roleId: 1,
         };
         console.log(req.body);
         let message = await userService.Regist(data);
