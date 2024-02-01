@@ -33,7 +33,7 @@ const useRouteElement = () => {
             ),
         },
         {
-            path: "/regrist",
+            path: "/regist",
             element: (
                 <>
                     <Header />
@@ -58,7 +58,7 @@ const useRouteElement = () => {
                 </>
             ),
         },
-        {
+        {   
             path: "/manage",
             element: (
                 <>

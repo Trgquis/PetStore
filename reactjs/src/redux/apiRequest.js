@@ -17,6 +17,7 @@ import {
     getAllProducts,
     EditProduct,
 } from "./SaleSlice";
+import("../Styles/Regist.scss");
 
 export const handleGetAllCarts = async (userId, dispatch) => {
     try {
@@ -141,6 +142,7 @@ export const loginAdmin = async (user, dispatch) => {
         console.log(e);
     }
 };
+
 export const handlegetAllUsers = async (dispatch) => {
     try {
         const getUsers = await dispatch(getAllUsers());
@@ -150,16 +152,31 @@ export const handlegetAllUsers = async (dispatch) => {
         console.log(e);
     }
 };
+
 export const registerUser = async (user, dispatch, navigate) => {
     try {
-        console.log(user);
         const res = await dispatch(Regist(user));
         const regUser = unwrapResult(res);
         console.log("Regist", regUser);
-        // navigate("/");
+        customAlert("Registration Successful!");
     } catch (e) {
-        console.log(e);
+        console.error(e);
+        customAlert("Registration Failed. Please try again.", "error");
     }
+};
+
+const customAlert = (message, type = "success") => {
+    const alertDiv = document.createElement("div");
+    alertDiv.classList.add("custom-alert", type);
+    alertDiv.textContent = message;
+
+    // Append the alert to the body or any other container
+    document.body.appendChild(alertDiv);
+
+    // Remove the alert after a certain duration (e.g., 3 seconds)
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
 };
 
 export const AddUser = async (user, dispatch, navigate) => {

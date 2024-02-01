@@ -7,7 +7,6 @@ export const Login = createAsyncThunk("loginAll", async (user) => {
 });
 
 export const Regist = createAsyncThunk("registUser", async (user) => {
-    console.log("first");
     try {
         const res = await userAPI.Regist(user);
         return res;

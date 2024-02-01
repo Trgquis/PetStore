@@ -11,12 +11,12 @@ const userService = {
                     attributes: {
                         exclude: ["password"],
                     },
-                    where: {},
                     raw: true,
                 });
 
                 let count = await db.User.count({});
                 let result = { users, count };
+                console.log(result);
                 resolve(result);
             } catch (e) {
                 console.log(e);
@@ -61,7 +61,7 @@ const userService = {
                 if (inspect) {
                     resolve({
                         errCode: 1,
-                        errMessage: "Email is existed",
+                        Message: "Email is existed",
                     });
                 } else {
                     let hashedPassWord = await userService.hashPassword(
@@ -79,7 +79,7 @@ const userService = {
                     });
                     resolve({
                         errCode: 0,
-                        errMessage: "Completed",
+                        Message: "Completed",
                     });
                 }
             } catch (e) {

@@ -8,7 +8,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { handlegetAllProducts, handlegetProduct } from "../redux/apiRequest";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
@@ -51,7 +50,7 @@ function SamplePrevArrow(props) {
 }
 
 const Main = () => {
-    const productList = useSelector((state) => state?.sales.allProducts);
+    const productList = useSelector((state) => state?.sales);
     console.log(productList);
     const [id, setId] = useState("");
     const dispatch = useDispatch();
@@ -162,7 +161,7 @@ const Main = () => {
                 <p>Thức ăn cho mèo</p>
             </div>
 
-            <div className="post-grid--sc">
+            {/* <div className="post-grid--sc">
                 <div className="post-item">
                     <img
                         src="/images/Banner04.jpg"
@@ -262,170 +261,204 @@ const Main = () => {
                         }
                     })}
                 </Slider>
-            </div>
+            </div> */}
             <div className="title">
                 <h3>Khuyến mãi - On Sale</h3>
                 <p>Shop cho chó</p>
             </div>
 
             <div className="post-grid--sc">
-                <div className="post-item">
-                    <img
-                        src="/images/Banner03.jpg"
-                        alt=""
-                        className="content_img"
-                        id="largest-img--sp"
-                    />
-                </div>
-                <Slider {...settings}>
-                    {productList?.data.products.products.map((product) => {
-                        if (
-                            product.catalog_id !== null &&
-                            product.catalog_id >= 11 &&
-                            product.catalog_id <= 23 &&
-                            product.discount !== 0
-                        ) {
-                            return (
-                                <Fragment>
-                                    <div className="post-item" key={product.id}>
-                                        <div id="discount-percent">
-                                            <p id="discount-percent--content">
-                                                <i className="fa-solid fa-tags"></i>
-                                                <span> </span>
-                                                {product.discount}% GIẢM
-                                            </p>
-                                        </div>
-                                        <div className="overlayout">
-                                            <div className="overlayout-img">
-                                                <Link
-                                                    onClick={handleLinkClick}
-                                                    to={`/detail/${product.id}`}
+                {productList?.data.products.products.length === 0 ? (
+                    <p>Không có sản phẩm</p>
+                ) : (
+                    <>
+                        <div className="post-item">
+                            <img
+                                src="/images/Banner03.jpg"
+                                alt=""
+                                className="content_img"
+                                id="largest-img--sp"
+                            />
+                        </div>
+                        <Slider {...settings}>
+                            {productList?.data.products.products.map(
+                                (product) => {
+                                    if (
+                                        product.catalog_id !== null &&
+                                        product.catalog_id >= 11 &&
+                                        product.catalog_id <= 23 &&
+                                        product.discount !== 0
+                                    ) {
+                                        return (
+                                            <Fragment>
+                                                <div
+                                                    className="post-item"
+                                                    key={product.id}
                                                 >
-                                                    {productList.data.products.images
-                                                        .filter(
-                                                            (item) =>
-                                                                item.product_id ===
-                                                                product.id
-                                                        )
-                                                        .slice(0, 1) // get last of product image
-                                                        .map((item, index) => (
+                                                    <div id="discount-percent">
+                                                        <p id="discount-percent--content">
+                                                            <i className="fa-solid fa-tags"></i>
+                                                            <span> </span>
+                                                            {product.discount}%
+                                                            GIẢM
+                                                        </p>
+                                                    </div>
+                                                    <div className="overlayout">
+                                                        <div className="overlayout-img">
+                                                            <Link
+                                                                onClick={
+                                                                    handleLinkClick
+                                                                }
+                                                                to={`/detail/${product.id}`}
+                                                            >
+                                                                {productList.data.products.images
+                                                                    .filter(
+                                                                        (
+                                                                            item
+                                                                        ) =>
+                                                                            item.product_id ===
+                                                                            product.id
+                                                                    )
+                                                                    .slice(0, 1) // get last of product image
+                                                                    .map(
+                                                                        (
+                                                                            item,
+                                                                            index
+                                                                        ) => (
+                                                                            <img
+                                                                                key={
+                                                                                    item.id
+                                                                                }
+                                                                                src={`http://localhost:8081/${item.path}`}
+                                                                                alt=""
+                                                                            />
+                                                                        )
+                                                                    )}
+                                                            </Link>
+                                                        </div>
+                                                        <div className="over-btn">
+                                                            <div className="detail-btn">
+                                                                <button
+                                                                    type="submit"
+                                                                    id="cart"
+                                                                >
+                                                                    <i className="fas fa-shopping-cart"></i>
+                                                                </button>
+                                                                <Link
+                                                                    onClick={
+                                                                        handleLinkClick
+                                                                    }
+                                                                    id={
+                                                                        product.id
+                                                                    }
+                                                                    className="indetail"
+                                                                    to={`/detail/${product.id}`}
+                                                                >
+                                                                    detail
+                                                                </Link>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="post-content">
+                                                        <Link
+                                                            id={product.id}
+                                                            to={`/detail/${product.id}`}
+                                                            onClick={
+                                                                handleLinkClick
+                                                            }
+                                                        >
+                                                            {product.name}
+                                                        </Link>
+                                                        <p className="price">
+                                                            {convertPrice(
+                                                                product.price -
+                                                                    product.price *
+                                                                        (product.discount /
+                                                                            100)
+                                                            )}
+                                                            ₫
+                                                            <span id="old-price">
+                                                                {convertPrice(
+                                                                    product.price
+                                                                )}
+                                                                ₫
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </Fragment>
+                                        );
+                                    }
+                                    if (
+                                        product.catalog_id === 1 &&
+                                        product.discount !== 0
+                                    ) {
+                                        return (
+                                            <Fragment>
+                                                <div
+                                                    className="post-item"
+                                                    key={product.id}
+                                                >
+                                                    <div id="discount-percent">
+                                                        <p id="discount-percent--content">
+                                                            <i className="fa-solid fa-tags"></i>
+                                                            <span> </span>
+                                                            {product.discount}%
+                                                        </p>
+                                                    </div>
+                                                    <div className="overlayout ">
+                                                        <div className="overlayout-img">
                                                             <img
-                                                                key={item.id}
-                                                                src={`http://localhost:8081/${item.path}`}
+                                                                src={
+                                                                    product.image_link
+                                                                }
                                                                 alt=""
                                                             />
-                                                        ))}
-                                                </Link>
-                                            </div>
-                                            <div className="over-btn">
-                                                <div className="detail-btn">
-                                                    <button
-                                                        type="submit"
-                                                        id="cart"
-                                                    >
-                                                        <i className="fas fa-shopping-cart"></i>
-                                                    </button>
-                                                    <Link
-                                                        onClick={
-                                                            handleLinkClick
-                                                        }
-                                                        id={product.id}
-                                                        className="indetail"
-                                                        to={`/detail/${product.id}`}
-                                                    >
-                                                        detail
-                                                    </Link>
+                                                        </div>
+
+                                                        <div className="over-btn">
+                                                            <div className="detail-btn">
+                                                                <button
+                                                                    type="submit"
+                                                                    id="cart"
+                                                                >
+                                                                    <i className="fas fa-shopping-cart"></i>
+                                                                </button>
+
+                                                                <button
+                                                                    id={
+                                                                        product.id
+                                                                    }
+                                                                    className="indetail"
+                                                                >
+                                                                    detail
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="post-content">
+                                                        {product.name}
+
+                                                        <p className="price">
+                                                            {product.price -
+                                                                product.price *
+                                                                    (product.discount /
+                                                                        100)}
+                                                            ₫
+                                                            <span id="old-price">
+                                                                {product.price}₫
+                                                            </span>
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div className="post-content">
-                                            <Link
-                                                id={product.id}
-                                                to={`/detail/${product.id}`}
-                                                onClick={handleLinkClick}
-                                            >
-                                                {product.name}
-                                            </Link>
-                                            <p className="price">
-                                                {convertPrice(
-                                                    product.price -
-                                                        product.price *
-                                                            (product.discount /
-                                                                100)
-                                                )}
-                                                ₫
-                                                <span id="old-price">
-                                                    {convertPrice(
-                                                        product.price
-                                                    )}
-                                                    ₫
-                                                </span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Fragment>
-                            );
-                        }
-                        if (
-                            product.catalog_id === 1 &&
-                            product.discount !== 0
-                        ) {
-                            return (
-                                <Fragment>
-                                    <div className="post-item" key={product.id}>
-                                        <div id="discount-percent">
-                                            <p id="discount-percent--content">
-                                                <i className="fa-solid fa-tags"></i>
-                                                <span> </span>
-                                                {product.discount}%
-                                            </p>
-                                        </div>
-                                        <div className="overlayout ">
-                                            <div className="overlayout-img">
-                                                <img
-                                                    src={product.image_link}
-                                                    alt=""
-                                                />
-                                            </div>
-
-                                            <div className="over-btn">
-                                                <div className="detail-btn">
-                                                    <button
-                                                        type="submit"
-                                                        id="cart"
-                                                    >
-                                                        <i className="fas fa-shopping-cart"></i>
-                                                    </button>
-
-                                                    <button
-                                                        id={product.id}
-                                                        className="indetail"
-                                                    >
-                                                        detail
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="post-content">
-                                            {product.name}
-
-                                            <p className="price">
-                                                {product.price -
-                                                    product.price *
-                                                        (product.discount /
-                                                            100)}
-                                                ₫
-                                                <span id="old-price">
-                                                    {product.price}₫
-                                                </span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Fragment>
-                            );
-                        }
-                    })}
-                </Slider>
+                                            </Fragment>
+                                        );
+                                    }
+                                }
+                            )}
+                        </Slider>
+                    </>
+                )}
             </div>
             {/* <div className="title">
                 <h1>Top Sales</h1>

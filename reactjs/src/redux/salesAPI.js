@@ -29,7 +29,7 @@ const salesAPI = {
     },
     getAllProducts: async () => {
         const res = await axios.get(
-            "http://localhost:8081/api/get-all-products"
+            "http://localhost:8888/api/get-all-products"
         );
         return res;
     },

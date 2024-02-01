@@ -8,6 +8,7 @@ import Search from "./Search";
 import Cart from "./Cart";
 import "../Styles/Style.scss";
 import DropdownCategory from "./DropdownCategory";
+import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
 
 const Header = () => {
     const [showLogin, setShowLogin] = useState(false);
@@ -133,13 +134,14 @@ const Header = () => {
                     {!currentUser && (
                         <>
                             <div className="icon-btn" onClick={toggleSearch}>
-                                <i className="fa-solid fa-magnifying-glass "></i>
+                                {/* <i className="fa fa-search"></i> */}
+                                <FaSearch />
                             </div>
                             <div className=" icon-btn" onClick={toggleLogin}>
-                                <i className="fa-regular fa-user"></i>
+                                <FaUser />
                             </div>
                             <div className="icon-btn" onClick={toggleCart}>
-                                <i className="fa-solid fa-cart-shopping"></i>
+                                <FaShoppingCart />
                             </div>
                             <div
                                 style={{

@@ -61,18 +61,21 @@ const Usermanage = () => {
     const [currentPage, setCurrentPage] = useState(0);
     console.log(userList);
     useEffect(() => {
-        if (!User) {
-            alert("Login first");
-            navigate("/adminLogin");
-        } else {
-            if (User?.data.accessToken && parseInt(User?.data.user.roleId) === 1) {
-                console.log(User.data.user.accessToken);
-                handlegetAllUsers(User.data.user.accessToken);
-            } else {
-                alert("dont have permission");
-                navigate("/");
-            }
-        }
+        // if (User) {
+        //     alert("Login first");
+        //     navigate("/adminLogin");
+        // } else {
+        //     if (
+        //         User?.data.accessToken &&
+        //         parseInt(User?.data.user.roleId) === 0
+        //     ) {
+        //         console.log(User.data.user.accessToken);
+        //         handlegetAllUsers(User.data.user.accessToken);
+        //     } else {
+        //         alert("dont have permission");
+        //         navigate("/");
+        //     }
+        // }
     }, []);
     const handleOpen = async (mode, userId) => {
         try {

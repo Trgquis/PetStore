@@ -2,7 +2,7 @@ const userService = require("../service/userService.js");
 const db = require("../model/server.js");
 const userController = {
     handleGetAllUsers: async (req, res) => {
-        let users = await userService.getAllUsers();
+        let users = await userService.GetAllUsers();
         // console.log(users);
         return res.status(200).json({
             // errCode: 0,
