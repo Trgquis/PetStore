@@ -9,14 +9,18 @@ module.exports = async (sequelize, DataTypes) => {
             });
 
             Product.belongsTo(models.Categories, {
-                foreignKey: "catalog_id",
+                foreignKey: "category_id",
                 targetKey: "id",
             }); // mỗi sản phẩm thuộc một danh mục
 
-            // Product.hasMany(models.ProductOrders, {
-            //     foreignKey: "product_id",
-            //     sourceKey: "id",
-            // });
+            Product.hasMany(models.Detail, {
+                foreignKey: "product_id",
+                sourceKey: "id",
+            });
+            
+            Product.belongsToMany(models.Order, { through: 'details', foreignKey: 'product_id' });
+
+
         }
     }
     Product.init(
@@ -28,7 +32,7 @@ module.exports = async (sequelize, DataTypes) => {
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
-            catalog_id: DataTypes.INTEGER,
+            category_id: DataTypes.INTEGER,
             name: DataTypes.STRING,
             quantity: DataTypes.INTEGER, //Sản phẩm còn trong kho hàng
             price: DataTypes.REAL,

@@ -57,7 +57,10 @@ export default function Cart() {
                     <div className="dropdownCartLogged">
                         <div>
                             <div className="titleCart">
-                                GIỎ HÀNG ĐANG CÓ {cartList?.data.count} SẢN PHẨM
+                                "GIỎ HÀNG KHÔNG CÓ SẢN PHẦM NÀO"
+                                {/* {cartList?.data.count > 0 ? (
+                                    `GIỎ HÀNG ĐANG CÓ ${cartList?.data.count} SẢN PHẨM`
+                                )} */}
                             </div>
                             {cartList?.data.cartItem.map((item) => {
                                 return (

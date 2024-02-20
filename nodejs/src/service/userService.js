@@ -25,6 +25,28 @@ const userService = {
         });
     },
 
+    GetUser: async (id) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let user = "";
+                if (id) {
+                    user = await db.User.findOne({
+                        where: { id: id },
+                        attributes: {
+                            exclude: ["password"],
+                        },
+                        raw: true,
+                    });
+                }
+                console.log(user);
+                resolve(user);
+            } catch (e) {
+                console.log(e);
+                reject(e);
+            }
+        });
+    },
+
     checkEmailExisted: async (email) => {
         return new Promise(async (resolve, reject) => {
             try {

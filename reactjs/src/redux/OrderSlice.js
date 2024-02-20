@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const GetAllCart = createAsyncThunk("GetAllCart", async (userId) => {
     const res = await axios.get(
-        "http://localhost:8081/api/getAllCart?user_id=" + userId
+        "http://localhost:8888/api/getAllCart?user_id=" + userId
     );
     console.log(res);
     return res;

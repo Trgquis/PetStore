@@ -15,6 +15,9 @@ module.exports = async (sequelize, DataTypes) => {
                 targetKey: "id",
             });
 
+            Order.belongsToMany(models.Product, { through: 'details', foreignKey: 'order_id' });
+
+
             // Order.hasOne(models.Transaction, {
             //     foreignKey: "order_id",
             //     sourceKey: "id",

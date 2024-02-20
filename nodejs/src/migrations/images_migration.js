@@ -18,31 +18,17 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.STRING,
                 },
-                path: {
-                    allowNull: false,
-                    type: Sequelize.STRING,
-                },
                 product_id: {
-                    // new foreign key column
-                    allowNull: true,
+                    allowNull: false,
                     type: Sequelize.INTEGER,
                     references: {
                         model: "products",
                         key: "id",
                     },
-                    onUpdate: "CASCADE",
-                    onDelete: "CASCADE",
                 },
-                user_id: {
-                    // new foreign key column
-                    allowNull: true,
-                    type: Sequelize.INTEGER,
-                    references: {
-                        model: "users",
-                        key: "id",
-                    },
-                    onUpdate: "CASCADE",
-                    onDelete: "CASCADE",
+                path: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
                 },
             },
             {

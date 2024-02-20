@@ -1,19 +1,17 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = async (sequelize, DataTypes) => {
-    class Categories extends Model {
+    class RootCategories extends Model {
         static associate(models) {
             // define association here
-            Categories.hasMany(models.Product, {
-                foreignKey: "category_id",
+            RootCategories.hasMany(models.Categories, {
+                foreignKey: "rootcategory_id",
                 sourceKey: "id",
             }); // một danh mục có nhiều sản phẩm
-            Categories.belongsTo(models.RootCategories, {
-                foreignKey: "rootcategory_id"
-            })
+            //   models.Products.belongsTo(Catalogs, { foreignKey: 'catalog_id' }); // mỗi sản phẩm thuộc một danh mục
         }
     }
-    Categories.init(
+    RootCategories.init(
         {
             id: {
                 allowNull: false,
@@ -22,16 +20,15 @@ module.exports = async (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
             },
             name: DataTypes.STRING,
-            rootcategory_id: DataTypes.INTEGER,
             priority: DataTypes.SMALLINT,
         },
         {
             sequelize,
-            modelName: "Categories",
-            tableName: "categories",
+            modelName: "RootCategories",
+            tableName: "rootcategories",
             timestamps: false,
             // underscored: true,
         }
     );
-    return Categories;
+    return RootCategories;
 };

@@ -4,7 +4,7 @@ module.exports = async (sequelize, DataTypes) => {
     class Detail extends Model {
         static associate(models) {
             // define association here
-            Detail.belongsTo(models.Product, {
+            Detail.belongsToMany(models.Product, {
                 foreignKey: "product_id",
                 targetKey: "id",
             });

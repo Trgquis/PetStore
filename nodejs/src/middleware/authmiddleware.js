@@ -29,17 +29,17 @@ const AuthMiddleware = {
             }
         });
     },
-    verifyManagerToken: (req, res, next) => {
-        AuthMiddleware.verifyToken(req, res, () => {
-            if (parseInt(req.user.roleId) === 2) {
-                // console.log(req.user.roleId)
-                next();
-            } else {
-                console.log("dont have permission");
-                return res.status(403).json("You dont have permission!");
-            }
-        });
-    },
+    // verifyManagerToken: (req, res, next) => {
+    //     AuthMiddleware.verifyToken(req, res, () => {
+    //         if (parseInt(req.user.roleId) === 2) {
+    //             // console.log(req.user.roleId)
+    //             next();
+    //         } else {
+    //             console.log("dont have permission");
+    //             return res.status(403).json("You dont have permission!");
+    //         }
+    //     });
+    // },
 };
 
 module.exports = AuthMiddleware;

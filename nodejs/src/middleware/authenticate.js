@@ -1,4 +1,4 @@
-import CRUDService from "../services/CRUDService";
+const userService = require("../service/userService")
 
 const Authenticate = {
     authUser: async (req, res, next) => {
@@ -8,7 +8,7 @@ const Authenticate = {
             return res.status(403).json("You need to sign in!");
         }
 
-        let user = await CRUDService.getUserInfoById(id);
+        let user = await userService.GetUser(id);
         console.log(user);
         if (!user) {
             return res.status(403).json("User not found!");

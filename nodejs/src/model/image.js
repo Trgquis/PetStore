@@ -4,12 +4,8 @@ module.exports = async (sequelize, DataTypes) => {
     class Image extends Model {
         static associate(models) {
             // define association here
-            Image.belongsTo(models.Products, {
+            Image.belongsTo(models.Product, {
                 foreignKey: "product_id",
-                targetKey: "id",
-            });
-            Image.belongsTo(models.Users, {
-                foreignKey: "user_id",
                 targetKey: "id",
             });
         }
@@ -26,7 +22,6 @@ module.exports = async (sequelize, DataTypes) => {
             image_name: DataTypes.STRING,
             path: DataTypes.STRING,
             product_id: DataTypes.INTEGER,
-            user_id: DataTypes.INTEGER,
         },
         {
             sequelize,

@@ -2,7 +2,7 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable(
-            "categories",
+            "rootcategories",
             {
                 id: {
                     allowNull: false,
@@ -14,26 +14,11 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.STRING,
                 },
-                rootcategory_id: {
-                    allowNull: false,
-                    type: Sequelize.INTEGER,
-                    references: {
-                        model: "rootcategories",
-                        key: "id"
-                    },
-                },
                 priority: {
                     allowNull: false,
                     type: Sequelize.SMALLINT,
                 },
-                // createdAt: {
-                //     allowNull: false,
-                //     type: Sequelize.DATE
-                // },
-                // updatedAt: {
-                //     allowNull: false,
-                //     type: Sequelize.DATE
-                // }
+                
             },
             {
                 freezeTableName: true,
@@ -41,6 +26,6 @@ module.exports = {
         );
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable("categories");
+        await queryInterface.dropTable("rootcategories");
     },
 };

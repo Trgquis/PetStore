@@ -14,10 +14,16 @@ const BackToTopButton = () => {
     };
 
     const scrollToTop = () => {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
+        const scrollStep = window.scrollY / 50;
+
+        const scroll = () => {
+            if (window.scrollY !== 0) {
+                window.scrollBy(0, -scrollStep);
+                requestAnimationFrame(scroll);
+            }
+        };
+
+        requestAnimationFrame(scroll);
     };
 
     window.addEventListener("scroll", toggleVisible);

@@ -104,7 +104,7 @@ export default function Regist() {
                                     id="gender"
                                     type="radio"
                                     name="gender"
-                                    value="1"
+                                    value="0"
                                     required
                                     onChange={(e) => setGender(e.target.value)}
                                 />
@@ -113,7 +113,7 @@ export default function Regist() {
                                     id="gender"
                                     type="radio"
                                     name="gender"
-                                    value="0"
+                                    value="1"
                                     required
                                     onChange={(e) =>
                                         setGender(parseInt(e.target.value))
@@ -127,7 +127,7 @@ export default function Regist() {
                             <td>
                                 <input
                                     id="sdt"
-                                    type="number"
+                                    type="text"
                                     name="sdt"
                                     required
                                     placeholder="Số Điện Thoại"

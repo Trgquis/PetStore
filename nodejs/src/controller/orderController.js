@@ -1,4 +1,4 @@
-const orderService = require("../services/orderService");
+const orderService = require("../service/orderService");
 
 let handleSubmitOrder = async (req, res) => {
     const data = req.body;

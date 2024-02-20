@@ -62,7 +62,7 @@ export default function Login() {
                     <div className="Login--opt">
                         <div>
                             Khách hàng mới?{" "}
-                            <Link to="/regrist">Tạo tài khoản</Link>
+                            <Link to="/regist">Tạo tài khoản</Link>
                         </div>
                         <br />
                         <div id="reset-ps">

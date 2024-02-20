@@ -1,4 +1,4 @@
-import db from "../models/index";
+const db = require("../model/server");
 const { Op, where } = require("sequelize");
 
 const orderService = {
