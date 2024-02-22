@@ -26,7 +26,7 @@ module.exports = async (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Image",
-            tableName: "iamges",
+            tableName: "images",
             timestamps: false,
             // underscored: true,
         }

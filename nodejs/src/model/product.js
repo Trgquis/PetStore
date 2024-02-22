@@ -17,10 +17,11 @@ module.exports = async (sequelize, DataTypes) => {
                 foreignKey: "product_id",
                 sourceKey: "id",
             });
-            
-            Product.belongsToMany(models.Order, { through: 'details', foreignKey: 'product_id' });
 
-
+            Product.belongsToMany(models.Order, {
+                through: "details",
+                foreignKey: "product_id",
+            });
         }
     }
     Product.init(
@@ -34,10 +35,10 @@ module.exports = async (sequelize, DataTypes) => {
             },
             category_id: DataTypes.INTEGER,
             name: DataTypes.STRING,
-            quantity: DataTypes.INTEGER, //Sản phẩm còn trong kho hàng
             price: DataTypes.REAL,
             discount: DataTypes.REAL,
             content: DataTypes.TEXT,
+            amount: DataTypes.INTEGER,
         },
         {
             sequelize,

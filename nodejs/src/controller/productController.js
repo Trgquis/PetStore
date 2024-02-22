@@ -7,13 +7,12 @@ const productController = {
         let images = req.files;
         // let productId = req.params.id
         let data = {
-            catalog_id: parseInt(req.body.catalog_id),
+            category_id: parseInt(req.body.category_id),
             name: req.body.name,
             price: req.body.price,
             discount: req.body.discount,
-            quantity: req.body.quantity,
             content: req.body.content,
-            discount: req.body.discount,
+            amount: req.body.amount,
         };
         let message = await productService.createNewProduct(data, images);
         return res.status(200).json(message);

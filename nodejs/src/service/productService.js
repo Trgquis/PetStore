@@ -7,7 +7,7 @@ const productService = {
     checkProduct: (productInfo) => {
         return new Promise(async (resolve, reject) => {
             try {
-                let product = await db.Products.findOne({
+                let product = await db.Product.findOne({
                     where: { name: productInfo },
                 });
                 if (product) {
@@ -24,37 +24,36 @@ const productService = {
     createNewProduct: async (data, images) => {
         return new Promise(async (resolve, reject) => {
             try {
-                // check ten danh muc da ton tai trong db chua
-                let inspect = await checkProduct(data.name);
-                console.log(inspect);
+                let inspect = await productService.checkProduct(data.name);
                 if (inspect === true) {
                     resolve({
                         errCode: 1,
-                        errMessage: "Product is existed!",
+                        errMessage: "Product already exists!",
                     });
                 } else {
-                    const product = await db.Products.create({
-                        catalog_id: data.catalog_id,
+                    const product = await db.Product.create({
+                        category_id: parseInt(data.category_id),
                         name: data.name,
-                        quantity: data.quantity,
-                        price: data.price,
-                        discount: data.discount,
+                        price: parseFloat(data.price),
+                        discount: parseFloat(data.discount),
                         content: data.content,
+                        amount: parseInt(data.amount),
                     });
+                    console.log(product);
                     const imageRecords = [];
-                    for (let i = 0; i < images.length; i++) {
-                        const image = images[i];
-                        console.log(image);
-                        const imageRecord = await db.Images.create({
-                            type: image.mimetype,
-                            image_name: image.filename,
-                            path: image.path,
-                            product_id: product.id,
-                            user_id: null,
-                        });
+                    try {
+                        const imageRecord = await db.Image.bulkCreate(
+                            images.map((image) => ({
+                                type: image.mimetype,
+                                image_name: image.filename,
+                                path: image.path,
+                                product_id: product.id,
+                            }))
+                        );
                         imageRecords.push(imageRecord);
+                    } catch (imageError) {
+                        console.error("Error during image upload:", imageError);
                     }
-
                     resolve({
                         errCode: 0,
                         errMessage: "OK",
@@ -66,6 +65,8 @@ const productService = {
                 console.log(e);
                 reject(e);
             }
+        }).catch((error) => {
+            console.error("Error during product creation:", error);
         });
     },
 
@@ -101,7 +102,7 @@ const productService = {
         return new Promise(async (resolve, reject) => {
             try {
                 let products = "";
-                products = await db.Products.findAll({
+                products = await db.Product.findAll({
                     attributes: {
                         raw: true,
                     },
@@ -114,111 +115,154 @@ const productService = {
                         },
                     },
                 });
-                let count = await db.Products.count();
+                let count = await db.Product.count();
                 console.log(products);
                 let result = { products, images, count };
 
-                resolve(result);
+                resolve({
+                    errCode: 0,
+                    errMessage: "oke",
+                });
             } catch (e) {
                 reject(e);
             }
         });
     },
 
-    updateProduct: (data, images) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                if (!data.id) {
-                    resolve({
-                        errCode: 2,
-                        errMessage: "Missing parameters",
-                    });
-                }
+    // updateProduct: (data, images) => {
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             if (!data.id) {
+    //                 resolve({
+    //                     errCode: 2,
+    //                     errMessage: "Missing parameters",
+    //                 });
+    //             }
+                
+    //             const newdata = await db.Product.update(
+    //                 {
+    //                     category_id: data.category_id,
+    //                     name: data.name,
+    //                     price: data.price,
+    //                     discount: data.discount,
+    //                     content: data.content,
+    //                     amount: data.amount
+    //                 },
+    //                 {
+    //                     where: {
+    //                         id: data.id,
+    //                     },
+    //                 }
+    //             )
+    //             console.log(newdata)
+    //             let images_update = await db.Images.update({
+                    
+    //             },
+    //             where: {
+    //                 product_id: data.id
+    //             });
+    //             console.log(images.length);
+    //             if (product && images.length === 4) {
+    //                 product.catalog_id = data.catalog_id;
+    //                 product.name = data.name;
+    //                 product.quantity = data.quantity;
+    //                 product.price = data.price;
+    //                 product.content = data.content;
+    //                 await product.save();
 
-                let product = await db.Products.findOne({
-                    where: { id: data.id },
-                    raw: false,
-                });
-                let images_update = await db.Images.findAll({
-                    where: { product_id: data.id },
-                    raw: false,
-                });
-                console.log(images.length);
-                if (product && images.length === 4) {
-                    product.catalog_id = data.catalog_id;
-                    product.name = data.name;
-                    product.quantity = data.quantity;
-                    product.price = data.price;
-                    product.content = data.content;
-                    await product.save();
-
-                    for (let i = 0; i < images.length; i++) {
-                        const image = images[i];
-                        const imageToUpdate = images_update[i];
-                        if (imageToUpdate) {
-                            imageToUpdate.type = image.mimetype;
-                            imageToUpdate.image_name = image.filename;
-                            imageToUpdate.path = image.path;
-                            await imageToUpdate.save();
-                        } else {
-                            const newImage = await db.Images.create({
-                                product_id: product.id,
-                                type: image.mimetype,
-                                image_name: image.filename,
-                                path: image.path,
-                            });
-                            images_update.push(newImage);
-                        }
-                    }
-                    resolve({
-                        errCode: 0,
-                        errMessage: "Update Product Succeed!",
-                    });
-                } else {
-                    resolve({
-                        errCode: 1,
-                        errMessage:
-                            "Product not found or amount of images should be 4",
-                    });
-                }
-            } catch (e) {
-                console.log(e);
-            }
-        });
-    },
+    //                 for (let i = 0; i < images.length; i++) {
+    //                     const image = images[i];
+    //                     const imageToUpdate = images_update[i];
+    //                     if (imageToUpdate) {
+    //                         imageToUpdate.type = image.mimetype;
+    //                         imageToUpdate.image_name = image.filename;
+    //                         imageToUpdate.path = image.path;
+    //                         await imageToUpdate.save();
+    //                     } else {
+    //                         const newImage = await db.Images.create({
+    //                             product_id: product.id,
+    //                             type: image.mimetype,
+    //                             image_name: image.filename,
+    //                             path: image.path,
+    //                         });
+    //                         images_update.push(newImage);
+    //                     }
+    //                 }
+    //                 resolve({
+    //                     errCode: 0,
+    //                     errMessage: "Update Product Succeed!",
+    //                 });
+    //             } else {
+    //                 resolve({
+    //                     errCode: 1,
+    //                     errMessage:
+    //                         "Product not found or amount of images should be 4",
+    //                 });
+    //             }
+    //         } catch (e) {
+    //             console.log(e);
+    //         }
+    //     });
+    // },
 
     deleteProduct: async (productId) => {
         try {
             return new Promise(async (resolve, reject) => {
-                let product = await db.Products.findOne({
+                let product = await db.Product.findOne({
                     where: { id: productId },
                 });
-
                 if (!product) {
                     resolve({
                         errCode: 2,
                         errMessage: "Product is not exist",
                     });
                 } else if (product) {
-                    const images = await db.Images.findAll({
-                        where: { product_id: productId, user_id: null },
-                    });
-                    images.forEach((image) => {
-                        const imagePath = path.join(
-                            __dirname,
-                            "../../",
-                            image.path
-                        );
-                        console.log(image.path);
-                        fs.unlinkSync(imagePath);
-                    });
-
-                    await db.Products.destroy({
-                        where: { id: productId },
-                    });
-                    await db.Images.destroy({
+                    const images = await db.Image.findAll({
                         where: { product_id: productId },
                     });
+                    if (images.length === 0) {
+                        resolve({
+                            errCode: 2,
+                            errMessage: "Images is not exist",
+                        });
+                    } else {
+                        await db.Image.destroy({
+                            where: { product_id: productId },
+                        });
+                        images.forEach((image) => {
+                            const imagePath = path.join(
+                                __dirname,
+                                "../../",
+                                image.path
+                            );
+                            console.log(image.path);
+                            // fs.unlinkSync(imagePath);
+                            try {
+                                fs.unlinkSync(imagePath);
+                                console.log(
+                                    `Image ${image.path} deleted successfully`
+                                );
+                            } catch (error) {
+                                console.error(
+                                    `Error deleting image ${image.path}:`,
+                                    error
+                                );
+                                // Handle the error as needed, for example, you might want to reject the promise
+                                reject(error);
+                            }
+                        });
+                        try {
+                            await db.Product.destroy({
+                                where: { id: productId },
+                            });
+                            await db.Image.destroy({
+                                where: { product_id: productId },
+                            });
+                        } catch (e) {
+                            console.log(e);
+                            reject(e);
+                        }
+                    }
                 }
                 resolve({
                     errCode: 0,
@@ -227,6 +271,7 @@ const productService = {
             });
         } catch (error) {
             console.log(error);
+            reject(error);
         }
     },
 

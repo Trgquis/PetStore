@@ -10,9 +10,9 @@ module.exports = {
                     primaryKey: true,
                     type: Sequelize.INTEGER,
                 },
-                catalog_id: {
+                category_id: {
                     // new foreign key column
-                    allowNull: true,
+                    allowNull: false,
                     type: Sequelize.INTEGER,
                     references: {
                         model: "categories",
@@ -25,10 +25,6 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.STRING,
                 },
-                quantity: {
-                    allowNull: false,
-                    type: Sequelize.INTEGER,
-                },
                 price: {
                     allowNull: false,
                     type: Sequelize.REAL,
@@ -40,6 +36,10 @@ module.exports = {
                 content: {
                     allowNull: false,
                     type: Sequelize.TEXT,
+                },
+                amount: {
+                    allowNull: false,
+                    type: Sequelize.INTEGER,
                 },
             },
             {
