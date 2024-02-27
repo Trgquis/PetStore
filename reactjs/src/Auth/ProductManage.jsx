@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { deleteProduct } from "../redux/apiRequest";
-import "../Styles/Table.scss";
 import Slider from "react-slick";
 import ProductModal from "../components/ProductModal";
 import ManagePagination from "../components/MangePagination";

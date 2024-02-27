@@ -20,7 +20,6 @@ const productController = {
 
     handleEditProduct: async (req, res) => {
         console.log(req.body);
-        let images = req.files;
         let data = {
             id: req.body.id,
             catalog_id: req.body.catalog_id,
@@ -30,7 +29,7 @@ const productController = {
             discount: req.body.discount,
         };
         console.log(data);
-        let message = await productService.updateProduct(data, images);
+        let message = await productService.updateProduct(data);
         return res.status(200).json(message);
     },
 
@@ -91,6 +90,10 @@ const productController = {
         let message = await productService.searchProduct(keyword);
         return res.status(200).json(message);
     },
+    
+    handleAddProductImage: async(req,res) => {
+        
+    }
 };
 
 module.exports = productController;

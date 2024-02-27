@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { deleteUser } from "../redux/apiRequest";
-import "../Styles/Table.scss";
 import UserModal from "../components/UserModal";
 import { handlegetAllUsers } from "../redux/apiRequest";
 import Slider from "react-slick";

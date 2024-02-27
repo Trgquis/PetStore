@@ -29,6 +29,7 @@ const categoryService = {
                 let catalog = await db.Categories.findOne({
                     where: {
                         name: catalogInfo.name,
+                        rootcategory_id: catalogInfo.rootcategory_id,
                     },
                 });
 
@@ -87,7 +88,6 @@ const categoryService = {
                         },
                     }
                 );
-
                 console.log(rootCategory);
                 resolve({
                     errCode: 0,
@@ -156,6 +156,7 @@ const categoryService = {
                     attributes: {
                         raw: true,
                     },
+                    order: [["priority", "ASC"]], // Sắp xếp theo priority tăng dần
                 });
                 let count = await db.Categories.count({});
                 let result = { catalogs, count };

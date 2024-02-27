@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { AddCatalog, editCatalog } from "../redux/apiRequest";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { useDispatch } from "react-redux";
+import { AddCatalog, editCatalog } from "../redux/apiRequest";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Modal.scss";
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
+
 function CatalogModal({ isOpen, mode, catalogId, onClose }) {
-    // const User = useSelector((state) => state.auth.currentUser)
-    // console.log(User)
     const [name, setName] = useState("");
     const [parent_id, setParentId] = useState("");
     const [sort_order, setSort] = useState("");
@@ -19,15 +15,15 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [parentCatalogs, setParentCatalogs] = useState([]);
-    const [shouldUpdateCatalogs, setShouldUpdateCatalogs] = useState(false); // Thêm state mới
+    const [shouldUpdateCatalogs, setShouldUpdateCatalogs] = useState(false);
 
     useEffect(() => {
         fetchParentCatalogs();
-    }, [shouldUpdateCatalogs]); // Thêm shouldUpdateCatalogs vào mảng dependency của useEffect
+    }, [shouldUpdateCatalogs]);
 
     const fetchParentCatalogs = async () => {
         const results = await axios.get(
-            "http://localhost:8081/api/get-all-catalogs"
+            "http://localhost:8888/api/getAllRoots"
         );
         console.log(results.data.catalogs);
         const catalogs = results.data.catalogs.catalogs;
@@ -41,7 +37,6 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
         let isValid = true;
         if (
             !catalog.name ||
-            // !catalog.parent_id ||
             !catalog.sort_order ||
             catalog.sort_order <= 0 ||
             catalog.sort_order > 99
@@ -52,6 +47,7 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
 
         return isValid;
     };
+
     const allSortOrders = [];
 
     let inspectSortOrder = (catalog) => {
@@ -78,7 +74,6 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
         }
         await AddCatalog(catalog, dispatch, navigate);
         await fetchParentCatalogs();
-        // setShouldUpdateCatalogs(!shouldUpdateCatalogs); // Cập nhật giá trị state mới
     };
 
     const handUpdateCatalog = async (e) => {
@@ -102,12 +97,11 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
     if (!isOpen) {
         return null;
     }
+
     return (
-        <Modal size="xl" isOpen={isOpen} className="userModal">
-            <ModalHeader isOpen={isOpen}>
-                {mode === "add" ? "Add Category" : "Edit Category"}
-            </ModalHeader>
-            <ModalBody>
+        <div className="custom-modal">
+            <div className="modal-content">
+                <h2>{mode === "add" ? "Add Category" : "Edit Category"}</h2>
                 {mode === "add" ? (
                     <>
                         <div className="Edit-input">
@@ -140,7 +134,6 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
                         </div>
                         <div className="Edit-input">
                             <label>Thứ tự hiển thị</label>
-
                             <input
                                 type="number"
                                 min={1}
@@ -156,6 +149,12 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
                             trước.
                             <br />+ Thứ tự sắp xếp không được trùng nhau cho
                             chung một danh mục
+                        </div>
+                        <div className="modal-footer">
+                            <button onClick={(e) => handleAddCatalog(e)}>
+                                Add
+                            </button>
+                            <button onClick={onClose}>Cancel</button>
                         </div>
                     </>
                 ) : (
@@ -207,21 +206,16 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
                             <br />+ Thứ tự sắp xếp không được trùng nhau cho
                             chung một danh mục
                         </div>
+                        <div className="modal-footer">
+                            <button onClick={(e) => handUpdateCatalog(e)}>
+                                Update
+                            </button>
+                            <button onClick={onClose}>Cancel</button>
+                        </div>
                     </>
                 )}
-            </ModalBody>
-            <ModalFooter>
-                <Button color="primary" onClick={(e) => handleAddCatalog(e)}>
-                    Add
-                </Button>{" "}
-                <Button color="primary" onClick={(e) => handUpdateCatalog(e)}>
-                    Update
-                </Button>{" "}
-                <Button color="secondary" onClick={onClose}>
-                    Cancel
-                </Button>
-            </ModalFooter>
-        </Modal>
+            </div>
+        </div>
     );
 }
 

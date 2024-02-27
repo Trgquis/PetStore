@@ -1,31 +1,32 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import AuthReducer from "./AuthSlice";
 import thunk from "redux-thunk";
+
+// import UserReducer from "./UserSlice";
+// import SalesReducer from "./SaleSlice";
+// import OrderReducer from "./OrderSlice";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
-import AuthReducer from "./AuthSlice";
-import SalesReducer from "./SaleSlice";
-import OrderReducer from "./OrderSlice";
 
 const authPersistConfig = {
     key: "auth",
     version: 1,
     storage: AsyncStorage,
-    whitelist: ["Login"],
+    whitelist: ["Login"], // Add your whitelist here for the "auth" slice, e.g., ["someReducerKey"]
 };
 
-const orderPersistConfig = {
-    key: "order",
-    version: 1,
-    storage: AsyncStorage,
-    whitelist: ["GetAllCart"],
-};
+// const cartPersistConfig = {
+//     key: "order",
+//     version: 1,
+//     storage: AsyncStorage,
+//     whitelist: ["GetAllCart"], // Add your whitelist here for the "cart" slice, e.g., ["someReducerKey"]
+// };
 
-const rootReducerWithPersist = combineReducers({
+const rootReducer = combineReducers({
     auth: persistReducer(authPersistConfig, AuthReducer),
-    order: persistReducer(orderPersistConfig, OrderReducer),
-    sales: SalesReducer,
-
-    // Add other reducers if any
+    // sales: SalesReducer,
+    // users: UserReducer,
+    // order: persistReducer(cartPersistConfig, OrderReducer),
 });
 
 const persistedReducer = persistReducer(
@@ -35,7 +36,7 @@ const persistedReducer = persistReducer(
         storage: AsyncStorage,
         whitelist: ["auth", "order"],
     },
-    rootReducerWithPersist
+    rootReducer
 );
 
 export const store = configureStore({
@@ -46,4 +47,4 @@ export const store = configureStore({
         }).concat(thunk),
 });
 
-export const persistor = persistStore(store);
+export let persistor = persistStore(store);

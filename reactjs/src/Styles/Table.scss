@@ -1,277 +1,47 @@
-* {
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-}
-body {
-    font-family: Helvetica;
-    -webkit-font-smoothing: antialiased;
-    // background: rgba( 71, 147, 227, 1);
-}
-
-// Sidebar
 .main {
-    width: 100%;
-    height: auto;
-    display: flex;
     .content {
         display: flex;
         flex-direction: column;
-        justify-content: flex-start;
-        width: 100%;
-        max-height: 100vh;
-        .dashboard {
-            display: flex;
-            flex-direction: row;
-        }
+        align-items: center;
+
         .userInformation {
-            width: 100%;
-            min-height: auto;
             display: flex;
-            justify-content: flex-end;
-            background-color: #fff;
-            box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
-                rgba(17, 17, 26, 0.05) 0px 8px 32px;
-            padding: 5px 0;
-            z-index: 2;
         }
-    }
-}
 
-/* Table Styles */
-
-.table-wrapper {
-    margin: 10px 50px 50px;
-    box-shadow: 0px 35px 50px rgba(0, 0, 0, 0.2);
-    .fl-table {
-        border-radius: 5px;
-        font-size: 18px;
-        font-weight: normal;
-        border: none;
-        border-collapse: collapse;
-        width: 100%;
-        max-width: 100%;
-        background-color: white;
-    }
-    .fl-table th {
-        text-align: center;
-        max-width: 130px !important;
-        font-size: 16px;
-        font-weight: 400;
-    }
-
-    .fl-table td {
-        border-right: 1px solid #f8f8f8;
-        text-align: center;
-        padding: 8px 0;
-        font-size: 16px;
-        font-weight: 400;
-        font-size: 14px;
-        color: #000;
-        .productinfo {
-            height: 100px !important;
-            width: 100px !important;
-        }
-        .slider-image {
-            max-width: 120px !important;
-            max-height: 120px;
-            margin: auto;
-            img {
-                max-width: 90px;
-                object-fit: contain;
+        .table-wrapper {
+            width: 80%;
+            .fl-table {
+                .thead {
+                    display: flex;
+                    justify-content: space-around;
+                    padding: 10px;
+                    background-color: #f0f0f0;
+                    font-weight: bold;
+                }
+                .body {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    .tbody {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-around;
+                        padding: 10px;
+                        border-bottom: 1px solid #ddd;
+                    }
+                    .addBtn {
+                        width: 20%;
+                        height: 50px;
+                        background-color: cadetblue;
+                        button {
+                            width: 100%;
+                            height: 100%;
+                            border: none;
+                            background-color: transparent;
+                        }
+                    }
+                }
             }
         }
     }
-
-    .fl-table thead th {
-        color: #ffffff;
-        background: #4fc3a1;
-    }
-
-    .fl-table thead th:nth-child(odd) {
-        color: #ffffff;
-        background: #324960;
-    }
-
-    .fl-table tr:nth-child(even) {
-        background: #f8f8f8;
-    }
-}
-
-/* Responsive */
-
-@media (max-width: 767px) {
-    .userAction {
-        display: flex !important;
-        flex-direction: column;
-        justify-content: center;
-        .deleteUser-btn {
-            margin-left: 0;
-        }
-    }
-
-    .fl-table {
-        display: block;
-        width: 100%;
-    }
-    .fl-table thead,
-    .fl-table tbody,
-    .fl-table thead th {
-        display: block;
-    }
-    .fl-table thead th:last-child {
-        border-bottom: none;
-    }
-    .fl-table thead {
-        float: left;
-    }
-    .fl-table tbody {
-        width: auto;
-        position: relative;
-        overflow-x: auto;
-    }
-    .fl-table td,
-    .fl-table th {
-        padding: 20px 0.625em 0.625em 0.625em;
-        height: 60px;
-        vertical-align: middle;
-        box-sizing: border-box;
-        overflow-x: hidden;
-        overflow-y: auto;
-        width: 120px;
-        font-size: 18px;
-        text-overflow: ellipsis;
-    }
-    .fl-table thead th {
-        text-align: left;
-        border-bottom: 1px solid #f7f7f9;
-    }
-    .fl-table tbody tr {
-        display: table-cell;
-    }
-    .fl-table tbody tr:nth-child(odd) {
-        background: none;
-    }
-    .fl-table tr:nth-child(even) {
-        background: transparent;
-    }
-    .fl-table tr td:nth-child(odd) {
-        background: #f8f8f8;
-        border-right: 1px solid #e6e4e4;
-    }
-    .fl-table tr td:nth-child(even) {
-        border-right: 1px solid #e6e4e4;
-    }
-    .fl-table tbody td {
-        display: block;
-        text-align: center;
-    }
-}
-
-.userAction {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    .deleteUser-btn {
-        margin-left: 0;
-    }
-}
-.admin-btn {
-    height: 35px;
-    display: flex;
-    width: 100%;
-    background-color: #cbd6da;
-    justify-content: space-around;
-    align-items: center;
-    .addUser-btn {
-        width: 100px;
-        height: 27px;
-        margin-right: 10px;
-        border: 1px solid #cbd6da;
-        border-radius: 5px;
-        font-size: 12px;
-        color: #f8f8f8;
-        background-color: #324960;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    :hover {
-        background-color: #f8f8f8;
-        color: #324960;
-        box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px,
-            rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px,
-            rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px,
-            rgba(0, 0, 0, 0.07) 0px 32px 64px;
-        transition: 0.3s;
-    }
-    .refresh-btn {
-        width: 100px;
-        height: 27px;
-        margin-right: -160px;
-        border: 1px solid #cbd6da;
-        border-radius: 5px;
-        font-size: 12px;
-        color: #f8f8f8;
-        background-color: #324960;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    :hover {
-        background-color: #f8f8f8;
-        color: #324960;
-        box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px,
-            rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px,
-            rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px,
-            rgba(0, 0, 0, 0.07) 0px 32px 64px;
-        transition: 0.3s;
-    }
-}
-
-.edit {
-    width: 50px;
-    height: 25px;
-    border: 1px solid #f8f8f8;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #f8f8f8;
-    background-color: #0a759b;
-    cursor: pointer;
-    transition: 0.3s;
-    text-decoration: none;
-}
-.edit:hover {
-    background-color: #f8f8f8;
-    color: #0a759b;
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
-        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
-        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
-    transition: 0.3s;
-}
-.deleteUser-btn {
-    width: 60px;
-    height: 25px;
-    border: 1px solid #f8f8f8;
-    border-radius: 5px;
-    margin-left: 10px;
-    font-size: 16px;
-    color: #f8f8f8;
-    background-color: #ff3e39;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.deleteUser-btn:hover {
-    width: 60px;
-    height: 25px;
-    background-color: #f8f8f8;
-    color: #ff3e39;
-    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
-        rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
-        rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
-    transition: 0.3s;
-}
-.pagination {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding-top: 7px;
 }

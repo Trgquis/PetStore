@@ -16,6 +16,8 @@ import {
     getAllCatalogs,
     getAllProducts,
     EditProduct,
+    addRootCategory,
+    getAllRoots,
 } from "./SaleSlice";
 import("../Styles/Regist.scss");
 
@@ -37,6 +39,15 @@ export const handleGetOrder = async (userId, dispatch) => {
         console.log(e);
     }
 };
+export const handlegetAllRoots = async (dispatch) => {
+    try {
+        const getRoots = await dispatch(getAllRoots());
+        const allRoots = unwrapResult(getRoots);
+        console.log("catalogList", allRoots.data.roots);
+    } catch (e) {
+        console.log(e);
+    }
+};
 export const handlegetAllCatalogs = async (dispatch) => {
     try {
         const getCatalogs = await dispatch(getAllCatalogs());
@@ -50,6 +61,18 @@ export const handlegetChildCatalogs = async (dispatch) => {
     try {
         const getCatalogs = await dispatch(getChildCatalogs());
         const childCatalogs = unwrapResult(getCatalogs);
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const handleAddRoot = async (root, dispatch) => {
+    try {
+        const rs = await dispatch(addRootCategory(root))
+        const addedRoot = unwrapResult(rs)
+        console.log(addedRoot)
+        alert("Add catalog success");
+        handlegetAllRoots()
     } catch (e) {
         console.log(e);
     }

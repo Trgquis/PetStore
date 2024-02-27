@@ -1,6 +1,19 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import salesAPI from "./salesAPI";
 
+export const addRootCategory = createAsyncThunk(
+    "addrootcategory",
+    async (root) => {
+        const res = await salesAPI.addRoot(root);
+        return res;
+    }
+);
+
+export const getAllRoots = createAsyncThunk("getallroots", async () => {
+    const res = await salesAPI.getAllRoots();
+    return res;
+});
+
 export const getAllCatalogs = createAsyncThunk("getallcatalogs", async () => {
     const res = await salesAPI.getAllCatalogs();
     return res;
@@ -80,6 +93,19 @@ const SaleSlice = createSlice({
         allItems: null,
     },
     extraReducers: {
+        [getAllRoots.pending]: (state) => {
+            state.isFetching = true;
+        },
+        [getAllRoots.fulfilled]: (state, action) => {
+            state.isFetching = false;
+            state.allRoots = action.payload;
+            state.error = false;
+        },
+        [getAllRoots.rejected]: (state) => {
+            state.isFetching = false;
+            state.error = true;
+        },
+
         [getAllCatalogs.pending]: (state) => {
             state.isFetching = true;
         },
@@ -147,10 +173,24 @@ const SaleSlice = createSlice({
             state.error = true;
         },
 
+        [addRootCategory.pending]: (state) => {
+            state.isFetching = true;
+        },
+        [addRootCategory.fulfilled]: (state, action) => {
+            console.log(action.payload);
+            state.error = false;
+            state.isFetching = false;
+        },
+        [addRootCategory.rejected]: (state) => {
+            state.isFetching = false;
+            state.error = true;
+        },
+
         [addnewCatalog.pending]: (state) => {
             state.isFetching = true;
         },
         [addnewCatalog.fulfilled]: (state, action) => {
+            console.log(action.payload);
             state.error = false;
             state.isFetching = false;
         },

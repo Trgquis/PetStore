@@ -68,10 +68,10 @@ const useRouteElement = () => {
             ),
         },
         {
-            path: "/catalogsmanage",
+            path: "/categoriesmanage",
             element: (
                 <>
-                    <CatalogModal />
+                    {/* <CatalogModal /> */}
                     <CatalogManage />
                 </>
             ),

@@ -1,83 +1,49 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { deleteCatalog, handlegetAllCatalogs } from "../redux/apiRequest";
+import {
+    deleteCatalog,
+    handlegetAllCatalogs,
+    handlegetAllRoots,
+} from "../redux/apiRequest";
 import ManagePagination from "../components/MangePagination";
-import "../Styles/Table.scss";
 import UserInformation from "../components/UserInformation";
 import CatalogModal from "../components/CatalogModal";
-const PAGE_SIZE = 12; // số lượng người dùng hiển thị trên một trang
-
-const CategoryList = ({ categories }) => {
-    const getCategoryName = (parentId) => {
-        const parentCategory = categories.find(
-            (category) => category.id === parentId
-        );
-        return parentCategory ? parentCategory.name : "";
-    };
-
-    const renderCategory = (category) => {
-        return (
-            <td key={category.id}>
-                {category.name}
-                {category.children && (
-                    <td>
-                        {category.children.map((childCategory) =>
-                            renderCategory(childCategory)
-                        )}
-                    </td>
-                )}
-            </td>
-        );
-    };
-
-    // Lọc danh mục con theo điều kiện parent_id = id
-    const filteredCategories = categories.filter((category) => {
-        const childCategory = categories.find(
-            (child) => child.parent_id === category.id
-        );
-        return !!childCategory;
-    });
-    console.log(filteredCategories)
-
-    return (
-        <ul>
-            {filteredCategories.map((filteredCategory) =>
-                renderCategory({
-                    ...filteredCategory,
-                    parentName: getCategoryName(filteredCategory.id),
-                })
-            )}
-        </ul>
-    );
-};
+import RootModal from "../components/RootModal";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import "../Styles/Table.scss";
+import axios from "axios";
+const PAGE_SIZE = 12;
 
 const CatalogManage = () => {
     const User = useSelector((state) => state.auth.currentUser);
-    const catalogList = useSelector((state) => state?.sales.allCatalogs.data);
-    const catalogChildList = useSelector((state) => state?.sales);
-    console.log(catalogChildList);
-    console.log(User);
+    const rootList = useSelector((state) => state?.sales.allRoots);
+    const catalogList = useSelector((state) => state?.sales.allCatalogs);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const [modal, setModal] = useState(false);
     const [mode, setMode] = useState(null);
     const [currentPage, setCurrentPage] = useState(0);
-
     let [id, setId] = useState("");
-    console.log(catalogList);
-    // console.log(productList)
+    useEffect(() => {
+        try {
+            handlegetAllCatalogs(dispatch);
+            handlegetAllRoots(dispatch);
+        } catch (e) {
+            console.log(e);
+        }
+    }, []);
 
-    const handleOpen = async (mode, categoryId) => {
+    const handleOpen = async (mode, id) => {
         try {
             setModal(true);
             setMode(mode);
-            setId(categoryId);
-            console.log(categoryId);
+            setId(id);
+            console.log(id);
         } catch (e) {
             console.log(e);
         }
     };
+
     const handleClose = async () => {
         try {
             setModal(false);
@@ -88,7 +54,7 @@ const CatalogManage = () => {
         }
     };
 
-    const handleRefresh = async (e) => {
+    const handleRefresh = async () => {
         try {
             let res = await handlegetAllCatalogs(dispatch);
             console.log(res);
@@ -107,65 +73,72 @@ const CatalogManage = () => {
             alert("Error");
         }
     };
+
     const handlePageChange = (page) => {
         setCurrentPage(page);
     };
-    // Tính số lượng trang
-    const pageCount = Math.ceil(catalogList?.catalogs.count / PAGE_SIZE);
-    // Lấy danh sách người dùng hiển thị trên trang hiện tại
-    const categoryToShow = catalogList?.catalogs.catalogs.slice(
+
+    const updateCatalogPriority = async (updatedCategories) => {
+        try {
+            await axios.put("http://localhost:8888/testnew", updatedCategories);
+            console.log("oke");
+            // Sau khi cập nhật xong, làm mới danh sách
+            handleRefresh();
+        } catch (error) {
+            console.error("Error updating catalog priority", error);
+        }
+    };
+
+    const onDragEnd = (result) => {
+        console.log(result);
+        const destination = result.destination.index;
+        const draggableId = result.draggableId;
+        const source = result.source.index;
+
+        // Tạo đối tượng để cập nhật priority
+        const requestData = {
+            movedId: draggableId,
+            destinationIndex: destination,
+            sourceIndex: source,
+        };
+
+        console.log(requestData);
+
+        // Gọi hàm cập nhật priority
+        updateCatalogPriority(requestData);
+    };
+
+    const pageCount = Math.ceil(catalogList?.data.catalogs.count / PAGE_SIZE);
+
+    const categoryToShow = catalogList?.data.catalogs.catalogs.slice(
         currentPage * PAGE_SIZE,
         (currentPage + 1) * PAGE_SIZE
     );
 
-    useEffect(() => {
-        if (!User) {
-            // console.log('asdsa')
-            alert("Login first");
-            navigate("/salesLogin");
-        } else if (
-            User?.data.user.accessToken &&
-            User?.data.user.roleId === "1"
-        ) {
-            console.log(User.data.user.accessToken);
-            handlegetAllCatalogs(User.data.user.accessToken);
-        } else if (
-            User?.data.user.roleId !== "1" &&
-            User?.data.user.roleId !== "2"
-        ) {
-            alert("dont have permission");
-            navigate("/");
-        }
-    }, []);
+    const getRoot = (parentId) => {
+        const parentCategory = rootList?.data.roots.roots.find(
+            (category) => category.id === parentId
+        );
+
+        return parentCategory ? parentCategory.name : "Danh mục chính";
+    };
 
     return (
-        <div className="main">
-            <div className="content">
-                <div className="userInformation">
-                    <h4>Quản lý danh mục</h4>
-                    <Link to="/manage">Quản lý người dùng</Link>
-                    <Link to="/productsmanage">Quản lý sản phẩm</Link>
-                    <Link to="/catalogsmanage"> Quản lý danh mục</Link>
-                    {User && <UserInformation User={User.data} />}
-                </div>
-                <div className="table-wrapper">
-                    <div className="admin-btn">
+        <>
+            <div className="main">
+                <div className="content">
+                    <div className="userInformation">
+                        <h4>Quản lý danh mục</h4>
+                        <Link to="/manage">Quản lý người dùng</Link>
+                        <Link to="/productsmanage">Quản lý sản phẩm</Link>
+                        <Link to="/catalogsmanage"> Quản lý danh mục</Link>
                         <button
                             className="addUser-btn"
-                            onClick={(e) => handleOpen("add", null)}
+                            onClick={(e) => handleOpen("root", null)}
                         >
-                            Add Category <span> </span>
+                            Cài đặt loại danh mục <span> </span>
                             <i className="fas fa-table"></i>
                         </button>
-                        {modal && (
-                            <CatalogModal
-                                isOpen={modal}
-                                mode={mode}
-                                catalogId={id}
-                                onClose={handleClose}
-                            />
-                        )}
-
                         <button
                             className="refresh-btn"
                             onClick={(e) => handleRefresh()}
@@ -173,79 +146,104 @@ const CatalogManage = () => {
                             Refresh <span> </span>
                             <i className="fas fa-sync"></i>
                         </button>
+                        {User && <UserInformation User={User.data} />}
                     </div>
-                    <table className="fl-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên danh mục</th>
-                                <th>Danh mục thuộc</th>
-                                <th>Vị trí sắp xếp</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            {catalogChildList &&
-                                catalogList &&
-                                categoryToShow?.map((catalog) => {
-                                    return (
-                                        <tr key={catalog.id}>
-                                            <td>{catalog.id}</td>
-                                            <td>{catalog.name}</td>
-                                            {!catalog.parent_id ? (
-                                                <td>Danh mục chính</td>
-                                            ) : (
-                                                <td>{catalog.parent_id}</td>
+                    <div className="table-wrapper">
+                        {modal &&
+                            (mode === "add" ? (
+                                <CatalogModal
+                                    isOpen={modal}
+                                    mode={mode}
+                                    catalogId={id}
+                                    onClose={handleClose}
+                                />
+                            ) : (
+                                <RootModal
+                                    isOpen={modal}
+                                    mode={mode}
+                                    rootId={id}
+                                    onClose={handleClose}
+                                />
+                            ))}
+                        <DragDropContext onDragEnd={onDragEnd}>
+                            <Droppable droppableId="categories">
+                                {(provided) => (
+                                    <div
+                                        className="fl-table"
+                                        {...provided.droppableProps}
+                                        ref={provided.innerRef}
+                                    >
+                                        <div className="thead">
+                                            <div>Tên danh mục</div>
+                                            <div>Danh mục thuộc</div>
+                                        </div>
+                                        <div className="body">
+                                            {categoryToShow?.map(
+                                                (catalog, index) => (
+                                                    <Draggable
+                                                        key={catalog.id}
+                                                        draggableId={catalog.id.toString()}
+                                                        index={index}
+                                                    >
+                                                        {(provided) => (
+                                                            <div
+                                                                className="tbody"
+                                                                ref={
+                                                                    provided.innerRef
+                                                                }
+                                                                {...provided.draggableProps}
+                                                                {...provided.dragHandleProps}
+                                                            >
+                                                                <div>
+                                                                    {
+                                                                        catalog.name
+                                                                    }
+                                                                </div>
+                                                                <div>
+                                                                    {getRoot(
+                                                                        catalog.rootcategory_id
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                )
                                             )}
 
-                                            <td>{catalog.sort_order}</td>
-                                            <td className="userAction">
+                                            {!catalogList && (
+                                                <div>
+                                                    <h3>Không có dữ liệu</h3>
+                                                </div>
+                                            )}
+                                            <div className="addBtn">
                                                 <button
-                                                    id={catalog.id}
-                                                    className="edit"
-                                                    onClick={(e) => {
-                                                        handleOpen(
-                                                            "edit",
-                                                            e.target.id
-                                                        );
-                                                    }}
-                                                >
-                                                    Edit <span> </span>{" "}
-                                                    <i className="far fa-edit"></i>
-                                                </button>
-                                                <button
-                                                    className="deleteUser-btn"
-                                                    onClick={() =>
-                                                        handleDeleteCatalog(
-                                                            catalog
-                                                        )
+                                                    onClick={(e) =>
+                                                        handleOpen("add", null)
                                                     }
                                                 >
-                                                    Delete <span> </span>{" "}
-                                                    <i className="fas fa-trash"></i>
+                                                    + Add Category{" "}
+                                                    <span> </span>
+                                                    <i className="fas fa-table"></i>
                                                 </button>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            {!catalogList && (
-                                <div>
-                                    <h3>Không có dữ liệu</h3>
-                                </div>
-                            )}
-                        </tbody>
-                    </table>
-                    <div className="pagination">
-                        <ManagePagination
-                            currentPage={currentPage}
-                            pageCount={pageCount}
-                            handlePageChange={handlePageChange}
-                        />
+                                            </div>
+                                        </div>
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
+                        <div className="pagination">
+                            <ManagePagination
+                                currentPage={currentPage}
+                                pageCount={pageCount}
+                                handlePageChange={handlePageChange}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
+
 export default CatalogManage;

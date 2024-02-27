@@ -129,81 +129,50 @@ const productService = {
         });
     },
 
-    // updateProduct: (data, images) => {
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             if (!data.id) {
-    //                 resolve({
-    //                     errCode: 2,
-    //                     errMessage: "Missing parameters",
-    //                 });
-    //             }
-                
-    //             const newdata = await db.Product.update(
-    //                 {
-    //                     category_id: data.category_id,
-    //                     name: data.name,
-    //                     price: data.price,
-    //                     discount: data.discount,
-    //                     content: data.content,
-    //                     amount: data.amount
-    //                 },
-    //                 {
-    //                     where: {
-    //                         id: data.id,
-    //                     },
-    //                 }
-    //             )
-    //             console.log(newdata)
-    //             let images_update = await db.Images.update({
-                    
-    //             },
-    //             where: {
-    //                 product_id: data.id
-    //             });
-    //             console.log(images.length);
-    //             if (product && images.length === 4) {
-    //                 product.catalog_id = data.catalog_id;
-    //                 product.name = data.name;
-    //                 product.quantity = data.quantity;
-    //                 product.price = data.price;
-    //                 product.content = data.content;
-    //                 await product.save();
+    updateProduct: (data, images) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const productId = data.id;
+                const exist = await db.Product.findOne({
+                    where: {
+                        id: productId,
+                    },
+                });
 
-    //                 for (let i = 0; i < images.length; i++) {
-    //                     const image = images[i];
-    //                     const imageToUpdate = images_update[i];
-    //                     if (imageToUpdate) {
-    //                         imageToUpdate.type = image.mimetype;
-    //                         imageToUpdate.image_name = image.filename;
-    //                         imageToUpdate.path = image.path;
-    //                         await imageToUpdate.save();
-    //                     } else {
-    //                         const newImage = await db.Images.create({
-    //                             product_id: product.id,
-    //                             type: image.mimetype,
-    //                             image_name: image.filename,
-    //                             path: image.path,
-    //                         });
-    //                         images_update.push(newImage);
-    //                     }
-    //                 }
-    //                 resolve({
-    //                     errCode: 0,
-    //                     errMessage: "Update Product Succeed!",
-    //                 });
-    //             } else {
-    //                 resolve({
-    //                     errCode: 1,
-    //                     errMessage:
-    //                         "Product not found or amount of images should be 4",
-    //                 });
-    //             }
-    //         } catch (e) {
-    //             console.log(e);
-    //         }
-    //     });
-    // },
+                if (!exist) {
+                    resolve({
+                        errCode: 2,
+                        errMessage: "Product not found",
+                    });
+                } else {
+                    const newdata = await db.Product.update(
+                        {
+                            category_id: parseInt(data.category_id),
+                            name: data.name,
+                            price: parseFloat(data.price),
+                            discount: parseFloat(data.discount),
+                            content: data.content,
+                            amount: data.amount,
+                        },
+                        {
+                            where: {
+                                id: data.id,
+                            },
+                            returning: true,
+                        }
+                    );
+                    resolve({
+                        errCode: 0,
+                        errMessage: "product is updated",
+                        newdata: newdata[1][0],
+                    });
+                }
+            } catch (e) {
+                console.error("Error updating product:", error);
+                reject(e);
+            }
+        });
+    },
 
     deleteProduct: async (productId) => {
         try {
@@ -323,6 +292,38 @@ const productService = {
             console.log(e);
         }
     },
+
+    addProductImage: async (productId, newImage) => {
+        try {
+            // Thêm ảnh mới dựa trên newImage
+            const createdImage = await db.Image.create({
+                type: newImage.mimetype,
+                image_name: newImage.filename,
+                path: newImage.path,
+                product_id: productId,
+            });
+            return {
+                errCode: 0,
+                errMessage: "Image added successfully",
+                newImage: createdImage,
+            };
+        } catch (error) {
+            console.error("Error adding product image:", error);
+            throw error;
+        }
+    },
+
+    deleteProductImage: async (imageId) => {
+        try {
+            // Xóa ảnh dựa trên imageId
+            await db.Image.destroy({ where: { id: imageId } });
+            return { errCode: 0, errMessage: "Image deleted successfully" };
+        } catch (error) {
+            console.error("Error deleting product image:", error);
+            throw error;
+        }
+    }
+    
 };
 
 module.exports = productService;
