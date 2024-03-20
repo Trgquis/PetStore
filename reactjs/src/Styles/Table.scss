@@ -1,47 +1,78 @@
 .main {
-    .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content {
+    width: 100%;
+    padding: 20px;
+
+    .userInformation {
         display: flex;
-        flex-direction: column;
+        justify-content: space-around;
         align-items: center;
+        margin-bottom: 20px;
+    }
 
-        .userInformation {
-            display: flex;
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #fff;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap; /* Cho phép các phần tử tự dãn ra nếu không thể hiện hết trên một dòng */
+        gap: 20px; /* Khoảng cách giữa các cột */
+        border-bottom: 1px solid #ccc;
+
+        td,
+        th {
+            text-align: center;
         }
-
-        .table-wrapper {
-            width: 80%;
-            .fl-table {
-                .thead {
-                    display: flex;
-                    justify-content: space-around;
-                    padding: 10px;
-                    background-color: #f0f0f0;
-                    font-weight: bold;
-                }
-                .body {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    .tbody {
-                        width: 100%;
-                        display: flex;
-                        justify-content: space-around;
-                        padding: 10px;
-                        border-bottom: 1px solid #ddd;
-                    }
-                    .addBtn {
-                        width: 20%;
-                        height: 50px;
-                        background-color: cadetblue;
-                        button {
-                            width: 100%;
-                            height: 100%;
-                            border: none;
-                            background-color: transparent;
-                        }
-                    }
+        .drag-handle {
+            width: 10%;
+            text-align: center;
+            overflow: auto;
+            cursor: grab;
+            user-select: none;
+            .dot-row {
+                display: flex;
+                justify-content: center;
+                .dot {
+                    width: 6px; /* Đặt kích thước cố định cho dấu chấm */
+                    height: 6px; /* Đặt kích thước cố định cho dấu chấm */
+                    margin: 2px; /* Khoảng cách giữa các dấu chấm */
+                    background-color: black; /* Màu của dấu chấm */
                 }
             }
         }
+
+        .action {
+            .pen,
+            .bin {
+                cursor: pointer;
+                font-size: 16px; /* Giảm kích thước của biểu tượng */
+            }
+            .pen:hover {
+                color: #20539c;
+            }
+            .bin:hover {
+                color: red;
+            }
+        }
+
+        .pagination {
+            margin-top: 20px;
+        }
     }
+}
+
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

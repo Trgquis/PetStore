@@ -2,8 +2,7 @@ import axios from "axios";
 
 const userAPI = {
     getAllUsers: async () => {
-        const res = await axios.get("http://localhost:8081/api/get-all-users");
-        console.log(res);
+        const res = await axios.get("http://localhost:8888/api/get-all-users");
         return res;
     },
     // Login: async(user) => {
@@ -36,13 +35,7 @@ const userAPI = {
         const res = await axios.post("http://localhost:8888/api/regist", user);
         return res;
     },
-    AddUserByAdmin: async (user) => {
-        const res = await axios.post(
-            "http://localhost:8081/api/create-new-user-admin",
-            user
-        );
-        return res;
-    },
+    
     Logout: async (accessToken) => {
         // console.log(id)
         await axios.put("/api/logout", {
@@ -51,7 +44,7 @@ const userAPI = {
     },
     EditUser: async (user) => {
         const res = await axios.put(
-            "http://localhost:8081/api/edit-user",
+            "http://localhost:8888/api/edituser",
             user
         );
         console.log(res);

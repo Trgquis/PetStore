@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { handlegetAllProducts, handlegetProduct } from "../redux/apiRequest";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-
+import { FaShoppingCart } from "react-icons/fa";
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
@@ -50,7 +50,7 @@ function SamplePrevArrow(props) {
 }
 
 const Main = () => {
-    const productList = useSelector((state) => state?.sales);
+    const productList = useSelector((state) => state?.sales.allProducts);
     console.log(productList);
     const [id, setId] = useState("");
     const dispatch = useDispatch();
@@ -161,7 +161,7 @@ const Main = () => {
                 <p>Thức ăn cho mèo</p>
             </div>
 
-            {/* <div className="post-grid--sc">
+            <div className="post-grid--sc">
                 <div className="post-item">
                     <img
                         src="/images/Banner04.jpg"
@@ -172,11 +172,10 @@ const Main = () => {
                 </div>
                 <Slider {...settings}>
                     {productList?.data.products.products.map((product) => {
+                        // Kiểm tra nếu parent_id của sản phẩm nằm trong khoảng từ 1 đến 7 thì mới hiển thị sản phẩm
                         if (
-                            product.catalog_id !== null &&
-                            product.catalog_id >= 24 &&
-                            product.catalog_id <= 36 &&
-                            product.discount !== 0
+                            product.category_id >= 1 &&
+                            product.category_id <= 7
                         ) {
                             return (
                                 <Fragment>
@@ -204,7 +203,7 @@ const Main = () => {
                                                         .map((item, index) => (
                                                             <img
                                                                 key={item.id}
-                                                                src={`http://localhost:8081/${item.path}`}
+                                                                src={`http://localhost:8888/${item.path}`}
                                                                 alt=""
                                                             />
                                                         ))}
@@ -216,7 +215,7 @@ const Main = () => {
                                                         type="submit"
                                                         id="cart"
                                                     >
-                                                        <i className="fas fa-shopping-cart"></i>
+                                                        <FaShoppingCart />
                                                     </button>
                                                     <Link
                                                         onClick={
@@ -258,10 +257,12 @@ const Main = () => {
                                     </div>
                                 </Fragment>
                             );
+                        } else {
+                            return null; // Không hiển thị sản phẩm nếu parent_id không nằm trong khoảng từ 1 đến 7
                         }
                     })}
                 </Slider>
-            </div> */}
+            </div>
             <div className="title">
                 <h3>Khuyến mãi - On Sale</h3>
                 <p>Shop cho chó</p>
@@ -283,11 +284,10 @@ const Main = () => {
                         <Slider {...settings}>
                             {productList?.data.products.products.map(
                                 (product) => {
+                                    // Kiểm tra nếu parent_id của sản phẩm nằm trong khoảng từ 1 đến 7 thì mới hiển thị sản phẩm
                                     if (
-                                        product.catalog_id !== null &&
-                                        product.catalog_id >= 11 &&
-                                        product.catalog_id <= 23 &&
-                                        product.discount !== 0
+                                        product.category_id >= 8 &&
+                                        product.category_id <= 12
                                     ) {
                                         return (
                                             <Fragment>
@@ -329,7 +329,7 @@ const Main = () => {
                                                                                 key={
                                                                                     item.id
                                                                                 }
-                                                                                src={`http://localhost:8081/${item.path}`}
+                                                                                src={`http://localhost:8888/${item.path}`}
                                                                                 alt=""
                                                                             />
                                                                         )
@@ -342,7 +342,7 @@ const Main = () => {
                                                                     type="submit"
                                                                     id="cart"
                                                                 >
-                                                                    <i className="fas fa-shopping-cart"></i>
+                                                                    <FaShoppingCart />
                                                                 </button>
                                                                 <Link
                                                                     onClick={
@@ -388,71 +388,8 @@ const Main = () => {
                                                 </div>
                                             </Fragment>
                                         );
-                                    }
-                                    if (
-                                        product.catalog_id === 1 &&
-                                        product.discount !== 0
-                                    ) {
-                                        return (
-                                            <Fragment>
-                                                <div
-                                                    className="post-item"
-                                                    key={product.id}
-                                                >
-                                                    <div id="discount-percent">
-                                                        <p id="discount-percent--content">
-                                                            <i className="fa-solid fa-tags"></i>
-                                                            <span> </span>
-                                                            {product.discount}%
-                                                        </p>
-                                                    </div>
-                                                    <div className="overlayout ">
-                                                        <div className="overlayout-img">
-                                                            <img
-                                                                src={
-                                                                    product.image_link
-                                                                }
-                                                                alt=""
-                                                            />
-                                                        </div>
-
-                                                        <div className="over-btn">
-                                                            <div className="detail-btn">
-                                                                <button
-                                                                    type="submit"
-                                                                    id="cart"
-                                                                >
-                                                                    <i className="fas fa-shopping-cart"></i>
-                                                                </button>
-
-                                                                <button
-                                                                    id={
-                                                                        product.id
-                                                                    }
-                                                                    className="indetail"
-                                                                >
-                                                                    detail
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="post-content">
-                                                        {product.name}
-
-                                                        <p className="price">
-                                                            {product.price -
-                                                                product.price *
-                                                                    (product.discount /
-                                                                        100)}
-                                                            ₫
-                                                            <span id="old-price">
-                                                                {product.price}₫
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </Fragment>
-                                        );
+                                    } else {
+                                        return null; // Không hiển thị sản phẩm nếu parent_id không nằm trong khoảng từ 1 đến 7
                                     }
                                 }
                             )}

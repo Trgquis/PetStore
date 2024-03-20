@@ -50,7 +50,7 @@ const productController = {
             return res.status(400).json({
                 errCode: 1,
                 errMessage: "Missing required parameters",
-                products: [],
+                products: {},
             });
         }
 
@@ -90,10 +90,8 @@ const productController = {
         let message = await productService.searchProduct(keyword);
         return res.status(200).json(message);
     },
-    
-    handleAddProductImage: async(req,res) => {
-        
-    }
+
+    handleAddProductImage: async (req, res) => {},
 };
 
 module.exports = productController;

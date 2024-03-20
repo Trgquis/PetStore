@@ -129,17 +129,20 @@ header {
     align-items: center;
     font-size: 20px;
     width: 150px;
+
     .icon-btn {
         border: none;
         color: #ec7263;
         background-color: transparent;
         margin: 0 10px;
-        :hover {
+
+        &:hover {
             color: #8f8787;
             cursor: pointer;
         }
     }
 }
+
 .user-information {
     width: 200px;
     height: 60px;

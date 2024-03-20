@@ -1,98 +1,72 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "../Styles/ProductDetail.scss";
-import { handlegetAllCatalogs } from "../redux/apiRequest";
-import { useState } from "react";
-const CategoryBar = ({ catalogId, product }) => {
-    const dispatch = useDispatch();
-    const [allCategories, setCatalogs] = useState([]);
-    const data = useSelector((state) => state.sales)
-    useEffect(() => {
-        const fetchedCatalogs = async () => {
-            const res = await handlegetAllCatalogs(dispatch);
-            setCatalogs(res);
-        };
-        fetchedCatalogs();
-    }, []);
-    console.log(allCategories);
+import {
+    handlegetAllCatalogs,
+    handlegetAllChilds,
+    handlegetAllRoots,
+} from "../redux/apiRequest";
 
-    if (catalogId === 99) {
-        return (
-            <div className="categoryBar">
-                <Link to="/">Trang chủ</Link> {" > "}
-                <p>Tất cả sản phẩm</p>
-            </div>
-        );
-    } else if (catalogId === 2) {
-        return (
-            <div className="categoryBar">
-                <Link to="/">Trang chủ</Link> {" > "}
-                <Link to={`/allproducts/${99}}`}>Tất cả sản phẩm</Link>
-                {" > "}
-                <Link to={`/allproducts/${2}`}>Shop cho mèo</Link>
-            </div>
-        );
-    } else if (catalogId === 1) {
-        return (
-            <div className="categoryBar">
-                <Link to="/">Trang chủ</Link> {" > "}
-                <Link to={`/allproducts/${99}}`}>Tất cả sản phẩm</Link>
-                {" > "}
-                <Link to={`/allproducts/${1}`}>Shop cho chó</Link>
-            </div>
-        );
-    }
+const CategoryBar = ({ catalogId }) => {
+    const dispatch = useDispatch();
+    const [categoryChain, setCategoryChain] = useState([]);
+    const catalogList = useSelector((state) => state.sales.allCatalogs);
+    const rootList = useSelector((state) => state.sales.allRoots);
+    const childList = useSelector((state) => state.sales.allChilds);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await handlegetAllRoots(dispatch);
+            await handlegetAllCatalogs(dispatch);
+            await handlegetAllChilds(dispatch);
+        };
+        fetchData();
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (
+            catalogId &&
+            childList?.data.childs.childs.length > 0 &&
+            catalogList?.data.catalogs.catalogs.length > 0 &&
+            rootList?.data.roots.roots.length > 0
+        ) {
+            const currentChild = childList?.data.childs.childs.find(
+                (child) => child.id === catalogId
+            );
+            if (currentChild) {
+                const parentCategory = catalogList?.data.catalogs.catalogs.find(
+                    (category) => category.id === currentChild.parent_id
+                );
+                if (parentCategory) {
+                    const rootCategory = rootList?.data.roots.roots.find(
+                        (root) => root.id === parentCategory.rootcategory_id
+                    );
+                    if (rootCategory) {
+                        setCategoryChain([
+                            rootCategory,
+                            parentCategory,
+                            currentChild,
+                        ]);
+                    }
+                }
+            }
+        }
+    }, [catalogId, childList, catalogList, rootList]);
 
     return (
-        <>
-            {!product ? (
-                <div className="categoryBar">
-                    <Link to="/">Trang chủ</Link> {" > "}
-                    {allCategories
-                        .slice()
-                        .reverse()
-                        .map((category, index) => (
-                            <React.Fragment key={category.id}>
-                                {index > 0 && " > "}
-                                <Link to={`/allproducts/${category.id}`}>
-                                    {category.name}
-                                </Link>
-                            </React.Fragment>
-                        ))}
-                </div>
-            ) : (
-                <div className="categoryBar">
-                    <Link to="/">Trang chủ</Link> {" > "}
-                    {allCategories
-                        .slice()
-                        .reverse()
-                        .map((category, index) => (
-                            <React.Fragment key={category.id}>
-                                {index > 0 && " > "}
-                                <Link to={`/allproducts/${category.id}`}>
-                                    {category.name}
-                                </Link>
-                            </React.Fragment>
-                        ))}
-                    {product.name && (
-                        <>
-                            {" > "}
-                            <span style={{ paddingLeft: "15px" }}>
-                                {product.name}
-                            </span>
-                        </>
-                    )}
-                </div>
-            )}
-        </>
+        <div className="categoryBar">
+            <Link to="/">Trang chủ</Link>
+            {categoryChain.map((category, index) => (
+                <React.Fragment key={`${category.id}_${index}`}>
+                    {" > "}
+                    <Link to={`/allproducts/${category.id}`}>
+                        {category.name}
+                    </Link>
+                </React.Fragment>
+            ))}
+        </div>
     );
 };
-function findParentCategories(category, categories, parentCategories) {
-    const parentCategory = categories.find((c) => c.id === category.parent_id);
-    if (parentCategory) {
-        parentCategories.push(parentCategory);
-        findParentCategories(parentCategory, categories, parentCategories);
-    }
-}
+
 export default CategoryBar;

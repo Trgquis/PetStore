@@ -1,121 +1,119 @@
-// File: RootModal.js
+// Trong RootModal.jsx
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { handlegetAllRoots } from "../redux/apiRequest";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import axios from "axios";
-import { useDrag, useDrop } from "react-dnd";
+import { FaPencilAlt } from "react-icons/fa";
+import { RiDeleteBin5Fill } from "react-icons/ri";
 
-// Đặt ItemTypes trong cùng file
-const ItemTypes = {
-    ROOT_CATEGORY: "rootCategory",
-};
-
-function RootModal({ isOpen, mode, rootId, onClose }) {
+const RootModal = ({ isOpen, onClose }) => {
+    const rootList = useSelector((state) => state?.sales.allRoots);
+    const dispatch = useDispatch();
     const [rootCategories, setRootCategories] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("http://localhost:8888/api/getAllRoots");
-                setRootCategories(response.data);
-            } catch (error) {
-                console.error("Error fetching root categories:", error);
-            }
-        };
-
-        fetchData();
+        handlegetAllRoots(dispatch);
     }, []);
 
-    const moveCard = (dragIndex, hoverIndex) => {
-        const draggedCard = rootCategories[dragIndex];
-        setRootCategories((prev) => {
-            const updated = [...prev];
-            updated.splice(dragIndex, 1);
-            updated.splice(hoverIndex, 0, draggedCard);
-            return updated;
-        });
+    useEffect(() => {
+        setRootCategories(rootList?.data?.roots?.roots || []);
+    }, [rootList]);
+
+    const updateRootCategoryPriority = async (updatedCategories) => {
+        try {
+            console.log(updatedCategories);
+            await axios.put(
+                "http://localhost:8888/api/dragroot",
+                updatedCategories
+            );
+            console.log("Successfully updated root category priority");
+            // Sau khi cập nhật, làm mới danh sách
+            handlegetAllRoots(dispatch);
+        } catch (error) {
+            console.error("Error updating root category priority", error);
+        }
     };
 
-    const Card = ({ id, name, priority, index }) => {
-        const [, drag] = useDrag({
-            type: ItemTypes.ROOT_CATEGORY,
-            item: { id, index },
-        });
+    const onDragEnd = (result) => {
+        // Xử lý logic kéo thả
+        const destination = result.destination.index;
+        const draggableId = result.draggableId;
+        const source = result.source.index;
 
-        const [, drop] = useDrop({
-            accept: ItemTypes.ROOT_CATEGORY,
-            hover: (item) => {
-                if (item.index !== index) {
-                    moveCard(item.index, index);
-                    item.index = index;
-                }
-            },
-        });
-
-        return (
-            <tr ref={(node) => drag(drop(node))} key={id}>
-                <td>{id}</td>
-                <td>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={(e) =>
-                            handleChange(id, "name", e.target.value)
-                        }
-                    />
-                </td>
-                <td>
-                    <input
-                        type="number"
-                        value={priority}
-                        onChange={(e) =>
-                            handleChange(id, "priority", e.target.value)
-                        }
-                    />
-                </td>
-                <td>
-                    <button onClick={() => handleEdit(id)}>Edit</button>
-                </td>
-            </tr>
-        );
-    };
-
-    const handleChange = (id, field, value) => {
-        setRootCategories((prev) =>
-            prev.map((item) =>
-                item.id === id ? { ...item, [field]: value } : item
-            )
-        );
-    };
-
-    const handleEdit = (id) => {
-        console.log("Edit root category with id:", id);
+        // Tạo đối tượng để cập nhật priority
+        const requestData = {
+            movedId: draggableId,
+            destinationIndex: destination,
+            sourceIndex: source,
+        };
+        console.log(requestData);
+        // Gọi hàm cập nhật priority
+        updateRootCategoryPriority(requestData);
     };
 
     return (
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Priority</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rootCategories.map((rootCategory, index) => (
-                        <Card
-                            key={rootCategory.id}
-                            id={rootCategory.id}
-                            name={rootCategory.name}
-                            priority={rootCategory.priority}
-                            index={index}
-                        />
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <Modal isOpen={isOpen} toggle={onClose}>
+            <ModalHeader toggle={onClose}>Cài đặt loại danh mục</ModalHeader>
+            <ModalBody>
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <Droppable droppableId="rootCategories">
+                        {(provided, snapshot) => (
+                            <div
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                            >
+                                {rootCategories.map((root, index) => (
+                                    <Draggable
+                                        key={root.id}
+                                        draggableId={root.id.toString()}
+                                        index={index}
+                                    >
+                                        {(
+                                            provided,
+                                            snapshot // Thêm provided và snapshot vào đây
+                                        ) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <tr>
+                                                    <td className="drag-handle">
+                                                        <div className="dot-row">
+                                                            <div className="dot"></div>
+                                                            <div className="dot"></div>
+                                                        </div>
+                                                        <div className="dot-row">
+                                                            <div className="dot"></div>
+                                                            <div className="dot"></div>
+                                                        </div>
+                                                        <div className="dot-row">
+                                                            <div className="dot"></div>
+                                                            <div className="dot"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>{root.name}</td>
+                                                </tr>
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            </ModalBody>
+            <ModalFooter>
+                <Button color="secondary" onClick={onClose}>
+                    Đóng
+                </Button>
+            </ModalFooter>
+        </Modal>
     );
-}
+};
 
 export default RootModal;

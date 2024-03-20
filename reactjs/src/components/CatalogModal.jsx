@@ -1,108 +1,126 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { AddCatalog, editCatalog } from "../redux/apiRequest";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    AddCatalog,
+    editCatalog,
+    handlegetAllRoots,
+} from "../redux/apiRequest";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Modal.scss";
 import axios from "axios";
-
-function CatalogModal({ isOpen, mode, catalogId, onClose }) {
+import CustomAlert from "./CustomAlert";
+function CatalogModal({ isOpen, catalogId, onClose }) {
     const [name, setName] = useState("");
-    const [parent_id, setParentId] = useState("");
-    const [sort_order, setSort] = useState("");
+    const [rootcategory_id, setroot_id] = useState("");
     const [Editname, setEditName] = useState("");
     const [Editparent_id, setEditParentId] = useState("");
-    const [Editsort_order, setEditSort] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [parentCatalogs, setParentCatalogs] = useState([]);
-    const [shouldUpdateCatalogs, setShouldUpdateCatalogs] = useState(false);
+    const rootList = useSelector((state) => state?.sales.allRoots);
+    const catalogList = useSelector((state) => state?.sales.allCatalogs);
 
-    useEffect(() => {
-        fetchParentCatalogs();
-    }, [shouldUpdateCatalogs]);
-
-    const fetchParentCatalogs = async () => {
-        const results = await axios.get(
-            "http://localhost:8888/api/getAllRoots"
-        );
-        console.log(results.data.catalogs);
-        const catalogs = results.data.catalogs.catalogs;
-        setParentCatalogs(catalogs);
-        setEditName(catalogs.name);
-        setEditParentId(catalogs.parent_id);
-        setEditSort(catalogs.sort_order);
+    const [showAlert, setShowAlert] = useState(false);
+    const [status, setStatus] = useState();
+    const [mess, setMess] = useState();
+    const handleShowAlert = () => {
+        setShowAlert(true);
     };
+
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
+    useEffect(() => {
+        try {
+            if (catalogId) {
+                const fetchCategoryDetails = async () => {
+                    try {
+                        const response = await axios.get(
+                            `http://localhost:8888/api/getChild/?id=${catalogId}`
+                        );
+                        const categoryDetails = response.data; // Adjust based on your API response structure
+                        console.log(categoryDetails);
+                        // Set the fetched data to the state variables
+                        setEditName(categoryDetails.child.child.name);
+                        setEditParentId(categoryDetails.child.child.parent_id);
+                    } catch (error) {
+                        console.error("Error fetching category details", error);
+                    }
+                };
+
+                // Call the function to fetch category details
+                fetchCategoryDetails();
+            }
+            handlegetAllRoots(dispatch);
+        } catch (e) {
+            console.log(e);
+        }
+    }, []);
 
     let validate = (catalog) => {
         let isValid = true;
-        if (
-            !catalog.name ||
-            !catalog.sort_order ||
-            catalog.sort_order <= 0 ||
-            catalog.sort_order > 99
-        ) {
+        if (!catalog.name || !catalog.parent_id) {
             isValid = false;
             console.log("missing parameter");
         }
-
         return isValid;
-    };
-
-    const allSortOrders = [];
-
-    let inspectSortOrder = (catalog) => {
-        allSortOrders.push(catalog);
-        console.log(allSortOrders);
-        return true;
     };
 
     let handleAddCatalog = async (e) => {
         e.preventDefault();
         const catalog = {
             name: name,
-            parent_id: parseInt(parent_id),
-            sort_order: parseInt(sort_order),
+            parent_id: parseInt(rootcategory_id),
         };
         console.log(catalog);
         if (validate(catalog) !== true) {
-            alert("Không thành công! Vui lòng kiểm tra lại");
             return false;
         }
-        if (inspectSortOrder(catalog) !== true) {
-            alert("Vị trí đã được sắp xếp trước đó");
-            return false;
+        const res = await AddCatalog(catalog, dispatch, navigate);
+        if (res === 0) {
+            setStatus(res);
+            setMess("Thêm danh mục thành công!");
+            handleShowAlert();
+        } else if (res === 1) {
+            setStatus(res);
+            setMess("Thiếu dữ liệu");
+            handleShowAlert();
         }
-        await AddCatalog(catalog, dispatch, navigate);
-        await fetchParentCatalogs();
     };
-
     const handUpdateCatalog = async (e) => {
-        const id = { catalogId }.catalogId;
-        console.log(id);
+        e.preventDefault();
+        const id = catalogId;
         const Editcatalog = {
             id: id,
-            name: name,
-            parent_id: parent_id,
-            sort_order: sort_order,
+            name: Editname,
+            rootcategory_id: Editparent_id,
         };
         console.log(Editcatalog);
         if (validate(Editcatalog) !== true) {
             alert("not valid");
             return false;
         }
-        await editCatalog(Editcatalog, dispatch);
-        await fetchParentCatalogs();
+        const response = await editCatalog(Editcatalog, dispatch);
+        console.log(response.data.errCode);
+        if (response.data.errCode === 0) {
+            setStatus(response.data.errCode);
+            setMess("Chỉnh sửa danh mục thành công!");
+            console.log(status, mess);
+            handleShowAlert();
+        } else if (response.data.errCode === 1) {
+            setStatus(response.data.errCode);
+            setMess("Thiếu dữ liệu");
+            handleShowAlert();
+        }
     };
 
     if (!isOpen) {
         return null;
     }
-
     return (
         <div className="custom-modal">
             <div className="modal-content">
-                <h2>{mode === "add" ? "Add Category" : "Edit Category"}</h2>
-                {mode === "add" ? (
+                <h2>{catalogId === null ? "Add Category" : "Edit Category"}</h2>
+                {catalogId === null ? (
                     <>
                         <div className="Edit-input">
                             <label>Tên danh mục</label>
@@ -113,42 +131,28 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
                             />
                         </div>
                         <div className="Edit-input">
-                            <label htmlFor="parent-id">Danh mục thuộc</label>
+                            <label htmlFor="parent-id">Loại danh mục</label>
                             <select
                                 id="parent-id"
-                                value={parent_id}
+                                value={rootcategory_id}
                                 onChange={(e) =>
-                                    setParentId(parseInt(e.target.value))
+                                    setroot_id(parseInt(e.target.value))
                                 }
                             >
                                 <option value="">
-                                    -- Select parent catalog --
+                                    -- Chọn loại danh mục --
                                 </option>
-                                <option value="">Danh mục chính</option>
-                                {parentCatalogs?.map((catalog) => (
-                                    <option key={catalog.id} value={catalog.id}>
-                                        {catalog.name}
-                                    </option>
-                                ))}
+                                {catalogList?.data.catalogs.catalogs.map(
+                                    (catalog) => (
+                                        <option
+                                            key={catalog.id}
+                                            value={catalog.id}
+                                        >
+                                            {catalog.name}
+                                        </option>
+                                    )
+                                )}
                             </select>
-                        </div>
-                        <div className="Edit-input">
-                            <label>Thứ tự hiển thị</label>
-                            <input
-                                type="number"
-                                min={1}
-                                max={99}
-                                placeholder="số thứ tự "
-                                onChange={(e) => setSort(e.target.value)}
-                            />
-                        </div>
-                        <div className="sort_note">
-                            LƯU Ý: <br />
-                            + Nhập số từ 1 đến 99 để sắp xếp thứ tự hiển thị các
-                            danh mục. Số càng nhỏ, danh mục sẽ được hiển thị
-                            trước.
-                            <br />+ Thứ tự sắp xếp không được trùng nhau cho
-                            chung một danh mục
                         </div>
                         <div className="modal-footer">
                             <button onClick={(e) => handleAddCatalog(e)}>
@@ -178,33 +182,19 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
                                 }
                             >
                                 <option value="">
-                                    -- Select parent catalog --
+                                    -- Chọn loại danh mục --
                                 </option>
-                                {parentCatalogs?.map((catalog) => (
-                                    <option key={catalog.id} value={catalog.id}>
-                                        {catalog.name}
-                                    </option>
-                                ))}
+                                {catalogList?.data.catalogs.catalogs.map(
+                                    (catalog) => (
+                                        <option
+                                            key={catalog.id}
+                                            value={catalog.id}
+                                        >
+                                            {catalog.name}
+                                        </option>
+                                    )
+                                )}
                             </select>
-                        </div>
-                        <div className="Edit-input">
-                            <label>Thứ tự hiển thị</label>
-                            <input
-                                type="number"
-                                min={1}
-                                max={99}
-                                value={Editsort_order}
-                                placeholder="số thứ tự "
-                                onChange={(e) => setEditSort(e.target.value)}
-                            />
-                        </div>
-                        <div className="sort_note">
-                            LƯU Ý: <br />
-                            + Nhập số từ 1 đến 99 để sắp xếp thứ tự hiển thị các
-                            danh mục. Số càng nhỏ, danh mục sẽ được hiển thị
-                            trước.
-                            <br />+ Thứ tự sắp xếp không được trùng nhau cho
-                            chung một danh mục
                         </div>
                         <div className="modal-footer">
                             <button onClick={(e) => handUpdateCatalog(e)}>
@@ -214,6 +204,12 @@ function CatalogModal({ isOpen, mode, catalogId, onClose }) {
                         </div>
                     </>
                 )}
+                <CustomAlert
+                    message={mess}
+                    type={status}
+                    isOpen={showAlert}
+                    onClose={handleCloseAlert}
+                />
             </div>
         </div>
     );

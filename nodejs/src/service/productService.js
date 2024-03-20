@@ -2,6 +2,7 @@ const db = require("../model/server");
 const { Op, where } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
+const unidecode = require("unidecode");
 
 const productService = {
     checkProduct: (productInfo) => {
@@ -77,13 +78,13 @@ const productService = {
                 let images = null;
 
                 if (productId) {
-                    product = await db.Products.findOne({
+                    product = await db.Product.findOne({
                         where: { id: productId },
                         unique: true,
                         raw: true,
                         nest: true,
                     });
-                    images = await db.Images.findAll({
+                    images = await db.Image.findAll({
                         where: { product_id: productId },
                     });
                 }
@@ -108,7 +109,7 @@ const productService = {
                     },
                 });
                 let images = "";
-                images = await db.Images.findAll({
+                images = await db.Image.findAll({
                     where: {
                         product_id: {
                             [Op.not]: null,
@@ -119,10 +120,7 @@ const productService = {
                 console.log(products);
                 let result = { products, images, count };
 
-                resolve({
-                    errCode: 0,
-                    errMessage: "oke",
-                });
+                resolve(result);
             } catch (e) {
                 reject(e);
             }
@@ -246,32 +244,45 @@ const productService = {
 
     searchProduct: async (keyword) => {
         try {
+            let keywordWithoutDiacritics = unidecode(keyword);
             return new Promise(async (resolve, reject) => {
                 let result = {};
 
-                let data = await db.Products.findAll({
+                let data = await db.Product.findAll({
                     where: {
-                        name: {
-                            [Op.or]: {
-                                [Op.regexp]: keyword,
-                                [Op.substring]: keyword,
+                        [Op.or]: [
+                            {
+                                [Op.and]: db.Sequelize.literal(
+                                    `unaccent("Product"."name") ILIKE unaccent('%${keyword}%')`
+                                ),
                             },
-                        },
+                            {
+                                [Op.and]: db.Sequelize.literal(
+                                    `"Product"."name" ILIKE '%${keyword}%'`
+                                ),
+                            },
+                        ],
                     },
                 });
                 result.products = data;
-                let count = await db.Products.findAll({
+                let count = await db.Product.findAll({
                     where: {
-                        name: {
-                            [Op.or]: {
-                                [Op.regexp]: keyword,
-                                [Op.substring]: keyword,
+                        [Op.or]: [
+                            {
+                                [Op.and]: db.Sequelize.literal(
+                                    `unaccent("Product"."name") ILIKE unaccent('%${keyword}%')`
+                                ),
                             },
-                        },
+                            {
+                                [Op.and]: db.Sequelize.literal(
+                                    `"Product"."name" ILIKE '%${keyword}%'`
+                                ),
+                            },
+                        ],
                     },
                 });
                 result.count = count.length;
-                let images = await db.Images.findAll({
+                let images = await db.Image.findAll({
                     where: {
                         product_id: data.map((product) => product.id),
                     },
@@ -322,8 +333,7 @@ const productService = {
             console.error("Error deleting product image:", error);
             throw error;
         }
-    }
-    
+    },
 };
 
 module.exports = productService;

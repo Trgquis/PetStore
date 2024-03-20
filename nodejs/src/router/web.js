@@ -15,6 +15,10 @@ let initWebRoutes = (app) => {
         "/api/getAllCategories",
         categoriesController.handleGetAllCatalogs
     );
+    router.get("/api/getAllChilds", categoriesController.handleGetAllChilds);
+    router.get("/api/getCategory", categoriesController.handleGetCatalog);
+    router.get("/api/getChild", categoriesController.handleGetChild);
+    
     router.post(
         "/api/create-new-root",
         categoriesController.handleCreateNewRoot
@@ -23,96 +27,37 @@ let initWebRoutes = (app) => {
         "/api/create-new-category",
         categoriesController.handleCreateNewCatalog
     );
+    router.post(
+        "/api/create-new-child",
+        categoriesController.handleCreateNewChild
+    );
     router.put("/api/editroot", categoriesController.handleEditRoot);
     router.put("/api/editcategory", categoriesController.handleEditCatalog);
+    router.put("/api/editchild", categoriesController.handleEditChild);
     router.delete("/api/deleteroot", categoriesController.handleDeleteRoot);
+    router.delete(
+        "/api/deletecategory",
+        categoriesController.handleDeleteCatalog
+    );
+    router.delete("/api/deletechild", categoriesController.handleDeleteChild);
 
-    router.put("/test", async (req, res) => {
-        const updatedCategories = req.body;
-        console.log(updatedCategories);
-        try {
-            // Duyệt qua danh sách các danh mục và cập nhật priority
-            for (const updatedCategory of updatedCategories) {
-                await db.Categories.update(
-                    {
-                        priority: parseInt(updatedCategory.destination.index),
-                    },
-                    {
-                        where: {
-                            id: parseInt(updatedCategory.draggableId),
-                        },
-                    }
-                );
-            }
-            const categories = await db.Categories.findAll({
-                order: [["priority", "ASC"]], // Sắp xếp theo priority tăng dần
-            });
-
-            res.json({
-                errCode: 0,
-                errMessage: "Sucess",
-                categories,
-            });
-        } catch (error) {
-            console.log(error);
-            res.status(500).json({ error: "Internal Server Error" });
-        }
-    });
-
-    router.put("/testnew", async (req, res) => {
-        const movedCategoryId = req.body.movedId;
-        const destinationIndex = req.body.destinationIndex;
-        const sourceId = req.body.sourceIndex;
-        console.log(movedCategoryId, destinationIndex, sourceId);
-        try {
-            // Lấy thông tin của phần tử được kéo
-            const movedCategory = await db.Categories.findOne({
-                where: {
-                    id: parseInt(movedCategoryId),
-                },
-            });
-
-            // Lấy thông tin của phần tử ở vị trí đích
-            const destinationCategory = await db.Categories.findOne({
-                where: {
-                    priority: parseInt(destinationIndex),
-                },
-            });
-
-            // Cập nhật priority của phần tử được kéo
-            await db.Categories.update(
-                { priority: parseInt(destinationIndex) },
-                { where: { id: parseInt(movedCategoryId) } }
-            );
-
-            // Cập nhật priority của phần tử ở vị trí đích
-            await db.Categories.update(
-                { priority: parseInt(movedCategory.priority) },
-                { where: { id: parseInt(destinationCategory.id) } }
-            );
-
-            // Lấy danh sách danh mục đã cập nhật để gửi về frontend
-            const categories = await db.Categories.findAll({
-                order: [["priority", "ASC"]],
-            });
-            res.json(categories);
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ error: "Internal Server Error" });
-        }
-    });
-
+    router.put("/api/drag", categoriesController.handleDrag);
+    router.put("/api/dragroot", categoriesController.handleDragRoot);
+    router.put("/api/dragchild", categoriesController.handleDragChild);
+    
     // User Section
     router.post("/api/regist", userController.handleRegist);
     router.post("/api/login", userController.handleLogin);
     router.post("/api/logout", userController.handleLogout);
     router.get("/api/get-all-users", userController.handleGetAllUsers);
     router.get("/api/getuser", userController.handleGetUser);
-    // router.put("/api/edituser", userController.handleEditUser);
-    // router.delete("/api/deleteuser", userController.handleDeleteUser);
+    router.put("/api/edituser", userController.handleUpdateUser);
+    router.delete("/api/deleteuser", userController.handleDeleteUser);
 
     // Product Section
+    router.get("/api/search", productController.handleSearchProduct)
     router.get("/api/getAllProducts", productController.handleGetAllProducts);
+    router.get("/api/getProduct", productController.handleGetProduct);
     router.post(
         "/api/create-new-product",
         uploadmiddleware.upload,

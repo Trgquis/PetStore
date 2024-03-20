@@ -58,11 +58,10 @@ const useRouteElement = () => {
                 </>
             ),
         },
-        {   
-            path: "/manage",
+        {
+            path: "/usersmanage",
             element: (
                 <>
-                    <UserModal />
                     <Usermanage />
                 </>
             ),
@@ -71,7 +70,6 @@ const useRouteElement = () => {
             path: "/categoriesmanage",
             element: (
                 <>
-                    {/* <CatalogModal /> */}
                     <CatalogManage />
                 </>
             ),
@@ -80,7 +78,6 @@ const useRouteElement = () => {
             path: "/productsmanage",
             element: (
                 <>
-                    <ProductModal />
                     <ProductManage />
                 </>
             ),
@@ -144,6 +141,7 @@ const useRouteElement = () => {
                 </>
             ),
         },
+        
     ]);
     return routeElement;
 };

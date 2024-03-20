@@ -111,6 +111,25 @@ const userService = {
         });
     },
 
+    DeleteUser: async (id) => {
+        return new Promise (async (resolve, reject) => {
+            try {
+                const res = await db.User.destroy({
+                    where: {
+                        id: id
+                    }
+                })
+                console.log(res)
+                resolve({
+                    errCode: 0,
+                    errMessage: "Oke"
+                })
+            }catch(e) {
+                console.log(e)
+                reject(e)
+            }
+        })
+    },
     Login: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -136,6 +155,35 @@ const userService = {
             }
         });
     },
+    EditUser: async (data) => {
+        return new Promise (async (resolve, reject) => {
+            try {
+                let user = await db.User.update(
+                    {
+                        email: data.email,
+                        firstName: data.firstName,
+                        lastName: data.lastName,
+                        address: data.address,
+                        phonenumber: data.phonenumber,
+                        gender: data.gender,
+                        roleId: 0,
+
+                    },
+                    {
+                        where: { id: data.id },
+                    }
+                );
+                console.log(user)
+                resolve({
+                    errCode: 0,
+                    errMessage: "Oke"
+                })
+            }catch(e) {
+                console.log(e)
+                reject(e)
+            }
+        })
+    }
 };
 
 module.exports = userService;

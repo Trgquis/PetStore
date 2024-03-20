@@ -1,35 +1,26 @@
-import React, { Component, Fragment, useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import UserInformation from "./UserInformation";
-import { handlegetChildCatalogs } from "../redux/apiRequest";
 import Login from "./Login";
 import Search from "./Search";
 import Cart from "./Cart";
-import "../Styles/Style.scss";
 import DropdownCategory from "./DropdownCategory";
 import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
+import "../Styles/Style.scss";
+import {
+    handlegetAllRoots,
+    handlegetAllCatalogs,
+    handlegetAllChilds,
+} from "../redux/apiRequest";
 
 const Header = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [showCart, setShowCart] = useState(false);
     const [activeId, setActiveId] = useState(null);
-
     const [dropdown, setDropdown] = useState(false);
-    const onMouseEnter = async (catalogid, catid) => {
-        console.log(catalogid);
-        console.log(typeof catalogid);
-        setActiveId(catalogid);
-        setDropdown(!dropdown);
-        // await handlegetChildCatalogs(dispatch);
-    };
-
-    const onMouseLeave = () => {
-        setActiveId(null);
-        setDropdown(false);
-    };
-
+    const rootList = useSelector((state) => state?.sales.allRoots);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -51,25 +42,13 @@ const Header = () => {
     const handleLinkClick = () => {
         window.scrollTo(0, 0); // Cuộn lên đầu trang
     };
-    // const [user, setUser] = useState('')
     const currentUser = useSelector((state) => state.auth.currentUser);
-    // console.log(currentUser?.data.user)
-
-    document.addEventListener("scroll", () => {
-        if (showLogin) {
-            setShowLogin(false);
-        }
-        if (showSearch) {
-            setShowSearch(false);
-        }
-        if (showCart) {
-            setShowCart(false);
-        }
-    });
     useEffect(() => {
-        // Fetch catalog list here
-        handlegetChildCatalogs(dispatch);
+        handlegetAllRoots(dispatch);
+        handlegetAllCatalogs(dispatch);
+        handlegetAllChilds(dispatch);
     }, []);
+
     return (
         <header className="header">
             <div id="top">
@@ -84,57 +63,29 @@ const Header = () => {
                     <li className="active">
                         <Link to="/">Trang chủ</Link>
                     </li>
-                    <li
-                        className="active"
-                        id="1"
-                        onMouseEnter={(e) => onMouseEnter(1)}
-                        onMouseLeave={(e) => onMouseLeave()}
-                    >
-                        <Link
-                            to={`/allproducts/${1}`}
-                            onClick={handleLinkClick}
+                    {rootList?.data.roots.roots.map((root) => (
+                        <li
+                            key={root.id}
+                            className="active"
+                            onMouseEnter={() => setActiveId(root.id)}
+                            onMouseLeave={() => setActiveId(null)}
                         >
-                            Shop cho chó
-                        </Link>
-                        {activeId === 1 ? (
-                            <DropdownCategory
-                                dropdown={true}
-                                parentID={activeId}
-                            />
-                        ) : null}
-                    </li>
-
-                    <li
-                        className="active"
-                        id="2"
-                        onMouseEnter={(e) => onMouseEnter(2)}
-                        onMouseLeave={(e) => onMouseLeave()}
-                    >
-                        <Link
-                            to={`/allproducts/${2}`}
-                            onClick={handleLinkClick}
-                        >
-                            Shop cho mèo
-                        </Link>
-                        {activeId === 2 ? (
-                            <DropdownCategory
-                                dropdown={true}
-                                parentID={activeId}
-                            />
-                        ) : null}
-                    </li>
-                    <li className="active">
-                        <Link to="/">Dịch vụ</Link>
-                    </li>
-                    <li className="active">
-                        <Link to="/">Liên hệ</Link>
-                    </li>
+                            <Link
+                                to={`/allproducts/${root.id}`}
+                                onClick={handleLinkClick}
+                            >
+                                {root.name}
+                            </Link>
+                            {activeId === root.id && (
+                                <DropdownCategory parentID={root.id} />
+                            )}
+                        </li>
+                    ))}
                 </ul>
                 <div className="icon">
                     {!currentUser && (
                         <>
                             <div className="icon-btn" onClick={toggleSearch}>
-                                {/* <i className="fa fa-search"></i> */}
                                 <FaSearch />
                             </div>
                             <div className=" icon-btn" onClick={toggleLogin}>
@@ -172,10 +123,10 @@ const Header = () => {
                     {currentUser && (
                         <>
                             <div className="icon-btn" onClick={toggleSearch}>
-                                <i className="fa-solid fa-magnifying-glass "></i>
+                                <FaSearch />
                             </div>
                             <div className="icon-btn" onClick={toggleCart}>
-                                <i className="fa-solid fa-cart-shopping"></i>
+                                <FaShoppingCart />
                             </div>
                             <div className="user-information">
                                 {currentUser &&

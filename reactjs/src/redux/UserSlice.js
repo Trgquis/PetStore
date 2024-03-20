@@ -18,59 +18,59 @@ export const DeleteUser = createAsyncThunk("deleteUser", async (userId) => {
     return true;
 });
 
+
 const UserSlice = createSlice({
-    name: "user",
+    name: "users",
     initialState: {
-        users: {
-            allUsers: null,
-            isFetching: false,
-            error: false,
-        },
+        isFetching: false,
+        error: false,
+        allUsers: null,
+        user: null,
     },
     extraReducers: {
         [getAllUsers.pending]: (state) => {
-            state.users.isFetching = true;
+            state.isFetching = true;
         },
         [getAllUsers.fulfilled]: (state, action) => {
-            state.users.isFetching = false;
+            state.isFetching = false;
+            state.allUsers = action.payload;
             console.log(action.payload);
-            state.users.allUsers = action.payload;
-            state.users.error = false;
+            state.error = false;
         },
         [getAllUsers.rejected]: (state) => {
-            state.users.isFetching = false;
-            state.users.error = true;
+            state.isFetching = false;
+            state.error = true;
         },
 
         [EditUser.pending]: (state) => {
-            state.users.isFetching = true;
+            state.isFetching = true;
         },
         [EditUser.fulfilled]: (state, action) => {
-            state.users.isFetching = false;
+            state.isFetching = false;
             console.log(action.payload);
-            state.users.error = false;
+            state.error = false;
         },
         [EditUser.rejected]: (state, action) => {
-            state.users.isFetching = false;
-            state.users.error = true;
+            state.isFetching = false;
+            state.error = true;
         },
 
-        [DeleteUser.pending]: (state) => {
-            state.users.isFetching = true;
-        },
-        [DeleteUser.fulfilled]: (state, action) => {
-            state.users.isFetching = false;
-            console.log(action.payload);
-            // state.users.allUsers = action.payload
-            state.users.error = false;
-        },
-        [DeleteUser.rejected]: (state, action) => {
-            console.log(action.payload);
-            state.users.isFetching = false;
-            state.users.error = true;
-        },
+        // [DeleteUser.pending]: (state) => {
+        //     state.users.isFetching = true;
+        // },
+        // [DeleteUser.fulfilled]: (state, action) => {
+        //     state.users.isFetching = false;
+        //     console.log(action.payload);
+        //     // state.users.allUsers = action.payload
+        //     state.users.error = false;
+        // },
+        // [DeleteUser.rejected]: (state, action) => {
+        //     console.log(action.payload);
+        //     state.users.isFetching = false;
+        //     state.users.error = true;
+        // },
     },
 });
 
-const { reducer: UserReducer } = UserSlice;
-export default UserReducer;
+const { reducer: UsersReducer } = UserSlice;
+export default UsersReducer;

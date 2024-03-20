@@ -4,13 +4,13 @@ module.exports = async (sequelize, DataTypes) => {
     class Categories extends Model {
         static associate(models) {
             // define association here
-            Categories.hasMany(models.Product, {
-                foreignKey: "category_id",
+            Categories.hasMany(models.ChildCategories, {
+                foreignKey: "parent_id",
                 sourceKey: "id",
             }); // một danh mục có nhiều sản phẩm
             Categories.belongsTo(models.RootCategories, {
-                foreignKey: "rootcategory_id"
-            })
+                foreignKey: "rootcategory_id",
+            });
         }
     }
     Categories.init(

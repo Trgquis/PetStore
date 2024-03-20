@@ -8,7 +8,7 @@ module.exports = async (sequelize, DataTypes) => {
                 sourceKey: "id",
             });
 
-            Product.belongsTo(models.Categories, {
+            Product.belongsTo(models.ChildCategories, {
                 foreignKey: "category_id",
                 targetKey: "id",
             }); // mỗi sản phẩm thuộc một danh mục

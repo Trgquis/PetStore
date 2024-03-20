@@ -18,9 +18,8 @@ import {
     EditProduct,
     addRootCategory,
     getAllRoots,
+    addnewChild,
 } from "./SaleSlice";
-import("../Styles/Regist.scss");
-
 export const handleGetAllCarts = async (userId, dispatch) => {
     try {
         const getCarts = await dispatch(GetAllCart(userId));
@@ -57,10 +56,11 @@ export const handlegetAllCatalogs = async (dispatch) => {
         console.log(e);
     }
 };
-export const handlegetChildCatalogs = async (dispatch) => {
+export const handlegetAllChilds = async (dispatch) => {
     try {
         const getCatalogs = await dispatch(getChildCatalogs());
         const childCatalogs = unwrapResult(getCatalogs);
+        console.log("childslist", childCatalogs.data.childs);
     } catch (e) {
         console.log(e);
     }
@@ -68,11 +68,11 @@ export const handlegetChildCatalogs = async (dispatch) => {
 
 export const handleAddRoot = async (root, dispatch) => {
     try {
-        const rs = await dispatch(addRootCategory(root))
-        const addedRoot = unwrapResult(rs)
-        console.log(addedRoot)
+        const rs = await dispatch(addRootCategory(root));
+        const addedRoot = unwrapResult(rs);
+        console.log(addedRoot);
         alert("Add catalog success");
-        handlegetAllRoots()
+        handlegetAllRoots();
     } catch (e) {
         console.log(e);
     }
@@ -83,23 +83,33 @@ export const AddCatalog = async (catalog, dispatch, navigate) => {
         const res = await dispatch(addnewCatalog(catalog));
         const addedCatalog = unwrapResult(res);
         console.log("added", addedCatalog);
-        alert("Add catalog success");
         handlegetAllCatalogs(dispatch);
-        navigate("/catalogsmanage");
+        return addedCatalog.data.errCode;
+        // navigate("/catalogsmanage");
     } catch (e) {
         alert(e);
     }
 };
-
-export const AddProduct = async (product, dispatch, navigate) => {
+export const AddChild = async (child, dispatch, navigate) => {
     try {
-        console.log(product.get("images"));
+        console.log(child);
+        const res = await dispatch(addnewChild(child));
+        const addedCatalog = unwrapResult(res);
+        console.log("added", addedCatalog);
+        handlegetAllChilds(dispatch)
+        return addedCatalog.data.errCode;
+        // navigate("/catalogsmanage");
+    } catch (e) {
+        alert(e);
+    }
+};
+export const AddProduct = async (product, dispatch) => {
+    try {
         const res = await dispatch(addnewProduct(product));
         const addedProduct = unwrapResult(res);
         console.log("added", addedProduct);
         alert("Add Product success");
         handlegetAllProducts(dispatch);
-        navigate("/productsmanage");
     } catch (e) {
         alert(e);
     }
@@ -109,7 +119,7 @@ export const handlegetAllProducts = async (dispatch) => {
     try {
         const getProducts = await dispatch(getAllProducts());
         const allProducts = unwrapResult(getProducts);
-        console.log("ProductList", allProducts.data.products);
+        console.log("ProductList", allProducts);
     } catch (e) {
         console.log(e);
     }
@@ -117,7 +127,6 @@ export const handlegetAllProducts = async (dispatch) => {
 
 export const handlegetProduct = async (dispatch, productId) => {
     try {
-        console.log(productId);
         const getdetail = await dispatch(getProduct(productId));
         const detail = unwrapResult(getdetail);
         console.log(detail);
@@ -170,7 +179,8 @@ export const handlegetAllUsers = async (dispatch) => {
     try {
         const getUsers = await dispatch(getAllUsers());
         const allUsers = unwrapResult(getUsers);
-        console.log("userList", allUsers.data.users);
+        console.log("userList", allUsers);
+        return allUsers;
     } catch (e) {
         console.log(e);
     }
@@ -181,25 +191,10 @@ export const registerUser = async (user, dispatch, navigate) => {
         const res = await dispatch(Regist(user));
         const regUser = unwrapResult(res);
         console.log("Regist", regUser);
-        customAlert("Registration Successful!");
+        return regUser.data.errCode;
     } catch (e) {
         console.error(e);
-        customAlert("Registration Failed. Please try again.", "error");
     }
-};
-
-const customAlert = (message, type = "success") => {
-    const alertDiv = document.createElement("div");
-    alertDiv.classList.add("custom-alert", type);
-    alertDiv.textContent = message;
-
-    // Append the alert to the body or any other container
-    document.body.appendChild(alertDiv);
-
-    // Remove the alert after a certain duration (e.g., 3 seconds)
-    setTimeout(() => {
-        alertDiv.remove();
-    }, 3000);
 };
 
 export const AddUser = async (user, dispatch, navigate) => {
@@ -208,9 +203,7 @@ export const AddUser = async (user, dispatch, navigate) => {
         const res = await dispatch(addUserByAdmin(user));
         const addedUser = unwrapResult(res);
         console.log("added", addedUser);
-        alert("Add user by admin success");
         handlegetAllUsers(dispatch);
-        navigate("/manage");
     } catch (e) {
         alert(e);
     }
@@ -236,8 +229,8 @@ export const editUser = async (user, dispatch) => {
         console.log(res);
         const editUser = unwrapResult(res);
         console.log("edited", editUser);
-        alert("edit user by admin success");
         handlegetAllUsers(dispatch);
+        return editUser;
     } catch (e) {
         console.log(e);
     }
@@ -249,8 +242,8 @@ export const editCatalog = async (catalog, dispatch) => {
         const res = await dispatch(EditCatalog(catalog));
         const editInfo = unwrapResult(res);
         console.log("edited", editInfo);
-        alert("edit catalog by admin success");
         handlegetAllCatalogs(dispatch);
+        return editInfo;
     } catch (e) {
         console.log(e);
     }
@@ -286,13 +279,12 @@ export const searchProduct = async (key, dispatch) => {
 export const deleteCatalog = async (dispatch, id) => {
     try {
         console.log(id);
-        await axios.delete("http://localhost:8081/api/delete-catalog?id=" + id);
+        await axios.delete("http://localhost:8888/api/deletecategory?id=" + id);
         const res = await dispatch(Deletecatalog(id));
 
         const deleted = unwrapResult(res);
         handlegetAllCatalogs(dispatch);
-
-        console.log("deleted", deleted);
+        return deleted;
     } catch (e) {
         console.log(e);
     }
@@ -313,18 +305,15 @@ export const deleteProduct = async (dispatch, id) => {
     }
 };
 
-export const deleteUser = async (accessToken, dispatch, id) => {
+export const deleteUser = async (dispatch, id) => {
     try {
         console.log(id);
-        await axios.delete("http://localhost:8081/api/delete-user?id=" + id, {
-            headers: { token: `Bearer ${accessToken}` },
-        });
+        await axios.delete("http://localhost:8888/api/deleteuser?id=" + id);
         const res = await dispatch(DeleteUser(id));
-
-        const deletedUser = unwrapResult(res);
+        const deleted = unwrapResult(res);
         handlegetAllUsers(dispatch);
-
-        console.log("deleted", deletedUser);
+        console.log(deleted);
+        return deleted;
     } catch (e) {
         console.log(e);
     }

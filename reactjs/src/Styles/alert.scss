@@ -1,0 +1,41 @@
+.custom-alert {
+    position: fixed;
+    top: 120px;
+    left: 85%;
+    transform: translateX(-50%);
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 99;
+    display: flex;
+    background-color: #ffffff;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.custom-alert-overlay {
+    z-index: 98; /* Set a lower z-index for the overlay */
+}
+
+// .custom-alert::before {
+//     content: "\2714"; /* Unicode character for a checkmark */
+//     font-size: 20px;
+//     margin-right: 10px;
+// }
+
+.checkmark::before {
+    content: "\2714"; /* Unicode character for a checkmark */
+    font-size: 20px;
+    margin-right: 10px;
+    color: #4caf50;
+}
+
+.crossmark::before {
+    content: "\2716"; /* Unicode character for a cross mark (X) */
+    font-size: 20px;
+    margin-right: 10px;
+    color: red;
+}
+button {
+    margin-left: auto;
+    cursor: pointer;
+}

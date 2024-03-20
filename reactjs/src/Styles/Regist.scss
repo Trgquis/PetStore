@@ -60,29 +60,3 @@ tbody {
     text-transform: uppercase;
     cursor: pointer;
 }
-
-.custom-alert {
-    position: fixed;
-    top: 120px;
-    left: 85%;
-    transform: translateX(-50%);
-    background-color: #ffffff;
-    color: #4caf50;
-    padding: 15px;
-    border-radius: 5px;
-    z-index: 99;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.error-alert {
-    background-color: #ffffff; /* Red background for error alert */
-    color: red;
-}
-
-.custom-alert::before {
-    content: "\2714"; /* Unicode character for a checkmark */
-    font-size: 20px;
-    margin-right: 10px;
-}

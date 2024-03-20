@@ -19,7 +19,7 @@ export const Regist = createAsyncThunk("registUser", async (user) => {
 export const addUserByAdmin = createAsyncThunk(
     "addUserByadmin",
     async (user) => {
-        const res = await userAPI.AddUserByAdmin(user);
+        const res = await userAPI.Regist(user);
         return res;
     }
 );

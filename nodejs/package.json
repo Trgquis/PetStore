@@ -30,6 +30,7 @@
         "sequelize": "^6.35.1",
         "socket.io": "^4.7.1",
         "styled-components": "^6.0.2",
+        "unidecode": "^1.0.1",
         "webpack-merge": "^5.8.0"
     },
     "devDependencies": {

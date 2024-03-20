@@ -3,23 +3,20 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../Styles/ProductDetail.scss";
 import CategoryBar from "../components/CategoryBar";
-import OrderPage from "./OrderPage";
 import { handlegetProduct } from "../redux/apiRequest";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 function ProductDetail() {
+    const dispatch = useDispatch();
     const { id } = useParams();
     // const [product, setProduct] = useState(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [currentImage, setCurrentImage] = useState(null);
 
     const User = useSelector((state) => state.auth.currentUser);
-    const product = useSelector(
-        (state) => state.sales.ProductDetail.data.product
-    );
-    const dispatch = useDispatch();
-
+    const product = useSelector((state) => state?.sales.ProductDetail);
+    console.log(product);
     const [count, setCount] = useState(0);
     console.log(id);
     const handleImageHover = (path) => {
@@ -43,7 +40,7 @@ function ProductDetail() {
         console.log(data);
         alert("Đã đặt thành công bạn sẽ được chuyển đến trang xác nhận");
         const response = await axios.post(
-            "http://localhost:8081/api/submitOrder/",
+            "http://localhost:8888/api/submitOrder/",
             data
         );
         console.log(response);
@@ -53,47 +50,44 @@ function ProductDetail() {
             setCount(count + 1);
         }
     };
-
     const handleDecrement = () => {
         if (count >= 1) {
             setCount(count - 1);
         }
     };
-
+    console.log(product?.data.product.images);
     useEffect(() => {
         handlegetProduct(dispatch, id);
-    }, [id]);
+    }, [dispatch, id]);
     // console.log(product.product);
-
     return (
         <>
-            {product.product !== undefined && (
+            {product?.data.product.product !== undefined && (
                 <CategoryBar
-                    catalogId={product?.product.catalog_id}
-                    product={product.product}
+                    catalogId={product?.data.product.product.category_id}
                 />
             )}
             <div className="product-detail">
                 <div className="product-infoImage">
-                    {product.images !== undefined && (
+                    {product?.data.product.images !== undefined && (
                         <div className="product-image">
                             <img
                                 src={
                                     currentImage
-                                        ? `http://localhost:8081/${currentImage}`
-                                        : `http://localhost:8081/${product.images[0].path}`
+                                        ? `http://localhost:8888/${currentImage}`
+                                        : `http://localhost:8888/${product?.data.product.images[0].path}`
                                 }
                                 alt={product.name}
                             />
                         </div>
                     )}
                     <div className="slider">
-                        {product.images !== undefined &&
-                            product?.images.map((image, index) => {
+                        {product?.data.product.images !== undefined &&
+                            product?.data.product.images.map((image, index) => {
                                 return (
                                     <div className="slider-images">
                                         <img
-                                            src={`http://localhost:8081/${image.path}`}
+                                            src={`http://localhost:8888/${image.path}`}
                                             alt=""
                                             key={index}
                                             className={
@@ -102,8 +96,9 @@ function ProductDetail() {
                                                     : "slider-image"
                                             }
                                             onMouseOver={() =>
-                                                // setCurrentSlide(index),
-                                                handleImageHover(image[0].path)
+                                                handleImageHover(
+                                                    `${image.path}`
+                                                )
                                             }
                                         />
                                     </div>
@@ -111,23 +106,25 @@ function ProductDetail() {
                             })}
                     </div>
                 </div>
-                {product.product !== undefined && (
+                {product?.data.product.product !== undefined && (
                     <div className="product-info">
-                        <h4 className="product-name">{product.product.name}</h4>
+                        <h4 className="product-name">
+                            {product?.data.product.product.name}
+                        </h4>
                         <p className="product-description">
-                            {product.product.content}
+                            {product?.data.product.product.content}
                         </p>
                         <div className="productOrder">
                             <div className="nameOrder">
-                                {product.product.name}
+                                {product?.data.product.product.name}
                             </div>
                             <div className="quantityOrder">
                                 <p>Số lượng sản phẩm còn lại:</p>
-                                {product.product.quantity}
+                                {product?.data.product.product.amount}
                             </div>
                             <div className="indetailOrder">
                                 <div className="discountOrder">
-                                    -{product.product.discount}%
+                                    -{product?.data.product.product.discount}%
                                 </div>
                                 <div className="priceOrder">
                                     <div
@@ -136,13 +133,19 @@ function ProductDetail() {
                                             textDecorationLine: "line-through",
                                         }}
                                     >
-                                        {convertPrice(product.product.price)}₫
+                                        {convertPrice(
+                                            product?.data.product.product.price
+                                        )}
+                                        ₫
                                     </div>
                                     <div className="product-price">
                                         {convertPrice(
-                                            product.product.price -
-                                                product.product.price *
-                                                    (product.product.discount /
+                                            product?.data.product.product
+                                                .price -
+                                                product?.data.product.product
+                                                    .price *
+                                                    (product?.data.product
+                                                        .product.discount /
                                                         100)
                                         )}
                                         ₫

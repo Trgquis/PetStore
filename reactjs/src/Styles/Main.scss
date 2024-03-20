@@ -59,11 +59,11 @@
 
 .overlayout {
     max-width: 100%;
-    max-height: 70%;
+    max-height: 100%;
 
     .overlayout-img {
         // width: 100%;
-        height: 100%;
+        max-height: 100%;
         background-position: center;
         object-fit: cover;
         overflow: hidden;
@@ -126,6 +126,7 @@
         text-decoration: none;
         color: #000;
         font-weight: 600;
+        font-size: 12px;
         z-index: 10;
     }
     a:hover {

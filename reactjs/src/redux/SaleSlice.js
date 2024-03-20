@@ -19,13 +19,10 @@ export const getAllCatalogs = createAsyncThunk("getallcatalogs", async () => {
     return res;
 });
 
-export const getChildCatalogs = createAsyncThunk(
-    "getchildcatalogs",
-    async () => {
-        const res = await salesAPI.getChildCatalogs();
-        return res;
-    }
-);
+export const getChildCatalogs = createAsyncThunk("getchilds", async () => {
+    const res = await salesAPI.getChildCatalogs();
+    return res;
+});
 
 export const getAllProducts = createAsyncThunk("getallproducts", async () => {
     const res = await salesAPI.getAllProducts();
@@ -41,6 +38,12 @@ export const addnewCatalog = createAsyncThunk("addCatalog", async (catalog) => {
     const res = await salesAPI.addCatalog(catalog);
     return res;
 });
+
+export const addnewChild = createAsyncThunk("addChild", async (catalog) => {
+    const res = await salesAPI.addChild(catalog);
+    return res;
+});
+
 
 export const addnewProduct = createAsyncThunk("addProduct", async (product) => {
     const res = await salesAPI.addProduct(product);
@@ -199,6 +202,19 @@ const SaleSlice = createSlice({
             state.error = true;
         },
 
+        [addnewChild.pending]:(state) => {
+            state.isFetching = true
+        },
+        [addnewChild.fulfilled]:(state, action) => {
+            console.log(action.payload);
+            state.error = false;
+            state.isFetching = false;
+        },
+        [addnewChild.rejected]:(state) => {
+            state.isFetching = false
+            state.error = true
+        },
+
         [addnewProduct.pending]: (state) => {
             state.isFetching = true;
         },
@@ -238,19 +254,21 @@ const SaleSlice = createSlice({
             state.error = true;
         },
 
-        // [Deletecatalog.pending]:(state) => {
-        //     state.catalogs.isFetching = true
-        // },
-        // [Deletecatalog.fulfilled]:(state, action) => {
-        //     state.catalogs.isFetching = false
-        //     console.log(action.payload)
-        //     // state.catalogs.allcatalogs = action.payload
-        //     state.catalogs.error = false
-        // },
-        // [Deletecatalog.rejected]:(state) => {
-        //     state.catalogs.isFetching = false
-        //     state.catalogs.error = true
-        // }
+        [getChildCatalogs.pending]: (state) => {
+            state.isFetching = true;
+        },
+        [getChildCatalogs.fulfilled]: (state, action) => {
+            state.isFetching = false;
+            console.log(action.payload);
+            state.allChilds = action.payload;
+            state.error = false;
+        },
+        [getChildCatalogs.rejected]: (state) => {
+            state.isFetching = false;
+            state.error = true;
+        },
+
+       
     },
 });
 

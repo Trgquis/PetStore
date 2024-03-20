@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { registerUser } from "../redux/apiRequest";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import CustomAlert from "../components/CustomAlert";
 import("../Styles/Regist.scss");
 export default function Regist() {
     const [email, setEmail] = useState("");
@@ -14,8 +14,19 @@ export default function Regist() {
     const [phonenumber, setPhonenumber] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [showAlert, setShowAlert] = useState(false);
+    const [status, setStatus] = useState();
+    const [mess, setMess] = useState();
 
-    let handleRegist = async (e) => {
+    const handleShowAlert = () => {
+        setShowAlert(true);
+    };
+
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
+
+    const handleRegist = async (e) => {
         e.preventDefault();
         const newUser = {
             email: email,
@@ -26,7 +37,16 @@ export default function Regist() {
             gender: parseInt(gender),
             phonenumber: parseInt(phonenumber),
         };
-        await registerUser(newUser, dispatch, navigate);
+
+        try {
+            const res = await registerUser(newUser, dispatch, navigate);
+            setStatus(res)
+            setMess("Account is existed!")
+            handleShowAlert();
+        } catch (error) {
+            console.error(error);
+            // Handle registration failure if needed
+        }
     };
 
     return (
@@ -147,6 +167,12 @@ export default function Regist() {
                     </tbody>
                 </table>
             </form>
+            <CustomAlert
+                message={mess}
+                type={status}
+                isOpen={showAlert}
+                onClose={handleCloseAlert}
+            />
         </div>
     );
 }

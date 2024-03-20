@@ -5,7 +5,7 @@ import { persistStore, persistReducer } from "redux-persist";
 import AuthReducer from "./AuthSlice";
 import SalesReducer from "./SaleSlice";
 import OrderReducer from "./OrderSlice";
-
+import UsersReducer from "./UserSlice";
 const authPersistConfig = {
     key: "auth",
     version: 1,
@@ -23,8 +23,8 @@ const orderPersistConfig = {
 const rootReducerWithPersist = combineReducers({
     auth: persistReducer(authPersistConfig, AuthReducer),
     order: persistReducer(orderPersistConfig, OrderReducer),
+    users: UsersReducer,
     sales: SalesReducer,
-
     // Add other reducers if any
 });
 

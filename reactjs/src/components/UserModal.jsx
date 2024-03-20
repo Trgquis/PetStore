@@ -1,305 +1,316 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { AddUser, editUser } from "../redux/apiRequest";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    AddCatalog,
+    AddUser,
+    editCatalog,
+    editUser,
+    handlegetAllRoots,
+} from "../redux/apiRequest";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "../Styles/Modal.scss";
-import "bootstrap/dist/css/bootstrap.min.css";
-function UserModal({ isOpen, mode, userId, onClose }) {
-    // const User = useSelector((state) => state.auth.currentUser)
-    // console.log(User)
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [address, setAddress] = useState("");
-    const [roleId, setRoleId] = useState("");
-    const [gender, setGender] = useState("");
-    const [phonenumber, setPhonenumber] = useState("");
+import axios from "axios";
+import CustomAlert from "./CustomAlert";
+import { handlegetAllUsers } from "../redux/apiRequest";
+function UserModal({ isOpen, userId, onClose }) {
+    const [email, setemail] = useState("");
+    const [lastName, setlastName] = useState("");
+    const [firstName, setfirstName] = useState("");
+    const [Address, setAddress] = useState("");
+    const [Gender, setGender] = useState();
+    const [Phone, setPhone] = useState();
+    const [password, setPassword] = useState();
+    //
+    const [Editemail, setEditemail] = useState("");
+    const [EditlastName, setEditlastName] = useState("");
+    const [EditfirstName, setEditfirstName] = useState("");
+    const [EditAddress, setEditAddress] = useState("");
+    const [EditGender, setEditGender] = useState();
+    const [EditPhone, setEditPhone] = useState();
 
-    const [Editemail, setEditEmail] = useState("");
-    const [Editpassword, setEditPassword] = useState("");
-    const [EditfirstName, setEditFirstName] = useState("");
-    const [EditlastName, setEditLastName] = useState("");
-    const [Editaddress, setEditAddress] = useState("");
-    const [EditroleId, setEditRoleId] = useState("");
-    const [Editgender, setEditGender] = useState("");
-    const [Editphonenumber, setEditPhonenumber] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [showAlert, setShowAlert] = useState(false);
+    const [status, setStatus] = useState();
+    const [mess, setMess] = useState();
+    const handleShowAlert = () => {
+        setShowAlert(true);
+    };
 
-    let validateUser = (user) => {
-        let isValid = true;
+    const handleCloseAlert = () => {
+        setShowAlert(false);
+    };
+    const generateRandomPassword = () => {
+        const length = 10; // Set the desired length of the password
+        const charset =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let newPassword = "";
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charset.length);
+            newPassword += charset[randomIndex];
+        }
+        setPassword(newPassword);
+    };
+    const roleId = 0;
+    useEffect(() => {
+        try {
+            if (userId) {
+                const fetchUserData = async () => {
+                    try {
+                        const response = await axios.get(
+                            `http://localhost:8888/api/getuser/?id=${userId}`
+                        );
+                        const userInfo = response.data.user; // Adjust based on your API response structure
+                        console.log(userInfo);
+                        setEditemail(userInfo.email);
+                        setEditlastName(userInfo.lastName);
+                        setEditfirstName(userInfo.firstName);
+                        setEditAddress(userInfo.address);
+                        setEditGender(userInfo.gender);
+                        setEditPhone(userInfo.phonenumber);
+                    } catch (error) {
+                        console.error("Error fetching category details", error);
+                    }
+                };
+
+                // Call the function to fetch category details
+                fetchUserData();
+            }
+            generateRandomPassword();
+            handlegetAllUsers(dispatch);
+        } catch (e) {
+            console.log(e);
+        }
+    }, []);
+
+    let validate = (user) => {
+        console.log(user);
         if (
             !user.email ||
-            !user.firstName ||
             !user.lastName ||
-            !user.password ||
-            !user.address ||
-            !user.roleId ||
-            !user.phonenumber ||
-            !user.password
+            !user.firstName
+            // !user.address ||
+            // !user.phonenumber ||
+            // !user.gender ||
+            // !user.roleId
         ) {
-            isValid = false;
             console.log("missing parameter");
+            return false;
+        } else {
+            return true;
         }
-
-        return isValid;
     };
+
     let handleAddUser = async (e) => {
         e.preventDefault();
-        const user = {
-            // id: userId
+        const userData = {
             email: email,
             password: password,
-            firstName: firstName,
             lastName: lastName,
-            address: address,
+            firstName: firstName,
+            address: Address,
             roleId: roleId,
-            gender: gender,
-            phonenumber: phonenumber,
+            gender: parseInt(Gender),
+            phonenumber: parseInt(Phone),
         };
-        if (validateUser(user) !== true) {
+        if (validate(userData) !== true) {
+            return false;
+        }
+        const res = await AddUser(userData, dispatch, navigate);
+        if (res === 0) {
+            setStatus(res);
+            setMess("Thêm người dùng thành công!");
+            handleShowAlert();
+        } else if (res === 1) {
+            setStatus(res);
+            setMess("Thiếu dữ liệu");
+            handleShowAlert();
+        }
+    };
+    const handUpdateCatalog = async (e) => {
+        e.preventDefault();
+        const id = userId;
+        const EditUserData = {
+            id: id,
+            email: Editemail,
+            lastName: EditlastName,
+            firstName: EditfirstName,
+            address: EditAddress,
+            gender: EditGender,
+            phone: EditPhone,
+        };
+        console.log(EditUserData);
+        if (validate(EditUserData) !== true) {
             alert("not valid");
             return false;
         }
-        AddUser(user, dispatch, navigate);
-    };
-
-    const handleUpdateUser = (e) => {
-        const id = { userId }.userId;
-        console.log(id);
-        const Edituser = {
-            id: id,
-            email: Editemail,
-            // password: Editpassword,
-            firstName: EditfirstName,
-            lastName: EditlastName,
-            address: Editaddress,
-            roleId: EditroleId,
-            gender: Editgender,
-            phonenumber: Editphonenumber,
-        };
-        console.log(Edituser);
-        editUser(Edituser, dispatch);
-    };
-
-    useEffect(() => {
-        if (userId) {
-            console.log(userId);
-            const fetchData = async () => {
-                const results = await axios.get(
-                    "http://localhost:8081/api/get-user/?id=" + userId
-                );
-                console.log(results.data.user);
-                let data = results.data.user;
-                setEditEmail(data.email);
-                setEditPassword(data.password);
-                setEditFirstName(data.firstName);
-                setEditLastName(data.lastName);
-                setEditAddress(data.address);
-                setEditRoleId(data.roleId);
-                setEditGender(data.gender);
-                setEditPhonenumber(data.phonenumber);
-            };
-            fetchData();
+        const response = await editUser(EditUserData, dispatch);
+        console.log(response);
+        if (response.data.errCode === 0) {
+            setStatus(response.data.errCode);
+            setMess("Chỉnh sửa thông tin thành công!");
+            console.log(status, mess);
+            handleShowAlert();
+        } else if (response.data.errCode === 1) {
+            setStatus(response.data.errCode);
+            setMess("Thiếu dữ liệu");
+            handleShowAlert();
         }
-    }, [userId]);
+    };
+
     if (!isOpen) {
         return null;
     }
     return (
-        <Modal size="xl" isOpen={isOpen} className="userModal">
-            <ModalHeader isOpen={isOpen}>
-                {mode === "add" ? "Add User" : "Edit User Information"}
-            </ModalHeader>
-            <ModalBody>
-                {mode === "add" ? (
+        <div className="custom-modal">
+            <div className="modal-content">
+                <h2>{userId === null ? "Add User" : "Edit User Info"}</h2>
+                {userId === null ? (
                     <>
                         <div className="Edit-input">
-                            <label>Email</label>
+                            <label>Địa chỉ email</label>
                             <input
-                                value={email}
                                 type="text"
-                                placeholder="email"
-                                onChange={(e) => setEmail(e.target.value)}
+                                placeholder="Địa chỉ"
+                                onChange={(e) => setemail(e.target.value)}
                             />
                         </div>
                         <div className="Edit-input">
-                            <label>Password</label>
-                            <input
-                                value={password}
-                                type="password"
-                                placeholder="password"
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                        </div>
-                        <div value={firstName} className="Edit-input">
-                            <label>FistName</label>
+                            <label>Họ</label>
                             <input
                                 type="text"
-                                placeholder="firstName"
-                                onChange={(e) => setFirstName(e.target.value)}
+                                placeholder="Họ người dùng"
+                                onChange={(e) => setlastName(e.target.value)}
                             />
                         </div>
-                        <div value={lastName} className="Edit-input">
-                            <label>lastName</label>
+                        <div className="Edit-input">
+                            <label>Tên</label>
                             <input
                                 type="text"
-                                placeholder="lastName"
-                                onChange={(e) => setLastName(e.target.value)}
+                                placeholder="Tên người dùng"
+                                onChange={(e) => setfirstName(e.target.value)}
                             />
                         </div>
-                        <div value={address} className="Edit-input">
-                            <label>Address</label>
+                        <div className="Edit-input">
+                            <label>Địa chỉ</label>
                             <input
                                 type="text"
-                                placeholder="address"
+                                placeholder="Địa chỉ"
                                 onChange={(e) => setAddress(e.target.value)}
                             />
                         </div>
-                        <div value={gender} className="Edit-input">
-                            <label>Gender</label>
+                        <div className="Edit-input">
+                            <label>Số điện thoại</label>
+                            <input
+                                type="text"
+                                placeholder="Số điện thoại"
+                                onChange={(e) =>
+                                    setPhone(parseInt(e.target.value))
+                                }
+                            />
+                        </div>
+                        <div className="Edit-input">
+                            <label>Giới tính</label>
                             <select
-                                name="gender"
+                                value={Gender}
                                 onChange={(e) =>
                                     setGender(parseInt(e.target.value))
                                 }
                             >
-                                <option value="">....Giới tính....</option>
-                                <option value={0}>Nam</option>
-                                <option value={1}>Nu</option>
+                                <option value="">-- Giới tính --</option>
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
                             </select>
                         </div>
-                        <div value={roleId} className="Edit-input">
-                            <label>RoleId</label>
-                            <select
-                                name="roleId"
-                                onChange={(e) => setRoleId(e.target.value)}
-                            >
-                                <option value="">....Role Id....</option>
-                                <option value="1">Admin</option>
-                                <option value="2">User(Customer)</option>
-                            </select>
-                        </div>
-                        <div value={phonenumber} className="Edit-input">
-                            <label>Phone</label>
-                            <input
-                                type="text"
-                                placeholder="phonenumber"
-                                onChange={(e) => setPhonenumber(e.target.value)}
-                            />
+                        <div className="modal-footer">
+                            <button onClick={(e) => handleAddUser(e)}>
+                                Xác nhận
+                            </button>
+                            <button onClick={onClose}>Hủy</button>
                         </div>
                     </>
                 ) : (
                     <>
                         <div className="Edit-input">
-                            <label>Email</label>
+                            <label>Địa chỉ email</label>
                             <input
+                                type="text"
+                                placeholder="email người dùng"
                                 value={Editemail}
-                                type="text"
-                                placeholder="email"
-                                onChange={(e) => setEditEmail(e.target.value)}
+                                onChange={(e) => setEditemail(e.target.value)}
                             />
                         </div>
                         <div className="Edit-input">
-                            <label>FistName</label>
+                            <label>Họ</label>
                             <input
-                                value={EditfirstName}
                                 type="text"
-                                placeholder="firstName"
-                                onChange={(e) =>
-                                    setEditFirstName(e.target.value)
-                                }
-                            />
-                        </div>
-                        <div className="Edit-input">
-                            <label>lastName</label>
-                            <input
+                                placeholder="Họ người dùng"
                                 value={EditlastName}
-                                type="text"
-                                placeholder="lastName"
                                 onChange={(e) =>
-                                    setEditLastName(e.target.value)
+                                    setEditlastName(e.target.value)
                                 }
                             />
                         </div>
                         <div className="Edit-input">
-                            <label>Address</label>
+                            <label>Tên</label>
                             <input
-                                value={Editaddress}
                                 type="text"
-                                placeholder="address"
+                                placeholder="Tên người dùng"
+                                value={EditfirstName}
+                                onChange={(e) =>
+                                    setEditfirstName(e.target.value)
+                                }
+                            />
+                        </div>
+                        <div className="Edit-input">
+                            <label>Địa chỉ</label>
+                            <input
+                                type="text"
+                                placeholder="Địa chỉ người dùng"
+                                value={EditAddress}
                                 onChange={(e) => setEditAddress(e.target.value)}
                             />
                         </div>
                         <div className="Edit-input">
-                            <label>Gender</label>
+                            <label>Số điện thoại</label>
+                            <input
+                                type="text"
+                                placeholder="Số điện thoại người dùng"
+                                value={EditPhone}
+                                onChange={(e) =>
+                                    setEditPhone(parseInt(e.target.value))
+                                }
+                            />
+                        </div>
+                        <div className="Edit-input">
+                            <label>Giới tính</label>
                             <select
-                                value={Editgender}
-                                name="gender"
+                                value={EditGender}
                                 onChange={(e) =>
                                     setEditGender(parseInt(e.target.value))
                                 }
                             >
-                                <option value="">....Giới tính....</option>
-                                <option value={0}>Nam</option>
-                                <option value={1}>Nu</option>
+                                <option value="">-- Giới tính --</option>
+                                <option value="0">Nam</option>
+                                <option value="1">Nữ</option>
                             </select>
                         </div>
-                        <div className="Edit-input">
-                            <label>RoleId</label>
-                            <select
-                                value={EditroleId}
-                                name="roleId"
-                                onChange={(e) => setEditRoleId(e.target.value)}
-                            >
-                                <option value="">....Role Id....</option>
-                                <option value="1">Admin</option>
-                                <option value="2">Khách hàng</option>
-                            </select>
-                        </div>
-                        <div className="Edit-input">
-                            <label>Phone</label>
-                            <input
-                                value={Editphonenumber}
-                                type="text"
-                                placeholder="phonenumber"
-                                onChange={(e) =>
-                                    setEditPhonenumber(e.target.value)
-                                }
-                            />
+                        <div className="modal-footer">
+                            <button onClick={(e) => handUpdateCatalog(e)}>
+                                Update
+                            </button>
+                            <button onClick={onClose}>Cancel</button>
                         </div>
                     </>
                 )}
-            </ModalBody>
-            <ModalFooter>
-                {mode === "add" ? (
-                    <>
-                        <Button
-                            color="primary"
-                            onClick={(e) => handleAddUser(e)}
-                        >
-                            Add
-                        </Button>{" "}
-                    </>
-                ) : (
-                    <>
-                        <Button
-                            color="primary"
-                            onClick={(e) => handleUpdateUser(e)}
-                        >
-                            Edit
-                        </Button>{" "}
-                    </>
-                )}
-                <Button color="secondary" onClick={onClose}>
-                    Cancel
-                </Button>
-            </ModalFooter>
-        </Modal>
+                <CustomAlert
+                    message={mess}
+                    type={status}
+                    isOpen={showAlert}
+                    onClose={handleCloseAlert}
+                />
+            </div>
+        </div>
     );
 }
 

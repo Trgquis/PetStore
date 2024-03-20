@@ -98,17 +98,17 @@ const userController = {
         });
     },
 
-    handleGetUser: async(req, res) => {
-        id = req.query.id
-        console.log(id)
-        if(!id) {
+    handleGetUser: async (req, res) => {
+        id = req.query.id;
+        console.log(id);
+        if (!id) {
             return res.status(400).json({
                 errCode: 1,
                 errMessage: "Missing required parameters",
                 users: [],
             });
         }
-        const user = await userService.GetUser(id)
+        const user = await userService.GetUser(id);
         return res.status(200).json({
             errCode: 0,
             errMessage: "OK",
@@ -158,7 +158,32 @@ const userController = {
         res.clearCookie("refreshToken");
         res.status(200).json("Logout Success!");
     },
-
+    handleUpdateUser: async (req, res) => {
+        try {
+            const data = req.body;
+            const mess = await userService.EditUser(data);
+            return res.status(200).json(mess);
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({
+                error: "Error",
+            });
+        }
+    },
+    handleDeleteUser: async (req, res) => {
+        try {
+            const id = req.query.id;
+            await userService.DeleteUser(id);
+            return res.status(200).json({
+                message: "oke",
+            });
+        } catch (e) {
+            console.log(e);
+            return res.status(500).json({
+                error: "Error",
+            });
+        }
+    },
     listModels: async (req, res) => {
         try {
             const modelsList = await Object.keys(db.sequelize.models);
