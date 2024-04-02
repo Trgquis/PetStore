@@ -36,9 +36,11 @@ export default function AllProducts() {
                         if (product.category_id === parseInt(id)) {
                             return (
                                 <div className="post-items" key={product.id}>
-                                    <div id="discount-percent--contents">
-                                        {product.discount}% GIẢM
-                                    </div>
+                                    {product.discount !== 0 ? (
+                                        <div id="discount-percent--contents">
+                                            {product.discount}% GIẢM
+                                        </div>
+                                    ) : null}
                                     <div className="overlayouts">
                                         <div className="overlayout-img">
                                             {data?.data.products.images
@@ -54,7 +56,9 @@ export default function AllProducts() {
                                                         key={item.id}
                                                     >
                                                         <img
-                                                            src={item.secure_url}
+                                                            src={
+                                                                item.secure_url
+                                                            }
                                                             alt=""
                                                             onMouseOver={(
                                                                 e
@@ -78,32 +82,54 @@ export default function AllProducts() {
                                                                         "all 0.5s ease-in-out";
                                                                     e.currentTarget.style.transform =
                                                                         "scale(1.0)";
-                                                                    e.currentTarget.src = `http://localhost:8888/${item.path}`;
+                                                                    e.currentTarget.src = `${item.secure_url}`;
                                                                 }
                                                             }}
                                                         />
                                                     </Link>
                                                 ))}
                                         </div>
-                                        
                                     </div>
                                     <div className="post-content">
                                         <Link to={`/detail/${product.id}`}>
                                             {product.name}
                                         </Link>
                                         <br />
-                                        <p className="price">
-                                            {convertPrice(
-                                                product.price -
-                                                    (product.price *
-                                                        product.discount) /
-                                                        100
-                                            )}
-                                            ₫
-                                            <p id="old-price">
-                                                {convertPrice(product.price)}₫
+                                        {product.discount ? (
+                                            <p className="price">
+                                                {convertPrice(
+                                                    product.price -
+                                                        (product.price *
+                                                            product.discount) /
+                                                            100
+                                                )}
+                                                ₫
+                                                <p id="old-price">
+                                                    {convertPrice(
+                                                        product.price
+                                                    )}
+                                                    ₫
+                                                </p>
                                             </p>
-                                        </p>
+                                        ) : (
+                                            <>
+                                                <p className="price">
+                                                    {convertPrice(
+                                                        product.price
+                                                    )}
+                                                    <p
+                                                        style={{
+                                                            textDecoration:
+                                                                "none",
+                                                        }}
+                                                        id="old-price"
+                                                    >
+                                                        Số lượng còn lại:{" "}
+                                                        {product.amount}
+                                                    </p>
+                                                </p>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             );

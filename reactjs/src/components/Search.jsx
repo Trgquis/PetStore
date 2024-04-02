@@ -13,7 +13,7 @@ const Search = ({ keyword }) => {
     const searchResults = useSelector(
         (state) => state?.sales.ProductSearchInfo
     );
-    console.log(keyword);
+    console.log(searchResults);
     useEffect(() => {
         setSearchKey(keyword); // Cập nhật giá trị của searchKey mỗi khi keyword thay đổi
 
@@ -97,7 +97,7 @@ const Search = ({ keyword }) => {
                                                             .slice(0, 1)
                                                             .map(
                                                                 (
-                                                                    image,
+                                                                    item,
                                                                     imgIndex
                                                                 ) => (
                                                                     <div
@@ -108,9 +108,7 @@ const Search = ({ keyword }) => {
                                                                     >
                                                                         <img
                                                                             className="product-image"
-                                                                            src={
-                                                                                image.secure_url
-                                                                            }
+                                                                            src={`${item.secure_url}`}
                                                                             alt=""
                                                                         />
                                                                     </div>

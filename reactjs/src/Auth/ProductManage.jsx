@@ -28,6 +28,7 @@ const ProductManage = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [status, setStatus] = useState();
     const [mess, setMess] = useState();
+    const [pagesize, setPagesize] = useState(20);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [catalogToDelete, setcatalogToDelete] = useState();
 
@@ -38,6 +39,9 @@ const ProductManage = () => {
 
     const handleCloseAlert = () => {
         setShowAlert(false);
+    };
+    const handlePagesizechange = (e) => {
+        setPagesize(parseInt(e.target.value));
     };
     useEffect(() => {
         try {
@@ -129,11 +133,11 @@ const ProductManage = () => {
         return converted;
     };
 
-    const pageCount = Math.ceil(productList?.data.products.count / PAGE_SIZE);
+    const pageCount = Math.ceil(productList?.data.products.count / pagesize);
 
     const categoryToShow = productList?.data.products.products.slice(
-        currentPage * PAGE_SIZE,
-        (currentPage + 1) * PAGE_SIZE
+        currentPage * pagesize,
+        (currentPage + 1) * pagesize
     );
 
     return (
@@ -206,6 +210,18 @@ const ProductManage = () => {
                                 pageCount={pageCount}
                                 handlePageChange={handlePageChange}
                             />
+                            <div>
+                                Kích thước trang hiện tại:
+                                <select
+                                    value={pagesize}
+                                    onChange={handlePagesizechange}
+                                >
+                                    <option value={20}>20</option>
+                                    <option value={50}>50</option>
+                                    <option value={75}>75</option>
+                                    <option value={100}>100</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

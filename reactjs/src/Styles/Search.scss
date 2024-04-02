@@ -1,6 +1,7 @@
 .dropdownSearch {
     position: relative; /* Đặt dropdownSearch làm điểm đề xuất cho việc định vị tương đối */
     height: 450px;
+    width: 70%;
     .dropdown-contentSearch {
         position: absolute;
         left: 0;
@@ -71,7 +72,7 @@
                                 white-space: nowrap; /* Ngăn tên sản phẩm xuống hàng */
                                 overflow: hidden; /* Ẩn đi phần nội dung vượt quá độ rộng */
                                 text-overflow: ellipsis;
-                                width: 400px;
+                                width: 800px;
                             }
                             .productInfo-price {
                                 // margin-top: 5px; /* Điều chỉnh khoảng cách dọc giữa tên sản phẩm và giá */
@@ -82,7 +83,7 @@
 
                         .thumbnail {
                             margin-left: auto;
-                            width: 40px;
+                            width: 70px;
 
                             img {
                                 width: 100%;

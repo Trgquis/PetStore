@@ -104,7 +104,7 @@ function ProductDetail() {
                                                     ? "slider-image active"
                                                     : "slider-image"
                                             }
-                                            onMouseOver={() =>
+                                            onClick={(e) =>
                                                 handleImageHover(
                                                     `${image.secure_url}`
                                                 )
@@ -147,34 +147,58 @@ function ProductDetail() {
                             <div className="nameOrder">
                                 {product?.data.product.product.name}
                             </div>
-                            <div className="quantityOrder">
-                                <p>Số lượng sản phẩm còn lại:</p>
-                                {product?.data.product.product.amount}
+                            <div
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                }}
+                            >
+                                <div className="quantityOrder">
+                                    <p>Số lượng sản phẩm còn lại:</p>
+                                    {product?.data.product.product.amount}
+                                </div>
+                                <div style={{ marginRight: "15px" }}>
+                                    <p>Thương hiệu: Đang cập nhật</p>
+                                </div>
                             </div>
                             <div className="indetailOrder">
-                                <p
-                                    style={{
-                                        paddingRight: "20px",
-                                        color: "red",
-                                    }}
-                                >
-                                    Ưu đãi giảm ngay
-                                </p>
-                                <div className="discountOrder">
-                                    -{product?.data.product.product.discount}%
-                                </div>
+                                {product.data.product.product.discount ? (
+                                    <>
+                                        <p
+                                            style={{
+                                                paddingRight: "20px",
+                                                color: "red",
+                                            }}
+                                        >
+                                            Ưu đãi giảm ngay
+                                        </p>
+                                        <div className="discountOrder">
+                                            -
+                                            {
+                                                product?.data.product.product
+                                                    .discount
+                                            }
+                                            %
+                                        </div>
+                                    </>
+                                ) : null}
                                 <div className="priceOrder">
-                                    <div
-                                        className="product-oldprice"
-                                        style={{
-                                            textDecorationLine: "line-through",
-                                        }}
-                                    >
-                                        {convertPrice(
-                                            product?.data.product.product.price
-                                        )}
-                                        ₫
-                                    </div>
+                                    {product.data.product.product.discount ? (
+                                        <div
+                                            className="product-oldprice"
+                                            style={{
+                                                textDecorationLine:
+                                                    "line-through",
+                                            }}
+                                        >
+                                            {convertPrice(
+                                                product?.data.product.product
+                                                    .price
+                                            )}
+                                            ₫
+                                        </div>
+                                    ) : null}
+
                                     <div className="product-price">
                                         {convertPrice(
                                             product?.data.product.product

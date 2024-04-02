@@ -28,8 +28,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     const [EditproductDescription, setEditProductDescription] = useState("");
     const catalogList = useSelector((state) => state?.sales.allCatalogs);
     const childList = useSelector((state) => state?.sales.allChilds);
-    console.log(childList);
-    console.log("productId", productId);
+    const [value, setValue] = useState("");
     const dispatch = useDispatch();
     useEffect(() => {
         if (productId) {
@@ -57,25 +56,32 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     }, [productId]);
     const modules = {
         toolbar: [
-            [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline", "strike", "blockquote"],
+            [{ font: [] }],
+            [{ size: ["small", false, "large", "huge"] }],
+            ["bold", "italic", "underline", "strike"],
+            [{ color: [] }, { background: [] }], // Thêm tùy chọn chọn màu chữ và nền
             [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "image"],
+            ["link", "image", "video"],
             ["clean"],
         ],
     };
+
     const formats = [
-        "header",
+        "font",
+        "size",
         "bold",
         "italic",
         "underline",
         "strike",
-        "blockquote",
+        "color",
+        "background", // Thêm định dạng màu chữ và nền
         "list",
         "bullet",
         "link",
         "image",
+        "video",
     ];
+
     const handleNameChange = (e) => {
         setName(e.target.value);
     };
@@ -281,9 +287,15 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                         </div>
 
                         <h5>Mô tả sản phẩm</h5>
-                        <div className="line"></div>
                         <div className="quill">
+                            {/* <ReactQuill
+                                value={productDescription}
+                                onChange={handleDescriptionChange}
+                                modules={modules}
+                                formats={formats}
+                            /> */}
                             <ReactQuill
+                                theme="snow"
                                 value={productDescription}
                                 onChange={handleDescriptionChange}
                                 modules={modules}
@@ -419,6 +431,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                 }
                                 modules={modules}
                                 formats={formats}
+                                theme="snow"
                             />
                         </div>
                     </>

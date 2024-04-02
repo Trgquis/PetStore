@@ -66,9 +66,9 @@ const Main = () => {
     const homeImageSettings = {
         dots: false,
         infinite: true,
-        speed: 1000,
         slidesToShow: 1,
         slidesToScroll: 1,
+        speed: 1000,
         autoplay: true,
         autoplaySpeed: 2000,
     };
@@ -76,11 +76,13 @@ const Main = () => {
     const settings = {
         // dots: true,
         initialSlide: 0,
-        infinite: false,
-        speed: 500,
+        infinite: true,
         slidesToShow: 3,
         slidesToScroll: 1,
         rows: 2,
+        speed: 500,
+        // autoplay: true,
+        // autoplaySpeed: 2000,
         prevArrow: <SamplePrevArrow />,
         nextArrow: <SampleNextArrow />,
         adaptiveHeight: true,
@@ -274,7 +276,8 @@ const Main = () => {
                     {productList?.data.products.products.map((product) => {
                         if (
                             product.category_id >= 1 &&
-                            product.category_id <= 7
+                            product.category_id <= 7 &&
+                            product.discount !== 0
                         ) {
                             return (
                                 <Fragment>
@@ -388,7 +391,8 @@ const Main = () => {
                                     // Kiểm tra nếu parent_id của sản phẩm nằm trong khoảng từ 1 đến 7 thì mới hiển thị sản phẩm
                                     if (
                                         product.category_id >= 8 &&
-                                        product.category_id <= 12
+                                        product.category_id <= 12 &&
+                                        product.discount !== 0
                                     ) {
                                         return (
                                             <Fragment>
