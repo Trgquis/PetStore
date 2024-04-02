@@ -2,28 +2,59 @@ import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useDropzone } from "react-dropzone";
-import { AddProduct, handlegetAllCatalogs } from "../redux/apiRequest";
+import {
+    AddProduct,
+    handlegetAllCatalogs,
+    handlegetAllChilds,
+} from "../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import "../Styles/Modal.scss";
 import axios from "axios";
 const ProductDescription = ({ isOpen, productId, onClose }) => {
     const [name, setName] = useState("");
-    const [price, setPrice] = useState(0.0);
+    const [price, setPrice] = useState("0");
     const [discount, setDiscount] = useState("");
     const [amount, setAmount] = useState("");
     const [categoryId, setCategoryId] = useState("");
     const [uploadedImages, setUploadedImages] = useState([]);
     const [productDescription, setProductDescription] = useState("");
     //
-    const [editName, setEditName] = useState("");
-    const [editPrice, setEditPrice] = useState();
-    const [editDiscount, setEditDiscount] = useState("");
-    const [editAmount, setEditAmount] = useState("");
-    const [editCategoryId, setEditCategoryId] = useState("");
-    const [editUploadedImages, setEditUploadedImages] = useState([]);
-    const [editProductDescription, setEditProductDescription] = useState("");
+    const [Editname, setEditName] = useState("");
+    const [Editprice, setEditPrice] = useState();
+    const [Editdiscount, setEditDiscount] = useState("");
+    const [Editamount, setEditAmount] = useState("");
+    const [EditcategoryId, setEditCategoryId] = useState("");
+    const [EdituploadedImages, setEditUploadedImages] = useState([]);
+    const [EditproductDescription, setEditProductDescription] = useState("");
     const catalogList = useSelector((state) => state?.sales.allCatalogs);
+    const childList = useSelector((state) => state?.sales.allChilds);
+    console.log(childList);
+    console.log("productId", productId);
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (productId) {
+            console.log(productId);
+            const fetchData = async () => {
+                const results = await axios.get(
+                    "http://localhost:8888/api/getProduct/?id=" + productId
+                );
+                console.log(results.data.product);
+                const productdata = results.data.product;
+                setEditName(productdata.product.name);
+                setEditCategoryId(productdata.product.category_id);
+                setEditDiscount(productdata.product.discount);
+                setEditPrice(productdata.product.price);
+                setEditProductDescription(productdata.product.content);
+                setEditAmount(productdata.product.amount);
+                if (productdata.images) {
+                    // Assuming images are in an array format
+                    setEditUploadedImages(productdata.images);
+                }
+            };
+            fetchData();
+        }
+        handlegetAllChilds(dispatch);
+    }, [productId]);
     const modules = {
         toolbar: [
             [{ header: [1, 2, false] }],
@@ -33,29 +64,6 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
             ["clean"],
         ],
     };
-
-    useEffect(() => {
-        if (productId) {
-            console.log(productId);
-            const fetchData = async () => {
-                const results = await axios.get(
-                    "http://localhost:8888/api/getProduct/?id=" + productId
-                );
-                console.log(results.data.product);
-                let data = results.data.product;
-                setEditCategoryId(data.category_id);
-                setEditName(data.name);
-                setEditPrice(data.price);
-                setAmount(data.amount);
-                setEditPrice(data.lastName);
-                setEditProductDescription(data.content);
-                setEditDiscount(data.discount);
-                // setEditUploadedImages(data.);
-            };
-            fetchData();
-        }
-        handlegetAllCatalogs(dispatch);
-    }, []);
     const formats = [
         "header",
         "bold",
@@ -73,20 +81,29 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     };
 
     const handlePriceChange = (e) => {
-        // Loại bỏ các ký tự không phải là số và không phải là dấu phẩy
-        let value = e.target.value.replace(/[^\d.]/g, "");
-        // Thêm dấu phẩy sau mỗi 3 chữ số
-        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        // Cập nhật giá trị vào state
-        setPrice(value);
+        setPrice(e.target.value);
     };
     let convertPrice = (price) => {
-        let converted = parseFloat(price).toLocaleString("vi-VN", {
+        let numericPrice = price.replace(/[^\d]/g, "");
+
+        // Chuyển đổi chuỗi số thành một số thực và định dạng giá tiền
+        let formattedPrice = new Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",
-        });
-        return converted;
+        }).format(parseFloat(numericPrice));
+
+        return formattedPrice;
     };
+    let convertEditPrice = (price) => {
+        // Chuyển đổi chuỗi số thành một số thực và định dạng giá tiền
+        let formattedPrice = new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        }).format(parseFloat(price));
+
+        return formattedPrice;
+    };
+    console.log(typeof price);
     const handleDiscountChange = (e) => {
         setDiscount(e.target.value);
     };
@@ -129,7 +146,6 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
         }
         AddProduct(formData, dispatch);
     };
-
     const onDrop = (acceptedFiles) => {
         if (
             acceptedFiles &&
@@ -155,7 +171,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     }
 
     return (
-        <div className="layout" st>
+        <div className="layout">
             <div className="productManage">
                 {!productId ? (
                     <>
@@ -207,7 +223,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                         <option value="">
                                             -- Loại danh mục --
                                         </option>
-                                        {catalogList?.data.catalogs.catalogs.map(
+                                        {childList?.data.childs.childs.map(
                                             (catalog) => (
                                                 <option
                                                     key={catalog.id}
@@ -285,16 +301,20 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                 <div>Tên sản phẩm</div>
                                 <input
                                     type="text"
-                                    value={name}
-                                    onChange={handleNameChange}
+                                    value={Editname}
+                                    onChange={(e) =>
+                                        setEditName(e.target.value)
+                                    }
                                 />
                             </div>
                             <div className="insection1">
                                 <div>Đơn giá</div>
                                 <input
                                     type="text"
-                                    value={price}
-                                    onChange={handlePriceChange}
+                                    value={convertEditPrice(Editprice)}
+                                    onChange={(e) =>
+                                        setEditPrice(e.target.value)
+                                    }
                                 />
                             </div>
                             <div className="section2">
@@ -302,16 +322,20 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                     <div>Tỉ lệ giảm</div>
                                     <input
                                         type="text"
-                                        value={discount}
-                                        onChange={handleDiscountChange}
+                                        value={Editdiscount}
+                                        onChange={(e) =>
+                                            setEditDiscount(e.target.value)
+                                        }
                                     />
                                 </div>
                                 <div className="insection2">
                                     <div>Số lượng nhập kho</div>
                                     <input
                                         type="text"
-                                        value={amount}
-                                        onChange={handleAmountChange}
+                                        value={Editamount}
+                                        onChange={(e) =>
+                                            setEditAmount(e.target.value)
+                                        }
                                     />
                                 </div>
                             </div>
@@ -320,13 +344,15 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                 <div className="insection3">
                                     <div>Loại danh mục</div>
                                     <select
-                                        value={categoryId}
-                                        onChange={handleCategoryChange}
+                                        value={EditcategoryId}
+                                        onChange={(e) =>
+                                            setEditCategoryId(e.target.value)
+                                        }
                                     >
                                         <option value="">
                                             -- Loại danh mục --
                                         </option>
-                                        {catalogList?.data.catalogs.catalogs.map(
+                                        {childList?.data.childs.childs.map(
                                             (catalog) => (
                                                 <option
                                                     key={catalog.id}
@@ -345,14 +371,14 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
 
                         <h5>Hình ảnh sản phẩm</h5>
                         <div className="image-upload-container-group">
-                            {uploadedImages.map((image, index) => (
+                            {EdituploadedImages.map((image, index) => (
                                 <div
                                     key={index}
                                     className="image-upload-container"
                                     style={{ width: "100px", height: "100px" }}
                                 >
                                     <img
-                                        src={URL.createObjectURL(image)}
+                                        src={image.secure_url}
                                         alt=""
                                         className="uploaded-image"
                                         onClick={() => deleteImage(index)}
@@ -371,7 +397,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                     )}
                                 </div>
                             ))}
-                            {uploadedImages.length < 4 && (
+                            {EdituploadedImages.length < 4 && (
                                 <div
                                     {...getRootProps()}
                                     className="image-upload-container"
@@ -387,8 +413,10 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                         <div className="line"></div>
                         <div className="quill">
                             <ReactQuill
-                                value={productDescription}
-                                onChange={handleDescriptionChange}
+                                value={EditproductDescription}
+                                onChange={(value) =>
+                                    setEditProductDescription(value)
+                                }
                                 modules={modules}
                                 formats={formats}
                             />

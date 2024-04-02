@@ -10,14 +10,6 @@ module.exports = {
                     primaryKey: true,
                     type: Sequelize.INTEGER,
                 },
-                type: {
-                    allowNull: false,
-                    type: Sequelize.STRING,
-                },
-                image_name: {
-                    allowNull: false,
-                    type: Sequelize.STRING,
-                },
                 product_id: {
                     allowNull: false,
                     type: Sequelize.INTEGER,
@@ -26,7 +18,11 @@ module.exports = {
                         key: "id",
                     },
                 },
-                path: {
+                secure_url: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                },
+                cloudinary_public_id: {
                     allowNull: false,
                     type: Sequelize.STRING,
                 },

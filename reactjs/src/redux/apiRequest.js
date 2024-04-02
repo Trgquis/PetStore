@@ -139,7 +139,6 @@ export const loginUser = async (user, dispatch) => {
     try {
         console.log(user);
         const actionResult = await dispatch(Login(user));
-        console.log(actionResult);
         const currentUser = unwrapResult(actionResult);
         console.log("logged in: ", currentUser);
         console.log("user accesstoken:", currentUser.data.accessToken);

@@ -12,7 +12,7 @@ const userAPI = {
     Login: async (user) => {
         try {
             const res = await axios.post(
-                "http://localhost:8081/api/login",
+                "http://localhost:8888/api/login",
                 user
             );
             if (res.status === 200) {
@@ -35,18 +35,15 @@ const userAPI = {
         const res = await axios.post("http://localhost:8888/api/regist", user);
         return res;
     },
-    
+
     Logout: async (accessToken) => {
         // console.log(id)
-        await axios.put("/api/logout", {
+        await axios.put("http://localhost:8888/api/logout", {
             headers: { token: `Bearer ${accessToken}` },
         });
     },
     EditUser: async (user) => {
-        const res = await axios.put(
-            "http://localhost:8888/api/edituser",
-            user
-        );
+        const res = await axios.put("http://localhost:8888/api/edituser", user);
         console.log(res);
         return res;
     },

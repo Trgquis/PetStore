@@ -25,6 +25,7 @@ const productService = {
     createNewProduct: async (data, images) => {
         return new Promise(async (resolve, reject) => {
             try {
+                console.log(data);
                 let inspect = await productService.checkProduct(data.name);
                 if (inspect === true) {
                     resolve({
@@ -41,17 +42,21 @@ const productService = {
                         amount: parseInt(data.amount),
                     });
                     console.log(product);
+
                     const imageRecords = [];
                     try {
-                        const imageRecord = await db.Image.bulkCreate(
-                            images.map((image) => ({
-                                type: image.mimetype,
-                                image_name: image.filename,
-                                path: image.path,
-                                product_id: product.id,
-                            }))
-                        );
-                        imageRecords.push(imageRecord);
+                        if (images && images.length > 0) {
+                            for (const file of images) {
+                                const imageRecord = await db.Image.create({
+                                    product_id: product.id,
+                                    cloudinary_public_id: file.path
+                                        .split("images/")[1]
+                                        .split(".")[0],
+                                    secure_url: file.path,
+                                });
+                                imageRecords.push(imageRecord);
+                            }
+                        }
                     } catch (imageError) {
                         console.error("Error during image upload:", imageError);
                     }

@@ -27,7 +27,7 @@ let handleAddCart = async (req, res) => {
 };
 
 let getAllCart = async (req, res) => {
-    const userId = req.query.user_id;
+    const userId = req.query.id;
     if (!userId) {
         return res.status(400).json({
             errCode: 1,

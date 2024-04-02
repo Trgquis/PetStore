@@ -6,9 +6,19 @@ import {
     handlegetAllRoots,
 } from "../redux/apiRequest";
 import { useNavigate } from "react-router-dom";
-import "../Styles/Modal.scss";
-import axios from "axios";
+import {
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
+    Button,
+    Form,
+    FormGroup,
+    Label,
+    Input,
+} from "reactstrap";
 import CustomAlert from "./CustomAlert";
+
 function CatalogModal({ isOpen, catalogId, onClose }) {
     const [name, setName] = useState("");
     const [rootcategory_id, setroot_id] = useState("");
@@ -18,17 +28,13 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
     const navigate = useNavigate();
     const rootList = useSelector((state) => state?.sales.allRoots);
     const catalogList = useSelector((state) => state?.sales.allCatalogs);
-
+    const axios = require("axios");
     const [showAlert, setShowAlert] = useState(false);
     const [status, setStatus] = useState();
     const [mess, setMess] = useState();
-    const handleShowAlert = () => {
-        setShowAlert(true);
-    };
 
-    const handleCloseAlert = () => {
-        setShowAlert(false);
-    };
+    const toggleAlert = () => setShowAlert(!showAlert);
+
     useEffect(() => {
         try {
             if (catalogId) {
@@ -79,11 +85,11 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
         if (res === 0) {
             setStatus(res);
             setMess("Thêm danh mục thành công!");
-            handleShowAlert();
+            toggleAlert();
         } else if (res === 1) {
             setStatus(res);
             setMess("Thiếu dữ liệu");
-            handleShowAlert();
+            toggleAlert();
         }
     };
     const handUpdateCatalog = async (e) => {
@@ -105,113 +111,133 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
             setStatus(response.data.errCode);
             setMess("Chỉnh sửa danh mục thành công!");
             console.log(status, mess);
-            handleShowAlert();
+            toggleAlert();
         } else if (response.data.errCode === 1) {
             setStatus(response.data.errCode);
             setMess("Thiếu dữ liệu");
-            handleShowAlert();
+            toggleAlert();
         }
     };
 
-    if (!isOpen) {
-        return null;
-    }
     return (
-        <div className="custom-modal">
-            <div className="modal-content">
-                <h2>{catalogId === null ? "Add Category" : "Edit Category"}</h2>
+        <Modal isOpen={isOpen} toggle={onClose}>
+            <ModalHeader toggle={onClose}>
+                {catalogId === null ? "Thêm danh mục" : "Chỉnh sửa danh mục"}
+            </ModalHeader>
+            <ModalBody>
+                <Form>
+                    {catalogId === null ? (
+                        <>
+                            <FormGroup>
+                                <Label for="catalogName">Tên danh mục</Label>
+                                <Input
+                                    type="text"
+                                    id="catalogName"
+                                    placeholder="catalogName"
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="parent-id">Loại danh mục</Label>
+                                <Input
+                                    type="select"
+                                    id="parent-id"
+                                    value={rootcategory_id}
+                                    onChange={(e) =>
+                                        setroot_id(parseInt(e.target.value))
+                                    }
+                                >
+                                    <option value="">
+                                        -- Chọn loại danh mục --
+                                    </option>
+                                    {catalogList?.data.catalogs.catalogs.map(
+                                        (catalog) => (
+                                            <option
+                                                key={catalog.id}
+                                                value={catalog.id}
+                                            >
+                                                {catalog.name}
+                                            </option>
+                                        )
+                                    )}
+                                </Input>
+                            </FormGroup>
+                        </>
+                    ) : (
+                        <>
+                            <FormGroup>
+                                <Label for="editCatalogName">
+                                    Tên danh mục
+                                </Label>
+                                <Input
+                                    type="text"
+                                    id="editCatalogName"
+                                    value={Editname}
+                                    onChange={(e) =>
+                                        setEditName(e.target.value)
+                                    }
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="editParent-id">
+                                    Danh mục thuộc
+                                </Label>
+                                <Input
+                                    type="select"
+                                    id="editParent-id"
+                                    value={Editparent_id}
+                                    onChange={(e) =>
+                                        setEditParentId(
+                                            parseInt(e.target.value)
+                                        )
+                                    }
+                                >
+                                    <option value="">
+                                        -- Chọn loại danh mục --
+                                    </option>
+                                    {catalogList?.data.catalogs.catalogs.map(
+                                        (catalog) => (
+                                            <option
+                                                key={catalog.id}
+                                                value={catalog.id}
+                                            >
+                                                {catalog.name}
+                                            </option>
+                                        )
+                                    )}
+                                </Input>
+                            </FormGroup>
+                        </>
+                    )}
+                </Form>
+            </ModalBody>
+            <ModalFooter>
                 {catalogId === null ? (
-                    <>
-                        <div className="Edit-input">
-                            <label>Tên danh mục</label>
-                            <input
-                                type="text"
-                                placeholder="catalogName"
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                        </div>
-                        <div className="Edit-input">
-                            <label htmlFor="parent-id">Loại danh mục</label>
-                            <select
-                                id="parent-id"
-                                value={rootcategory_id}
-                                onChange={(e) =>
-                                    setroot_id(parseInt(e.target.value))
-                                }
-                            >
-                                <option value="">
-                                    -- Chọn loại danh mục --
-                                </option>
-                                {catalogList?.data.catalogs.catalogs.map(
-                                    (catalog) => (
-                                        <option
-                                            key={catalog.id}
-                                            value={catalog.id}
-                                        >
-                                            {catalog.name}
-                                        </option>
-                                    )
-                                )}
-                            </select>
-                        </div>
-                        <div className="modal-footer">
-                            <button onClick={(e) => handleAddCatalog(e)}>
-                                Add
-                            </button>
-                            <button onClick={onClose}>Cancel</button>
-                        </div>
-                    </>
+                    <Button
+                        color="primary"
+                        onClick={(e) => handleAddCatalog(e)}
+                    >
+                        Add
+                    </Button>
                 ) : (
-                    <>
-                        <div className="Edit-input">
-                            <label>Tên danh mục</label>
-                            <input
-                                type="text"
-                                placeholder="catalogName"
-                                value={Editname}
-                                onChange={(e) => setEditName(e.target.value)}
-                            />
-                        </div>
-                        <div className="Edit-input">
-                            <label htmlFor="parent-id">Danh mục thuộc</label>
-                            <select
-                                id="parent-id"
-                                value={Editparent_id}
-                                onChange={(e) =>
-                                    setEditParentId(parseInt(e.target.value))
-                                }
-                            >
-                                <option value="">
-                                    -- Chọn loại danh mục --
-                                </option>
-                                {catalogList?.data.catalogs.catalogs.map(
-                                    (catalog) => (
-                                        <option
-                                            key={catalog.id}
-                                            value={catalog.id}
-                                        >
-                                            {catalog.name}
-                                        </option>
-                                    )
-                                )}
-                            </select>
-                        </div>
-                        <div className="modal-footer">
-                            <button onClick={(e) => handUpdateCatalog(e)}>
-                                Update
-                            </button>
-                            <button onClick={onClose}>Cancel</button>
-                        </div>
-                    </>
+                    <Button
+                        color="primary"
+                        onClick={(e) => handUpdateCatalog(e)}
+                    >
+                        Update
+                    </Button>
                 )}
-                <CustomAlert
-                    message={mess}
-                    type={status}
-                    isOpen={showAlert}
-                    onClose={handleCloseAlert}
-                />
-            </div>
-        </div>
+                <Button color="secondary" onClick={onClose}>
+                    Cancel
+                </Button>
+            </ModalFooter>
+            <CustomAlert
+                message={mess}
+                type={status}
+                isOpen={showAlert}
+                onClose={toggleAlert}
+            />
+        </Modal>
     );
 }
 

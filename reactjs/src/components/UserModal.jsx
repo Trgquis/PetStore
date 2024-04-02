@@ -137,7 +137,7 @@ function UserModal({ isOpen, userId, onClose }) {
             firstName: EditfirstName,
             address: EditAddress,
             gender: EditGender,
-            phone: EditPhone,
+            phonenumber: EditPhone,
         };
         console.log(EditUserData);
         if (validate(EditUserData) !== true) {

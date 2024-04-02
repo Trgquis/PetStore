@@ -6,6 +6,12 @@ const orderController = require("../controller/orderController");
 const categoriesController = require("../controller/categoryController");
 const uploadmiddleware = require("../middleware/uploadmiddleware");
 const db = require("../model/server");
+const fs = require("fs");
+const csvParser = require("csv-parser");
+const { PythonShell } = require("python-shell");
+const modelFilePath = "src/recommendSystem/recommendation_model.pkl";
+const fileUploader = require("../config/cloudinary.config");
+
 let initWebRoutes = (app) => {
     app.use("/images", express.static("./images"));
 
@@ -18,7 +24,7 @@ let initWebRoutes = (app) => {
     router.get("/api/getAllChilds", categoriesController.handleGetAllChilds);
     router.get("/api/getCategory", categoriesController.handleGetCatalog);
     router.get("/api/getChild", categoriesController.handleGetChild);
-    
+
     router.post(
         "/api/create-new-root",
         categoriesController.handleCreateNewRoot
@@ -44,7 +50,7 @@ let initWebRoutes = (app) => {
     router.put("/api/drag", categoriesController.handleDrag);
     router.put("/api/dragroot", categoriesController.handleDragRoot);
     router.put("/api/dragchild", categoriesController.handleDragChild);
-    
+
     // User Section
     router.post("/api/regist", userController.handleRegist);
     router.post("/api/login", userController.handleLogin);
@@ -55,7 +61,7 @@ let initWebRoutes = (app) => {
     router.delete("/api/deleteuser", userController.handleDeleteUser);
 
     // Product Section
-    router.get("/api/search", productController.handleSearchProduct)
+    router.get("/api/search", productController.handleSearchProduct);
     router.get("/api/getAllProducts", productController.handleGetAllProducts);
     router.get("/api/getProduct", productController.handleGetProduct);
     router.post(
@@ -72,6 +78,30 @@ let initWebRoutes = (app) => {
         // Cart Section
         router.get("/api/getAllCart", orderController.getAllCart);
     router.get("/list", userController.listModels);
+
+    router.post("/test", uploadmiddleware.upload, (req, res) => {
+        // Lấy kết quả từ req.files (danh sách các file đã upload)
+        const files = req.files;
+        console.log(files);
+        // Duyệt qua từng file trong danh sách
+        files.forEach((file) => {
+            // Lấy thông tin của file đã upload từ Cloudinary
+            const public_id = file.path.split("images/")[1].split(".")[0];
+            const  secure_url  = file.path;
+
+            // Hiển thị thông tin của file đã upload
+            console.log("Public ID:", public_id);
+            console.log("Secure URL:", secure_url);
+
+            // Lưu thông tin vào cơ sở dữ liệu hoặc xử lý dữ liệu theo nhu cầu
+            // Ví dụ: Lưu public_id và secure_url vào cơ sở dữ liệu
+            // YourModel.create({ publicId: public_id, secureUrl: secure_url });
+        });
+
+        // Trả về kết quả cho client
+        res.status(200).json({ message: "Upload successful!" });
+    });
+
     return app.use("/", router);
 };
 

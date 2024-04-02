@@ -1,29 +1,15 @@
-.arrow-up {
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: 215px;
-    top: 50px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 16px solid #fff;
-    z-index: 4;
-    filter: drop-shadow(0px -2px 2px rgba(0, 0, 0, 0.2));
-}
-
 .dropdown {
     position: absolute !important;
     overflow: hidden;
-    min-width: 220px;
-    height: auto;
+    left: 70%;
     top: 65px;
-    border-radius: 4px;
+    max-width: 400px;
+    height: auto;
     box-shadow: 0 1px 5px 2px rgba(0, 0, 0, 0.2);
     z-index: 3;
     background-color: #fff;
-    .dropdown-content {
+    .dropdown-contentLogin {
         display: flex;
-        width: 100%;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -49,6 +35,7 @@
             }
         }
         .formdata {
+            margin-top: 5px;
             text-align: center;
             width: 90%;
             height: 52%;
@@ -63,47 +50,32 @@
                 border-radius: 4px;
                 color: #fff;
             }
-            .mail,
-            .ps {
+            #email,
+            #ps {
                 width: 100%;
                 height: 40px;
                 padding-left: 15px;
                 border: 1px solid #d4d6d8;
             }
         }
-        .Login--opt {
-            width: 80%;
-            height: 25%;
-            margin-top: -15px;
-            font-size: 14px;
-            a {
-                text-decoration: none;
-                color: #ec7263;
-            }
-            #reset-ps {
-                margin-top: -90px;
-            }
+    }
+    .Login--opt {
+        width: 80%;
+        height: 80px;
+        padding: 0 35px;
+        font-size: 14px;
+        a {
+            text-decoration: none;
+            color: #ec7263;
         }
     }
 }
 
-.arrow-upSearch {
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: 265px;
-    top: 50px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 16px solid #fff;
-    z-index: 4;
-    filter: drop-shadow(0px -2px 2px rgba(0, 0, 0, 0.2));
-}
 .dropdownSearch {
     position: absolute !important;
     overflow: hidden;
-    width: 400px;
-    height: 150px;
+    width: 35%;
+    height: 500px;
     right: 150px;
     top: 65px;
     border-radius: 4px;
@@ -123,7 +95,6 @@
             align-items: center;
             justify-content: flex-start;
             width: 100%;
-            height: 100%;
             .searchInput {
                 width: 380px;
                 height: 42px;
@@ -162,18 +133,6 @@
     }
 }
 
-.arrow-upSearchLogged {
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: 355px;
-    top: 50px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 16px solid #fff;
-    z-index: 4;
-    filter: drop-shadow(0px -2px 2px rgba(0, 0, 0, 0.2));
-}
 .dropdownSearchLogged {
     position: absolute !important;
     overflow: hidden;
@@ -237,18 +196,6 @@
     }
 }
 
-.arrow-upCart {
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: 165px;
-    top: 50px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 16px solid #fff;
-    z-index: 4;
-    filter: drop-shadow(0px -2px 2px rgba(0, 0, 0, 0.2));
-}
 .dropdownCart {
     position: absolute !important;
     overflow: hidden;
@@ -303,18 +250,6 @@
     }
 }
 
-.arrow-upCartLogged {
-    position: absolute;
-    width: 0;
-    height: 0;
-    right: 315px;
-    top: 50px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 16px solid #fff;
-    z-index: 4;
-    filter: drop-shadow(0px -2px 2px rgba(0, 0, 0, 0.2));
-}
 .dropdownCartLogged {
     position: absolute !important;
     overflow: hidden;
@@ -359,59 +294,32 @@
         }
     }
 }
-
-.wrapperCategory {
-    width: 100%;
-    padding: 0;
-    .categoriesline {
-        height: 50px;
-        list-style: none;
-        text-align: left;
-        line-height: 50px;
-        padding-left: 5px;
-        border-bottom: solid 1px #aaa;
-        :hover {
-            color: #ec7263 !important;
-        }
-        a {
-            font-size: 14px !important;
-            color: #1c1c1c !important;
-            width: 100%;
-        }
-    }
-}
-
-.dropdownchild {
+.dropdownSub {
     position: absolute;
-    top: 65px; /* Đặt vị trí ban đầu của dropdownchild */
-    left: 220px; /* Hiển thị bên phải của dropdown cha */
-    width: 200px; /* Điều chỉnh kích thước dropdownchild nếu cần */
     background-color: #fff;
+    width: 700px;
+    height: 388px;
     box-shadow: 0 1px 5px 2px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    z-index: 3;
-    .wrapperCategorychild {
+    position: absolute;
+    .wrapperCategory {
         width: 100%;
-        padding: 0;
-
-        .categorieschildline {
-            height: 50px;
-            list-style: none;
-            text-align: left;
-            line-height: 50px;
-            padding-left: 5px;
-            border-bottom: solid 1px #aaa;
+        align-items: flex-start;
+        .categoriesline {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
             :hover {
                 color: #ec7263 !important;
             }
             a {
-                font-size: 14px !important;
+                font-size: 12px !important;
                 color: #1c1c1c !important;
                 width: 100%;
             }
         }
     }
 }
+
 .searchresultmodal {
     position: fixed;
     top: 0;
@@ -427,12 +335,12 @@
 
 .searchresultcontent {
     background-color: #fff;
-    padding: 20px;
+    padding: 0 20px;
     border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Đổ bóng nhẹ
-    max-width: 90%; // Điều chỉnh kích thước modal nếu cần
-    max-height: 90%; // Điều chỉnh kích thước modal nếu cần
-    overflow-y: auto; // Cho phép cuộn nếu nội dung quá dài
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .searchResults {

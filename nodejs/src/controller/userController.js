@@ -7,21 +7,21 @@ const TokenArr = [];
 const Token = {
     generateAccessToken: (userdata) => {
         console.log(userdata);
-        return (
-            jwt.sign({
-                email: userdata.email,
-                roleId: userdata.roleId,
-            }),
+        return jwt.sign(
+            {
+                email: userdata.user.email,
+                roleId: userdata.user.roleId,
+            },
             process.env.JWT_ACCESS_KEY,
             { expiresIn: "1d" }
         );
     },
 
-    generateRefreshToken: (user) => {
+    generateRefreshToken: (userData) => {
         return jwt.sign(
             {
-                email: user.email,
-                roleId: user.roleId,
+                email: userData.user.email,
+                roleId: userData.user.roleId,
             },
             process.env.JWT_ACCESS_KEY,
             { expiresIn: "1d" }
@@ -126,7 +126,7 @@ const userController = {
             address: String(req.body.address),
             phonenumber: String(req.body.phonenumber),
             gender: parseInt(req.body.gender, 10),
-            roleId: 1,
+            roleId: "0",
         };
         console.log(req.body);
         let message = await userService.Regist(data);
@@ -139,20 +139,37 @@ const userController = {
             email: String(req.body.email),
             password: String(req.body.password),
         };
-        console.log(req.body);
-        let message = await userService.Login(data);
-        console.log(message);
-        return res.status(200).json(message);
+        let userData = await userService.Login(data);
+        console.log(userData);
+        if (!userData.success) {
+            res.status(401).json({
+                errCode: 1,
+                errMessage: "Error while login",
+            });
+        }
+        const accessToken = Token.generateAccessToken(userData);
+        const refreshToken = Token.generateRefreshToken(userData);
+
+        TokenArr.push({ userData, refreshToken });
+
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            security: false,
+            path: "/",
+            sameSite: "strict",
+        });
+
+        return res.status(200).json({ userData, accessToken });
     },
 
     handleLogout: async (req, res) => {
         const refreshToken = req.cookies.refreshToken;
         if (refreshToken) {
-            const index = Tokens.findIndex(
+            const index = TokenArr.findIndex(
                 (token) => token.refreshToken === refreshToken
             );
             if (index !== -1) {
-                Tokens.splice(index, 1);
+                TokenArr.splice(index, 1);
             }
         }
         res.clearCookie("refreshToken");

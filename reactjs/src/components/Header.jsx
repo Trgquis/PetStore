@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import UserInformation from "./UserInformation";
 import Login from "./Login";
 import Search from "./Search";
 import Cart from "./Cart";
-import DropdownCategory from "./DropdownCategory";
+import { FaPhoneAlt } from "react-icons/fa";
 import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
+import { CiViewList } from "react-icons/ci";
 import "../Styles/Style.scss";
 import {
     handlegetAllRoots,
@@ -15,14 +16,13 @@ import {
 } from "../redux/apiRequest";
 
 const Header = () => {
+    const [keyword, setKeyword] = useState();
     const [showLogin, setShowLogin] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [showCart, setShowCart] = useState(false);
-    const [activeId, setActiveId] = useState(null);
-    const [dropdown, setDropdown] = useState(false);
-    const rootList = useSelector((state) => state?.sales.allRoots);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const headerRef = useRef(null); // Define headerRef here
 
     const toggleLogin = () => {
         setShowLogin(!showLogin);
@@ -42,13 +42,46 @@ const Header = () => {
     const handleLinkClick = () => {
         window.scrollTo(0, 0); // Cuộn lên đầu trang
     };
+    const handleKeywordChange = (e) => {
+        const newKeyword = e.target.value;
+        if (newKeyword.trim() !== "") {
+            setShowSearch(true);
+        } else {
+            setShowSearch(false);
+        }
+        setKeyword(newKeyword); // Cập nhật giá trị keyword với giá trị nhập vào từ ô tìm kiếm
+    };
     const currentUser = useSelector((state) => state.auth.currentUser);
     useEffect(() => {
         handlegetAllRoots(dispatch);
         handlegetAllCatalogs(dispatch);
         handlegetAllChilds(dispatch);
-    }, []);
+        // Thêm event listener cho sự kiện scroll
+        window.addEventListener("scroll", handleScroll);
+        // Thêm event listener cho sự kiện click bên ngoài header
+        document.addEventListener("click", handleClickOutside);
 
+        return () => {
+            // Xóa event listener khi component unmount
+            window.removeEventListener("scroll", handleScroll);
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+    // Xử lý sự kiện scroll
+    const handleScroll = () => {
+        setShowLogin(false);
+        setShowSearch(false);
+        setShowCart(false);
+    };
+
+    // Xử lý sự kiện click bên ngoài header
+    const handleClickOutside = (event) => {
+        if (headerRef.current && !headerRef.current.contains(event.target)) {
+            setShowLogin(false);
+            setShowSearch(false);
+            setShowCart(false);
+        }
+    };
     return (
         <header className="header">
             <div id="top">
@@ -59,35 +92,51 @@ const Header = () => {
                 <div className="logo">
                     <Link to="/">pet</Link>
                 </div>
-                <ul id="nav_bar">
-                    <li className="active">
-                        <Link to="/">Trang chủ</Link>
-                    </li>
-                    {rootList?.data.roots.roots.map((root) => (
-                        <li
-                            key={root.id}
-                            className="active"
-                            onMouseEnter={() => setActiveId(root.id)}
-                            onMouseLeave={() => setActiveId(null)}
+                <div className="toggleCatalog">
+                    <span style={{ fontSize: "25px", fontWeight: "bold" }}>
+                        <CiViewList />
+                    </span>
+                    Danh mục
+                </div>
+                <div className="searchSection">
+                    <input
+                        type="text"
+                        placeholder="Bạn cần tìm gì?"
+                        value={keyword}
+                        onChange={handleKeywordChange}
+                    />
+
+                    <div className="iconsearch">
+                        <FaSearch />
+                    </div>
+                </div>
+                <div className="contactnumber">
+                    <p
+                        style={{
+                            fontSize: "20px",
+                            lineHeight: "20px",
+                            marginTop: "10px",
+                            marginRight: "5px",
+                        }}
+                    >
+                        <FaPhoneAlt />
+                    </p>
+                    <div style={{ height: "100%" }}>
+                        <div
+                            style={{
+                                height: "16px",
+                                marginTop: "-42px",
+                                marginBottom: "5px",
+                            }}
                         >
-                            <Link
-                                to={`/allproducts/${root.id}`}
-                                onClick={handleLinkClick}
-                            >
-                                {root.name}
-                            </Link>
-                            {activeId === root.id && (
-                                <DropdownCategory parentID={root.id} />
-                            )}
-                        </li>
-                    ))}
-                </ul>
+                            Gọi mua hàng
+                        </div>
+                        <div style={{ height: "16px" }}>0364998896</div>
+                    </div>
+                </div>
                 <div className="icon">
                     {!currentUser && (
                         <>
-                            <div className="icon-btn" onClick={toggleSearch}>
-                                <FaSearch />
-                            </div>
                             <div className=" icon-btn" onClick={toggleLogin}>
                                 <FaUser />
                             </div>
@@ -108,7 +157,7 @@ const Header = () => {
                                     transition: "opacity 0.3s ease",
                                 }}
                             >
-                                {showSearch && <Search />}
+                                {showSearch && <Search keyword={keyword} />}
                             </div>
                             <div
                                 style={{
@@ -129,13 +178,23 @@ const Header = () => {
                                 <FaShoppingCart />
                             </div>
                             <div className="user-information">
-                                {currentUser &&
-                                currentUser.data.user.avatar &&
-                                currentUser.data.user.avatar.path ? (
-                                    <UserInformation User={currentUser.data} />
+                                {currentUser ? (
+                                    <UserInformation
+                                        User={currentUser.data.userData}
+                                    />
                                 ) : (
-                                    <UserInformation User={currentUser.data} />
+                                    <UserInformation
+                                        User={currentUser.data.userData}
+                                    />
                                 )}
+                            </div>
+                            <div
+                                style={{
+                                    opacity: showSearch ? 1 : 0,
+                                    transition: "opacity 0.3s ease",
+                                }}
+                            >
+                                {showSearch && <Search keyword={keyword} />}
                             </div>
                         </>
                     )}

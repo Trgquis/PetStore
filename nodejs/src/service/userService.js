@@ -1,6 +1,5 @@
 const db = require("../model/server.js");
 const bcrypt = require("bcryptjs");
-const path = require("path");
 const salt = bcrypt.genSaltSync(10);
 
 const userService = {
@@ -112,51 +111,61 @@ const userService = {
     },
 
     DeleteUser: async (id) => {
-        return new Promise (async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 const res = await db.User.destroy({
                     where: {
-                        id: id
-                    }
-                })
-                console.log(res)
+                        id: id,
+                    },
+                });
+                console.log(res);
                 resolve({
                     errCode: 0,
-                    errMessage: "Oke"
-                })
-            }catch(e) {
-                console.log(e)
-                reject(e)
-            }
-        })
-    },
-    Login: async (data) => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const email = data.email;
-                const password = data.password;
-                const existed = await this.checkEmailExisted(email);
-                if (existed) {
-                    let user = await db.User.findOne({
-                        where: { email: email },
-                        raw: true,
-                    });
-
-                    if (user) {
-                        let inspect = false;
-                        if (user.password === password) {
-                            inspect = true;
-                        }
-                    }
-                }
+                    errMessage: "Oke",
+                });
             } catch (e) {
                 console.log(e);
                 reject(e);
             }
         });
     },
+    Login: async (data) => {
+        try {
+            const email = data.email;
+            const password = data.password;
+
+            const user = await db.User.findOne({
+                where: { email: email },
+                raw: true,
+            });
+
+            if (!user) {
+                return {
+                    success: false,
+                    message: "User not found",
+                };
+            }
+
+            const match = bcrypt.compareSync(password, user.password);
+            if (match) {
+                delete user.password;
+                return {
+                    success: true,
+                    user: user,
+                };
+            } else {
+                return {
+                    success: false,
+                    message: "Incorrect password",
+                };
+            }
+        } catch (error) {
+            throw error;
+        }
+    },
+
     EditUser: async (data) => {
-        return new Promise (async (resolve, reject) => {
+        return new Promise(async (resolve, reject) => {
             try {
                 let user = await db.User.update(
                     {
@@ -167,23 +176,22 @@ const userService = {
                         phonenumber: data.phonenumber,
                         gender: data.gender,
                         roleId: 0,
-
                     },
                     {
                         where: { id: data.id },
                     }
                 );
-                console.log(user)
+                console.log(user);
                 resolve({
                     errCode: 0,
-                    errMessage: "Oke"
-                })
-            }catch(e) {
-                console.log(e)
-                reject(e)
+                    errMessage: "Oke",
+                });
+            } catch (e) {
+                console.log(e);
+                reject(e);
             }
-        })
-    }
+        });
+    },
 };
 
 module.exports = userService;

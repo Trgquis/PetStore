@@ -78,8 +78,7 @@ header {
     top: 3vh;
     z-index: 3;
     border-bottom: 1px solid #e3e3e3;
-    box-shadow: rgba(17, 17, 26, 0.1) 0px 4px 16px,
-        rgba(17, 17, 26, 0.05) 0px 8px 32px;
+
     .logo {
         font-size: 28px;
         font-weight: bold;
@@ -88,6 +87,59 @@ header {
             text-decoration: none;
             text-transform: uppercase;
             color: #ec7263;
+        }
+    }
+    .toggleCatalog {
+        text-align: center;
+        color: #ec7263;
+        font-size: 14px;
+        border-radius: 5px;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 5px;
+        &:hover {
+            color: #fff;
+            background-color: #ec7263;
+            cursor: pointer;
+            transition: 0.5s;
+        }
+    }
+    .searchSection {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 700px;
+        height: 34px;
+        border-radius: 5px;
+        color: #ec7263;
+        border: 1px solid #8f8787;
+        padding: 0;
+        padding-left: 15px;
+        input {
+            width: 100%;
+            height: 100%;
+            font-size: 15px;
+            border: none;
+            outline: none;
+        }
+        .iconsearch {
+            height: 100%;
+            width: 50px;
+            text-align: center;
+            font-size: 15px;
+            line-height: 30px;
+            background-color: #ec7263;
+            color: #fff;
+        }
+    }
+    .contactnumber {
+        display: flex;
+        justify-content: space-around;
+        color: #ec7263;
+
+        align-items: center;
+        div {
+            font-size: 14px;
         }
     }
 }
@@ -100,27 +152,6 @@ header {
     color: #ec7263;
     text-transform: uppercase;
     margin: 0 auto;
-}
-
-#nav_bar {
-    display: flex;
-    justify-content: center;
-    padding-left: 0;
-    margin-bottom: 0;
-    list-style: none;
-    .active {
-        display: inline-block;
-        position: relative;
-        padding: 0 24px;
-        cursor: pointer;
-        a {
-            display: inline-block;
-            text-decoration: none;
-            font-size: 16px;
-            color: #ec7263;
-            font-weight: 500;
-        }
-    }
 }
 
 .icon {
@@ -264,6 +295,7 @@ h4 {
     right: 20px;
     border: none;
     background-color: #ec7263;
+    color: #fff;
     width: 40px;
     height: 35px;
     line-height: 35px;

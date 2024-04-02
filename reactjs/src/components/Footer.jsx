@@ -3,6 +3,7 @@ import "../Styles/Style.scss";
 import { Link } from "react-router-dom";
 // const BacktoTop = require('./BackToTopButton')
 import BackToTopButton from "./BackToTopButton";
+import { FaMailBulk, FaInstagram } from "react-icons/fa";
 const Footer = () => (
     <div className="newft">
         <div id="prefooter">
@@ -52,14 +53,13 @@ const Footer = () => (
                         <ul id="social">
                             <li>
                                 <Link to="/maintenance" id="contact_icon">
-                                    <i className="fa-brands fa-facebook"></i> :
+                                    <FaMailBulk />
                                     petshop.vn
                                 </Link>
                             </li>
                             <li>
                                 <Link to="/maintenance" id="contact_icon">
-                                    <i className="fa-brands fa-instagram"></i> :
-                                    @acilue.vn
+                                    <FaInstagram /> @acilue.vn
                                 </Link>
                             </li>
                         </ul>

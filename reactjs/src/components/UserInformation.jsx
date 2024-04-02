@@ -23,17 +23,9 @@ const UserInformation = ({ User }) => {
             {User.user.firstName &&
             User.user.lastName &&
             User.user.email &&
-            User.accessToken &&
-            User.user.avatar ? (
+            User.accessToken ? (
                 <div className="user-information">
                     <div className="container" onClick={toggleDropdown}>
-                        <div className="avatar-container">
-                            <img
-                                src={`http://localhost:8081/${User.user.avatar.path}`}
-                                alt="Avatar"
-                                className="avatar"
-                            />
-                        </div>
                         <div className="info-container">
                             <h4 className="name">
                                 {User.user.lastName} {User.user.firstName}
@@ -96,13 +88,6 @@ const UserInformation = ({ User }) => {
             ) : (
                 <div className="user-information">
                     <div className="container" onClick={toggleDropdown}>
-                        <div className="avatar-container">
-                            <img
-                                src={`http://localhost:8081/images/avatars/defaultAvatar.jpg`}
-                                alt="Avatar"
-                                className="avatar"
-                            />
-                        </div>
                         <div className="info-container">
                             <h4 className="name">
                                 {User.user.lastName} {User.user.firstName}

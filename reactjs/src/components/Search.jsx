@@ -4,84 +4,123 @@ import { searchProduct } from "../redux/apiRequest";
 import { useNavigate } from "react-router-dom";
 import "../Styles/Search.scss";
 
-const Search = () => {
-    const [keyword, setKeyword] = useState("");
-    const [showResults, setShowResults] = useState(false); // Thêm state để kiểm soát việc hiển thị kết quả tìm kiếm
+const Search = ({ keyword }) => {
+    const [showResults, setShowResults] = useState(false);
+    const [searchKey, setSearchKey] = useState(""); // Sử dụng state để lưu trữ từ khóa tìm kiếm
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const User = useSelector((state) => state?.auth.currentUser);
     const searchResults = useSelector(
         (state) => state?.sales.ProductSearchInfo
     );
-
+    console.log(keyword);
     useEffect(() => {
-        // Hàm này sẽ được gọi mỗi khi keyword thay đổi
+        setSearchKey(keyword); // Cập nhật giá trị của searchKey mỗi khi keyword thay đổi
+
         const timer = setTimeout(() => {
-            // Thực hiện tìm kiếm khi keyword không trống
             if (keyword.trim() !== "") {
+                // Sử dụng keyword thay vì searchKey ở đây
                 searchProduct(keyword, dispatch);
                 setShowResults(true);
             } else {
                 setShowResults(false);
             }
-        }, 500); // Đợi 500ms sau khi ngừng nhập để thực hiện tìm kiếm
+        }, 500);
 
-        // Clear timeout trước khi gọi lại useEffect để tránh việc gọi tìm kiếm nhiều lần
         return () => clearTimeout(timer);
     }, [keyword, dispatch]);
 
+    let convertPrice = (price) => {
+        let converted = new Intl.NumberFormat(
+            { style: "currency", currency: "VND" },
+            "vnd"
+        ).format(price);
+        return converted;
+    };
+
+    const handleClickItem = (id) => {
+        navigate(`/detail/${id}`);
+    };
+
     return (
         <>
-            <span className="arrow-upSearch"></span>
+            {!User ? (
+                <span className="arrow-upSearch "></span>
+            ) : (
+                <span className="arrow-upSearchLogged "></span>
+            )}
+            <span className="arrow-upSearch "></span>
             <div className="dropdownSearch">
                 <div className="dropdown-contentSearch">
-                    <form className="formdataSearch">
-                        <div className="dropdown-titleSearch">
-                            <h4 className="searchTitle">TÌM KIẾM SẢN PHẨM</h4>
-                        </div>
-                        <label>
-                            <input
-                                placeholder="Tìm kiếm tên sản phẩm"
-                                className="searchInput"
-                                value={keyword}
-                                onChange={(e) => setKeyword(e.target.value)}
-                                required
-                            />
-                            <button
-                                id="searchBtn"
-                                type="submit"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    // Thực hiện tìm kiếm khi người dùng nhấn nút
-                                    if (keyword.trim() !== "") {
-                                        searchProduct(keyword, dispatch);
-                                        setShowResults(true);
-                                    }
-                                }}
-                            >
-                                <i className="fa-solid fa-magnifying-glass "></i>
-                            </button>
-                        </label>
-                    </form>
-                    {/* Hiển thị kết quả tìm kiếm khi có từ khóa và kết quả không rỗng */}
                     <div className="searchresultmodal">
                         {showResults && keyword.trim() !== "" && (
                             <div className="searchresultcontent">
-                                <h3 className="searchTitle">
-                                    Kết quả tìm kiếm:
-                                </h3>
                                 {searchResults &&
                                 searchResults.data &&
                                 searchResults.data.products &&
                                 searchResults.data.products.length > 0 ? (
-                                    <ul className="searchResults">
-                                        {searchResults.data.products.map(
-                                            (result, index) => (
-                                                <li key={index}>
-                                                    {result.name}
-                                                </li>
-                                            )
-                                        )}
-                                    </ul>
+                                    <>
+                                        <h3 className="searchTitle">
+                                            Kết quả tìm kiếm:
+                                        </h3>
+                                        <div className="searchResults">
+                                            {searchResults?.data.products.map(
+                                                (result, index) => (
+                                                    <div
+                                                        className="search-infor"
+                                                        key={index}
+                                                    >
+                                                        <div className="inforsearch">
+                                                            <div
+                                                                onClick={() =>
+                                                                    handleClickItem(
+                                                                        result.id
+                                                                    )
+                                                                }
+                                                                className="productInfo-name"
+                                                            >
+                                                                {result.name}
+                                                            </div>
+                                                            <div className="productInfo-price">
+                                                                {convertPrice(
+                                                                    result.price
+                                                                )}{" "}
+                                                                ₫
+                                                            </div>
+                                                        </div>
+                                                        {searchResults?.data.images
+                                                            .filter(
+                                                                (image) =>
+                                                                    image.product_id ===
+                                                                    result.id
+                                                            )
+                                                            .slice(0, 1)
+                                                            .map(
+                                                                (
+                                                                    image,
+                                                                    imgIndex
+                                                                ) => (
+                                                                    <div
+                                                                        className="thumbnail"
+                                                                        key={
+                                                                            imgIndex
+                                                                        }
+                                                                    >
+                                                                        <img
+                                                                            className="product-image"
+                                                                            src={
+                                                                                image.secure_url
+                                                                            }
+                                                                            alt=""
+                                                                        />
+                                                                    </div>
+                                                                )
+                                                            )}
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+                                    </>
                                 ) : (
                                     <p>Không tìm thấy kết quả phù hợp.</p>
                                 )}

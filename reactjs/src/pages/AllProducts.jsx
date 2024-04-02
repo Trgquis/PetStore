@@ -54,7 +54,7 @@ export default function AllProducts() {
                                                         key={item.id}
                                                     >
                                                         <img
-                                                            src={`http://localhost:8888/${item.path}`}
+                                                            src={item.secure_url}
                                                             alt=""
                                                             onMouseOver={(
                                                                 e
@@ -85,20 +85,7 @@ export default function AllProducts() {
                                                     </Link>
                                                 ))}
                                         </div>
-                                        <div className="over-btns">
-                                            <div className="btns">
-                                                <button type="submit" id="cart">
-                                                    <i className="ti-shopping-cart"></i>
-                                                </button>
-                                                <button
-                                                    type=""
-                                                    id="details"
-                                                    onClick="direct_sc5()"
-                                                >
-                                                    Chi tiết
-                                                </button>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                     <div className="post-content">
                                         <Link to={`/detail/${product.id}`}>

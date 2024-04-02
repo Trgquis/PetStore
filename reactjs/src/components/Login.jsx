@@ -27,7 +27,7 @@ export default function Login() {
         <>
             <span className="arrow-up"></span>
             <div className="dropdown">
-                <div className="dropdown-content">
+                <div className="dropdown-contentLogin">
                     <div className="dropdown-title">
                         <div className="Login--title">ĐĂNG NHẬP TÀI KHOẢN</div>
                         <div className="LoginDetail--title">
@@ -59,16 +59,13 @@ export default function Login() {
                             Đăng nhập
                         </button>
                     </form>
-                    <div className="Login--opt">
-                        <div>
-                            Khách hàng mới?{" "}
-                            <Link to="/regist">Tạo tài khoản</Link>
-                        </div>
-                        <br />
-                        <div id="reset-ps">
-                            Quên mật khẩu? <Link>Khôi phục mật khẩu</Link>
-                        </div>
-                    </div>
+                </div>
+                <div className="Login--opt">
+                    Khách hàng mới?
+                    <Link to="/regist">Tạo tài khoản</Link>
+                    <br />
+                    Quên mật khẩu?
+                    <Link>Khôi phục mật khẩu</Link>
                 </div>
             </div>
         </>

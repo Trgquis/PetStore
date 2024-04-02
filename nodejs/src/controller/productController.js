@@ -2,20 +2,24 @@ const productService = require("../service/productService.js");
 
 const productController = {
     handleCreateNewProduct: async (req, res) => {
-        // console.log(req.body)
-        // console.log(req.files)
-        let images = req.files;
-        // let productId = req.params.id
-        let data = {
-            category_id: parseInt(req.body.category_id),
-            name: req.body.name,
-            price: req.body.price,
-            discount: req.body.discount,
-            content: req.body.content,
-            amount: req.body.amount,
-        };
-        let message = await productService.createNewProduct(data, images);
-        return res.status(200).json(message);
+        try {
+            console.log(req.body);
+            // console.log(req.files)
+            let images = req.files;
+            // let productId = req.params.id
+            let data = {
+                category_id: parseInt(req.body.category_id),
+                name: req.body.name,
+                price: req.body.price,
+                discount: req.body.discount,
+                content: req.body.content,
+                amount: req.body.amount,
+            };
+            let message = await productService.createNewProduct(data, images);
+            return res.status(200).json(message);
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     handleEditProduct: async (req, res) => {

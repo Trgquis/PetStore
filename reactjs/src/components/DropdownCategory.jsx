@@ -1,5 +1,3 @@
-// DropdownCategory.jsx
-
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -30,9 +28,6 @@ const DropdownCategory = ({ parentID }) => {
         }, 4000); // Đặt khoảng thời gian chờ trước khi ẩn dropdown con
     };
 
-    const handleDropdownChildEnter = () => {
-        clearTimeout(hideTimeout); // Xóa bỏ timeout khi di chuột vào dropdown con
-    };
     if (!catalogList) {
         return null;
     }
@@ -41,52 +36,70 @@ const DropdownCategory = ({ parentID }) => {
         (catalog) => catalog.rootcategory_id === parentID
     );
 
-    const filteredChilds = childList.childs.childs.filter(
-        (child) => child.parent_id === hoveredCatalogId
+    // const filteredChilds = childList.childs.childs.filter(
+    //     (child) => child.parent_id === hoveredCatalogId
+    // );
+    const filteredChilds = filteredCatalogs.flatMap((catalog) =>
+        childList.childs.childs.filter(
+            (child) => child.parent_id === catalog.id
+        )
     );
-
     return (
         <>
-            <div className="dropdown">
+            <div className="dropdownSub">
                 <div className="dropdown-content">
-                    <ul className="wrapperCategory">
-                        {filteredCatalogs.map((catalog) => (
-                            <li
-                                className="categoriesline"
-                                key={catalog.id}
-                                onMouseEnter={() =>
-                                    handleCatalogHover(catalog.id)
-                                }
-                                onMouseLeave={handleCatalogLeave}
-                            >
-                                    {catalog.name} <FaAngleRight />
-                                
-                            </li>
-                        ))}
-                    </ul>
+                    <div className="wrapperCategory" style={{ width: "100%" }}>
+                        <div>
+                            <div>
+                                {catalogList.catalogs.catalogs
+                                    .filter(
+                                        (catalog) =>
+                                            catalog.rootcategory_id === parentID
+                                    )
+                                    .map((catalog) => (
+                                        <div
+                                            style={{
+                                                maxWidth: "auto",
+                                                wordWrap: "break-word",
+                                            }}
+                                            key={catalog.id}
+                                        >
+                                            {catalog.name}
+                                        </div>
+                                    ))}
+                            </div>
+                            <div>
+                                {catalogList.catalogs.catalogs
+                                    .filter(
+                                        (catalog) =>
+                                            catalog.rootcategory_id === parentID
+                                    )
+                                    .map((catalog) => (
+                                        <div key={catalog.id}>
+                                            {childList.childs.childs
+                                                .filter(
+                                                    (child) =>
+                                                        child.parent_id ===
+                                                        catalog.id
+                                                )
+                                                .map((child) => (
+                                                    <div
+                                                        key={child.id}
+                                                        to={`/category/${child.id}`}
+                                                        style={{
+                                                            color: "#000",
+                                                        }}
+                                                    >
+                                                        {child.name}
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    ))}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {isChildDropdownVisible && hoveredCatalogId && filteredChilds ? (
-                <div
-                    className="dropdownchild"
-                    onMouseEnter={handleDropdownChildEnter}
-                >
-                    {filteredChilds.length > 0 && (
-                        <ul className="wrapperCategorychild">
-                            {filteredChilds.map((child) => (
-                                <li
-                                    className="categorieschildline"
-                                    key={child.id}
-                                >
-                                    <Link to={`/allproducts/${child.id}`}>
-                                        {child.name}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-            ) : null}
         </>
     );
 };

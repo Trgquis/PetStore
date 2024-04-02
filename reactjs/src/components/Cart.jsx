@@ -71,7 +71,7 @@ export default function Cart() {
                                                     <td id="miniCartImg">
                                                         <Link>
                                                             <img
-                                                                src={`http://localhost:8081/${item.images.path}`}
+                                                                src={item.images.secure_url}
                                                                 alt=""
                                                             />
                                                         </Link>

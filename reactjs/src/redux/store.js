@@ -21,7 +21,8 @@ const orderPersistConfig = {
 };
 
 const rootReducerWithPersist = combineReducers({
-    auth: persistReducer(authPersistConfig, AuthReducer),
+    // auth: persistReducer(authPersistConfig, AuthReducer),
+    auth: AuthReducer,
     order: persistReducer(orderPersistConfig, OrderReducer),
     users: UsersReducer,
     sales: SalesReducer,

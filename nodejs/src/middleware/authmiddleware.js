@@ -19,6 +19,7 @@ const AuthMiddleware = {
     },
 
     verifyAdminToken: (req, res, next) => {
+        console.log(req.user);
         AuthMiddleware.verifyToken(req, res, () => {
             if (parseInt(req.user.roleId) === 1) {
                 // console.log(req.user.roleId)

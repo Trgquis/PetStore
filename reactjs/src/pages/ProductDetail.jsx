@@ -7,12 +7,21 @@ import { handlegetProduct } from "../redux/apiRequest";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import {
+    FaCalendar,
+    FaPercent,
+    FaThumbsUp,
+    FaTruckMoving,
+    FaDollarSign,
+    FaDiscoun,
+} from "react-icons/fa";
 function ProductDetail() {
     const dispatch = useDispatch();
     const { id } = useParams();
     // const [product, setProduct] = useState(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [currentImage, setCurrentImage] = useState(null);
+    const [expandedContent, setExpandedContent] = useState(false);
 
     const User = useSelector((state) => state.auth.currentUser);
     const product = useSelector((state) => state?.sales.ProductDetail);
@@ -74,8 +83,8 @@ function ProductDetail() {
                             <img
                                 src={
                                     currentImage
-                                        ? `http://localhost:8888/${currentImage}`
-                                        : `http://localhost:8888/${product?.data.product.images[0].path}`
+                                        ? `${currentImage}`
+                                        : `${product?.data.product.images[0].secure_url}`
                                 }
                                 alt={product.name}
                             />
@@ -87,7 +96,7 @@ function ProductDetail() {
                                 return (
                                     <div className="slider-images">
                                         <img
-                                            src={`http://localhost:8888/${image.path}`}
+                                            src={`${image.secure_url}`}
                                             alt=""
                                             key={index}
                                             className={
@@ -97,7 +106,7 @@ function ProductDetail() {
                                             }
                                             onMouseOver={() =>
                                                 handleImageHover(
-                                                    `${image.path}`
+                                                    `${image.secure_url}`
                                                 )
                                             }
                                         />
@@ -111,9 +120,29 @@ function ProductDetail() {
                         <h4 className="product-name">
                             {product?.data.product.product.name}
                         </h4>
-                        <p className="product-description">
-                            {product?.data.product.product.content}
-                        </p>
+
+                        <p
+                            dangerouslySetInnerHTML={{
+                                __html: expandedContent
+                                    ? product?.data.product.product.content
+                                    : product?.data.product.product.content.slice(
+                                          0,
+                                          500
+                                      ),
+                            }}
+                            className="product-description"
+                        ></p>
+                        {!expandedContent &&
+                            product?.data.product.product.content.length >
+                                500 && (
+                                <button
+                                    onClick={() => setExpandedContent(true)}
+                                    style={{ border: "none" }}
+                                >
+                                    Xem thêm
+                                </button>
+                            )}
+                        {/* Các phần khác của sản phẩm */}
                         <div className="productOrder">
                             <div className="nameOrder">
                                 {product?.data.product.product.name}
@@ -123,6 +152,14 @@ function ProductDetail() {
                                 {product?.data.product.product.amount}
                             </div>
                             <div className="indetailOrder">
+                                <p
+                                    style={{
+                                        paddingRight: "20px",
+                                        color: "red",
+                                    }}
+                                >
+                                    Ưu đãi giảm ngay
+                                </p>
                                 <div className="discountOrder">
                                     -{product?.data.product.product.discount}%
                                 </div>
@@ -180,7 +217,7 @@ function ProductDetail() {
                                 >
                                     +
                                 </button>
-                                {User && (
+                                {User ? (
                                     <Link
                                         style={{
                                             textAlign: "center",
@@ -193,7 +230,26 @@ function ProductDetail() {
                                                 User.data.user.id
                                             )
                                         }
-                                        to={`/order/${User.data.user.id}/${0}`}
+                                        // to={`/order/${User.data.user.id}/${0}`}
+                                        to={`/order/guest`}
+                                        className="OrderSubmit"
+                                    >
+                                        Mua ngay
+                                    </Link>
+                                ) : (
+                                    <Link
+                                        style={{
+                                            textAlign: "center",
+                                            textDecoration: "none",
+                                            lineHeight: "40px",
+                                        }}
+                                        onClick={(e) =>
+                                            handleSubmit(
+                                                product,
+                                                User.data.user.id
+                                            )
+                                        }
+                                        to={`/order/guest`}
                                         className="OrderSubmit"
                                     >
                                         Mua ngay
@@ -237,27 +293,27 @@ function ProductDetail() {
                     <div className="addition">
                         <h4>tại sao nên chọn chúng tôi</h4>
                         <p>
-                            <i class="fa-solid fa-clock"></i>
+                            <FaCalendar />
                             {` `}
                             Hạn Sử Dụng Dài Nhất. Bao Bì Mới Nhất
                         </p>
                         <p>
-                            <i class="fa-solid fa-percent"></i>
+                            <FaPercent />
                             {` `}
                             Mua Càng Nhiều. Giảm Càng Nhiều
                         </p>
                         <p>
-                            <i class="fa-solid fa-thumbs-up"></i>
+                            <FaThumbsUp />
                             {` `}
                             Bán Sỉ Giá Tốt. Bán Lẻ Sale Thường Xuyên
                         </p>
                         <p>
-                            <i class="fa-solid fa-truck-fast"></i>
+                            <FaTruckMoving />
                             {` `}
                             Ship Tận Nơi. Nhận Hàng - Trả Tiền Ngay Tại Nhà
                         </p>
                         <p>
-                            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                            <FaDollarSign />
                             {` `}
                             Hoàn Tiền Gấp 10 Lần Nếu Bán Hàng Giả
                         </p>

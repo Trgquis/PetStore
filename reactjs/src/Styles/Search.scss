@@ -2,26 +2,15 @@
     position: relative; /* Đặt dropdownSearch làm điểm đề xuất cho việc định vị tương đối */
     height: 450px;
     .dropdown-contentSearch {
-        position: absolute; /* Đặt dropdown-contentSearch làm điểm đề xuất cho việc định vị tuyệt đối */
+        position: absolute;
         left: 0;
         width: 100%;
         background-color: #fff;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         border-radius: 4px;
         z-index: 999;
-        max-height: 100%; /* Giới hạn chiều cao của dropdown để nếu nội dung quá dài sẽ có thanh cuộn */
-
+        max-height: 100%;
         .formdataSearch {
-            display: block;
-            .dropdown-titleSearch {
-                text-align: center;
-
-                .searchTitle {
-                    font-size: 18px;
-                    color: #333;
-                }
-            }
-
             .searchInput {
                 height: 42px;
                 padding: 0 15px;
@@ -39,7 +28,7 @@
             #searchBtn {
                 width: 40px;
                 height: 42px;
-                margin-left: -40px; /* Đẩy button ra bên phải của input */
+                margin-left: -40px;
                 background-color: transparent;
                 border: none;
                 cursor: pointer;
@@ -58,20 +47,112 @@
                     font-size: 18px;
                     color: #333;
                 }
-
                 .searchResults {
                     list-style: none;
                     padding: 0;
                     max-height: 200px; /* Giới hạn chiều cao của kết quả tìm kiếm */
                     width: 100%;
-                    height: 100%;
-                    li {
-                        margin-bottom: 5px;
-                        font-size: 16px;
-                        color: #666;
+                    .search-infor {
+                        display: flex;
+                        align-items: center;
+                        padding: 0;
+                        border-bottom: solid 1px #aaa;
+
+                        .inforsearch {
+                            display: flex;
+                            justify-content: center;
+                            font-size: 14px;
+                            color: #333;
+                            cursor: pointer;
+                            &:hover {
+                                color: #ec7263;
+                            }
+                            .productInfo-name {
+                                white-space: nowrap; /* Ngăn tên sản phẩm xuống hàng */
+                                overflow: hidden; /* Ẩn đi phần nội dung vượt quá độ rộng */
+                                text-overflow: ellipsis;
+                                width: 400px;
+                            }
+                            .productInfo-price {
+                                // margin-top: 5px; /* Điều chỉnh khoảng cách dọc giữa tên sản phẩm và giá */
+                                font-weight: bold;
+                                color: #ec7263;
+                            }
+                        }
+
+                        .thumbnail {
+                            margin-left: auto;
+                            width: 40px;
+
+                            img {
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            }
+                        }
                     }
                 }
             }
         }
+    }
+}
+#content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 20px; // Khoảng cách giữa các sản phẩm
+}
+
+.post-items {
+    border: 1px solid #ccc; // Viền sản phẩm
+    height: fit-content;
+}
+
+.post-content {
+    text-align: center;
+    a {
+        font-size: 16px !important;
+    }
+}
+
+.post-grids {
+    display: grid;
+    grid-template-columns: repeat(
+        5,
+        minmax(200px, 1fr)
+    ); // Kích thước tối thiểu 200px cho mỗi cột, tự điều chỉnh theo kích thước của sản phẩm
+    grid-gap: 20px; // Khoảng cách giữa các sản phẩm
+    margin: 30px;
+}
+
+.overlayout-img {
+    position: relative;
+    overflow: hidden;
+
+    img {
+        width: 100%;
+        height: 300px;
+        transition: all 0.5s ease-in-out;
+
+        &:hover {
+            transform: scale(
+                1.1
+            ); // Hiệu ứng phóng to khi di chuột qua sản phẩm
+        }
+    }
+}
+
+#discount-percent--contents {
+    position: relative;
+    background-color: #ff0000; // Màu đỏ cho phần giảm giá
+    color: #fff;
+    padding: 5px;
+    width: fit-content;
+}
+
+.price {
+    font-weight: bold;
+
+    #old-price {
+        text-decoration: line-through; // Gạch ngang giá cũ
     }
 }

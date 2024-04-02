@@ -60,7 +60,7 @@ export default function CartPage() {
                                                                                 to={`/detail/${item.product.id}`}
                                                                             >
                                                                                 <img
-                                                                                    src={`http://localhost:8081/${item.images.path}`}
+                                                                                    src={item.secure_url}
                                                                                     alt=""
                                                                                 />
                                                                             </Link>

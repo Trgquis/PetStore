@@ -424,7 +424,13 @@ const categoryService = {
         return new Promise(async (resolve, reject) => {
             try {
                 let childs = "";
-                childs = await db.ChildCategories.findAll();
+                childs = await db.ChildCategories.findAll({
+                    attributes: {
+                        raw: true,
+                    },
+                    order: [["priority", "ASC"]], // Sắp xếp theo priority tăng dần
+                });
+
                 let count = await db.ChildCategories.count({});
 
                 resolve({ childs, count });

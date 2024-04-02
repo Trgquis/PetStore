@@ -7,6 +7,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { handlegetAllProducts, handlegetProduct } from "../redux/apiRequest";
 import "bootstrap/dist/css/bootstrap.min.css";
+import DropdownCategory from "./DropdownCategory";
+
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 function SampleNextArrow(props) {
@@ -18,7 +20,7 @@ function SampleNextArrow(props) {
                 ...style,
                 background: "#d3d6db",
                 paddingTop: "4px",
-                top: "93%",
+                top: "70%",
                 right: "-40px",
                 borderRadius: "50%",
                 width: "30px",
@@ -38,7 +40,7 @@ function SamplePrevArrow(props) {
                 ...style,
                 background: "#d3d6db",
                 paddingTop: "4px",
-                top: "93%",
+                top: "70%",
                 left: "-40px",
                 borderRadius: "50%",
                 width: "30px",
@@ -51,10 +53,25 @@ function SamplePrevArrow(props) {
 
 const Main = () => {
     const productList = useSelector((state) => state?.sales.allProducts);
+    const User = useSelector((state) => state?.auth.currentUser);
+    console.log(User);
     console.log(productList);
+    const [activeId, setActiveId] = useState(null);
+    const [dropdown, setDropdown] = useState(false);
+    const rootList = useSelector((state) => state?.sales.allRoots);
     const [id, setId] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const homeImageSettings = {
+        dots: false,
+        infinite: true,
+        speed: 1000,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+    };
 
     const settings = {
         // dots: true,
@@ -109,8 +126,91 @@ const Main = () => {
     }, []);
     return (
         <div id="content">
-            <div className="home-img">
-                <img src="/images/Cover01.jpg" alt="" />
+            <div className="overlayouthome">
+                <div className="catalog">
+                    <div className="catalog_title">
+                        <span>danh mục sản phẩm</span>
+                    </div>
+
+                    <div className="catalog_item">
+                        {rootList?.data.roots.roots.map((root) => (
+                            <div
+                                key={root.id}
+                                className="active"
+                                onMouseEnter={() => setActiveId(root.id)}
+                                onMouseLeave={() => setActiveId(null)}
+                            >
+                                <Link
+                                    to={`/allproducts/${root.id}`}
+                                    onClick={handleLinkClick}
+                                >
+                                    {root.name}
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="banner-section">
+                    <ul id="nav_bar">
+                        {rootList?.data.roots.roots.map((root) => (
+                            <li
+                                key={root.id}
+                                className="active"
+                                onMouseEnter={() => setActiveId(root.id)}
+                                onMouseLeave={() => setActiveId(null)}
+                            >
+                                <Link
+                                    to={`/allproducts/${root.id}`}
+                                    onClick={handleLinkClick}
+                                >
+                                    {root.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                    <div style={{ position: "absolute", zIndex: "20" }}>
+                        {activeId && <DropdownCategory parentID={activeId} />}
+                    </div>
+                    <div className="slider-section">
+                        <div className="home-img">
+                            <Slider {...homeImageSettings}>
+                                <img
+                                    src="/images/Cover01.jpg"
+                                    alt=""
+                                    className="slider-img"
+                                />
+                                <img
+                                    src="/images/Cover07.jpg"
+                                    alt=""
+                                    className="slider-img"
+                                />
+                                <img
+                                    src="/images/Cover03.jpg"
+                                    alt=""
+                                    className="slider-img"
+                                />
+                                <img
+                                    src="/images/Cover04.jpg"
+                                    alt=""
+                                    className="slider-img"
+                                />
+                            </Slider>
+                        </div>
+                        <div className="sub-img">
+                            <img
+                                src="/images/SUB01.jpg"
+                                className="subslider-img"
+                                alt=""
+                            />
+                            <img
+                                src="/images/SUB02.jpg"
+                                className="subslider-img"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className="post-grid--sc2">
                 <div className="post-item--banner">
@@ -158,7 +258,7 @@ const Main = () => {
             </div>
             <div className="title">
                 <h3>Khuyến mãi - On Sale</h3>
-                <p>Thức ăn cho mèo</p>
+                <p style={{ fontSize: "16px" }}>Sản phẩm cho mèo</p>
             </div>
 
             <div className="post-grid--sc">
@@ -172,7 +272,6 @@ const Main = () => {
                 </div>
                 <Slider {...settings}>
                     {productList?.data.products.products.map((product) => {
-                        // Kiểm tra nếu parent_id của sản phẩm nằm trong khoảng từ 1 đến 7 thì mới hiển thị sản phẩm
                         if (
                             product.category_id >= 1 &&
                             product.category_id <= 7
@@ -203,7 +302,9 @@ const Main = () => {
                                                         .map((item, index) => (
                                                             <img
                                                                 key={item.id}
-                                                                src={`http://localhost:8888/${item.path}`}
+                                                                src={
+                                                                    item.secure_url
+                                                                }
                                                                 alt=""
                                                             />
                                                         ))}
@@ -265,7 +366,7 @@ const Main = () => {
             </div>
             <div className="title">
                 <h3>Khuyến mãi - On Sale</h3>
-                <p>Shop cho chó</p>
+                <p style={{ fontSize: "16px" }}>Sản phẩm cho chó</p>
             </div>
 
             <div className="post-grid--sc">
@@ -329,7 +430,9 @@ const Main = () => {
                                                                                 key={
                                                                                     item.id
                                                                                 }
-                                                                                src={`http://localhost:8888/${item.path}`}
+                                                                                src={
+                                                                                    item.secure_url
+                                                                                }
                                                                                 alt=""
                                                                             />
                                                                         )
@@ -397,96 +500,6 @@ const Main = () => {
                     </>
                 )}
             </div>
-            {/* <div className="title">
-                <h1>Top Sales</h1>
-                <p>Thú cưng</p>
-            </div>
-            <div className="post-grid">
-                <div className="post-item" >
-                    <img 
-                        src = ""
-                        alt=""
-                        className="content_img" 
-                        id="largest-img--sp"/>
-                </div>
-                {productList?.products.map((product) => {
-                    if(product.catalog_id === 2){
-                     return (
-                        <Fragment>
-                            
-                            <div className="post-item" key={product.id}>
-                                <div className="overlayout">
-                                    <div className="overlayout-img">
-                                        <img  src={product.image_link} alt="" />
-                                    </div>
-                                    
-                                    <div className="over-btn">
-                                        <div className="detail-btn"> 
-                                            <button type="" className="indetail"  onClick="direct()">
-                                                <i className="ti-info"></i>
-                                                view more
-                                            </button>                
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="post-content">
-                                        {product.name}<br/>(thuần chủng)
-
-                                    <p className="price">{product.price}₫</p>
-                                </div>
-                            </div>
-                        </Fragment>
-                        )} 
-                    })}
-
-            </div>
-            <div className="title">
-                <h1>Top Sales</h1>
-                <p>Vật phẩm</p>
-            </div>
-            <div className="post-grid">
-                <div className="post-item" >
-                    <img 
-                        src = "/images/Banner02.jpg"
-                        alt=""
-                        className="content_img" 
-                        id="largest-img--sp"/>
-                </div>
-                {productList?.products.map((product) => {
-                    if(product.catalog_id === 3){
-                     return (
-                        <Fragment>
-                            
-                            <div className="post-item" key={product.id}>
-                                <div className="overlayout">
-                                    <div className="overlayout-img">
-                                        <img  src={product.image_link} alt="" />
-                                    </div>
-                                    
-                                    <div  className="over-btn"> 
-                                        <div  className="detail-btn"> 
-                                            <button type="submit" id="cart">
-                                                <i className="fas fa-shopping-cart   "></i>
-                                            </button>
-                                            <button type="" className="indetail" onClick={inDetail}><i  className="ti-info"></i>detail</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div  className="post-content">
-                                        {product.name}
-                                    <p className="price">
-                                            {product.price-product.price*(product.discount/100)}₫
-                                        <span id="old-price">
-                                            {product.price}₫
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </Fragment>
-                        )} 
-                    })}
-
-            </div> */}
         </div>
     );
 };

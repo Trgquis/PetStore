@@ -50,6 +50,10 @@ module.exports = {
                     allowNull: true,
                     type: Sequelize.STRING,
                 },
+                complete: {
+                    allowNull: false,
+                    type: Sequelize.SMALLINT,
+                },
                 // createdAt: {
                 //     type: "TIMESTAMP",
                 //     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),

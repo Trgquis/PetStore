@@ -35,7 +35,7 @@ const Usermanage = () => {
     const [mess, setMess] = useState();
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [deleteInfo, setdeleteUser] = useState(null);
-
+    console.log(User);
     useEffect(() => {
         try {
             // handlegetAllCatalogs(dispatch);
@@ -206,14 +206,14 @@ const Usermanage = () => {
                                 )}
                             </tbody>
                         </Table>
-                        
-                            <div className="pagination">
-                                <ManagePagination
-                                    currentPage={currentPage}
-                                    pageCount={pageCount}
-                                    handlePageChange={handlePageChange}
-                                />
-                            </div>
+
+                        <div className="pagination">
+                            <ManagePagination
+                                currentPage={currentPage}
+                                pageCount={pageCount}
+                                handlePageChange={handlePageChange}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

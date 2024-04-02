@@ -37,7 +37,7 @@ export default function SearchResult() {
                                             return (
                                                 <img
                                                     key={item.id}
-                                                    src={`http://localhost:8081/${item.path}`}
+                                                    src={`${item.secure_url}`}
                                                     alt=""
                                                     onMouseOver={(e) => {
                                                         if (index === 0) {

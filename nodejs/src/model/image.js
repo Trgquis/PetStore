@@ -18,10 +18,9 @@ module.exports = async (sequelize, DataTypes) => {
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
-            type: DataTypes.STRING,
-            image_name: DataTypes.STRING,
-            path: DataTypes.STRING,
+            secure_url: DataTypes.STRING,
             product_id: DataTypes.INTEGER,
+            cloudinary_public_id: DataTypes.STRING,
         },
         {
             sequelize,

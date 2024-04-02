@@ -40,8 +40,12 @@ export default function Regist() {
 
         try {
             const res = await registerUser(newUser, dispatch, navigate);
-            setStatus(res)
-            setMess("Account is existed!")
+            setStatus(res);
+            if (res === 0) {
+                setMess("Tạo tài khoản thành công!");
+            } else {
+                setMess("Tạo tài khoản thất bại!");
+            }
             handleShowAlert();
         } catch (error) {
             console.error(error);

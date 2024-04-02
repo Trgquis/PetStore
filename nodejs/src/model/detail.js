@@ -40,6 +40,7 @@ module.exports = async (sequelize, DataTypes) => {
             total_price: DataTypes.REAL,
             isCart: DataTypes.SMALLINT,
             status: DataTypes.STRING,
+            complete: DataTypes.SMALLINT
         },
         {
             sequelize,
