@@ -112,6 +112,7 @@ const productService = {
                     attributes: {
                         raw: true,
                     },
+                    order: [["discount", "DESC"]], // Sắp xếp theo discount giảm dần
                 });
                 let images = "";
                 images = await db.Image.findAll({
@@ -201,28 +202,7 @@ const productService = {
                         await db.Image.destroy({
                             where: { product_id: productId },
                         });
-                        images.forEach((image) => {
-                            const imagePath = path.join(
-                                __dirname,
-                                "../../",
-                                image.path
-                            );
-                            console.log(image.path);
-                            // fs.unlinkSync(imagePath);
-                            try {
-                                fs.unlinkSync(imagePath);
-                                console.log(
-                                    `Image ${image.path} deleted successfully`
-                                );
-                            } catch (error) {
-                                console.error(
-                                    `Error deleting image ${image.path}:`,
-                                    error
-                                );
-                                // Handle the error as needed, for example, you might want to reject the promise
-                                reject(error);
-                            }
-                        });
+
                         try {
                             await db.Product.destroy({
                                 where: { id: productId },
