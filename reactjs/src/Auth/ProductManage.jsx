@@ -14,6 +14,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import CustomAlert from "../components/CustomAlert";
 import ConfirmationModal from "../components/ConfirmationModal";
 import ProductDescription from "../components/ProductDescription";
+
 const PAGE_SIZE = 12;
 
 const ProductManage = () => {

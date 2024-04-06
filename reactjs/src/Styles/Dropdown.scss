@@ -297,24 +297,39 @@
 .dropdownSub {
     position: absolute;
     background-color: #fff;
-    width: 700px;
+    width: 800px;
     height: 388px;
     box-shadow: 0 1px 5px 2px rgba(0, 0, 0, 0.2);
-    position: absolute;
+    background-color: #fff;
+    padding: 0 15px;
+    top: 0;
+    overflow-y: auto;
+    display: flex;
+    z-index: 10;
     .wrapperCategory {
+        display: flex;
+        flex-wrap: wrap;
         width: 100%;
-        align-items: flex-start;
-        .categoriesline {
+        .catalogWrapper {
             display: flex;
-            align-items: center;
-            margin-bottom: 8px;
-            :hover {
-                color: #ec7263 !important;
-            }
-            a {
-                font-size: 12px !important;
-                color: #1c1c1c !important;
-                width: 100%;
+            flex-wrap: wrap;
+            width: 100%;
+            .catalogItem {
+                flex: 1 1 25%;
+                max-width: 25%;
+                padding: 0 10px;
+                .catalogTitle {
+                    font-weight: bold;
+                    margin-bottom: 5px;
+                }
+                .children {
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+                .child {
+                    margin-right: 10px;
+                    margin-bottom: 5px;
+                }
             }
         }
     }

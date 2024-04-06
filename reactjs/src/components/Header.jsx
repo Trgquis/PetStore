@@ -14,12 +14,13 @@ import {
     handlegetAllCatalogs,
     handlegetAllChilds,
 } from "../redux/apiRequest";
-
+import CatalogBar from "./CatalogBar";
 const Header = () => {
     const [keyword, setKeyword] = useState();
     const [showLogin, setShowLogin] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [showCart, setShowCart] = useState(false);
+    const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const headerRef = useRef(null); // Define headerRef here
@@ -28,16 +29,25 @@ const Header = () => {
         setShowLogin(!showLogin);
         setShowSearch(false);
         setShowCart(false);
+        setOpen(false);
     };
     const toggleSearch = () => {
         setShowSearch(!showSearch);
         setShowLogin(false);
         setShowCart(false);
+        setOpen(false);
     };
     const toggleCart = () => {
         setShowCart(!showCart);
         setShowLogin(false);
         setShowSearch(false);
+        setOpen(false);
+    };
+    const toggleCatalog = () => {
+        setOpen(!open);
+        setShowLogin(false);
+        setShowSearch(false);
+        setShowCart(false);
     };
     const handleLinkClick = () => {
         window.scrollTo(0, 0); // Cuộn lên đầu trang
@@ -92,11 +102,16 @@ const Header = () => {
                 <div className="logo">
                     <Link to="/">pet</Link>
                 </div>
-                <div className="toggleCatalog">
+                <div
+                    className="toggleCatalog"
+                    onClick={toggleCatalog}
+                    style={{ position: "relative" }}
+                >
                     <span style={{ fontSize: "25px", fontWeight: "bold" }}>
                         <CiViewList />
                     </span>
                     Danh mục
+                    {open && <CatalogBar />}
                 </div>
                 <div className="searchSection">
                     <input

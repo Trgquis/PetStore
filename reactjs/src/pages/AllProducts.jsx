@@ -110,6 +110,15 @@ export default function AllProducts() {
                                                     )}
                                                     ₫
                                                 </p>
+                                                <p
+                                                    style={{
+                                                        textDecoration: "none",
+                                                    }}
+                                                    id="old-price"
+                                                >
+                                                    Số lượng còn lại:{" "}
+                                                    {product.amount}
+                                                </p>
                                             </p>
                                         ) : (
                                             <>

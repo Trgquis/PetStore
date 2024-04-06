@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { handlegetAllProducts, handlegetProduct } from "../redux/apiRequest";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DropdownCategory from "./DropdownCategory";
+import { FaAngleRight } from "react-icons/fa";
 
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
@@ -57,9 +58,9 @@ const Main = () => {
     console.log(User);
     console.log(productList);
     const [activeId, setActiveId] = useState(null);
-    const [dropdown, setDropdown] = useState(false);
     const rootList = useSelector((state) => state?.sales.allRoots);
-    const [id, setId] = useState("");
+    const catalogList = useSelector((state) => state?.sales.allCatalogs);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -140,14 +141,20 @@ const Main = () => {
                                 key={root.id}
                                 className="active"
                                 onMouseEnter={() => setActiveId(root.id)}
-                                onMouseLeave={() => setActiveId(null)}
                             >
-                                <Link
-                                    to={`/allproducts/${root.id}`}
+                                <div
+                                    style={{
+                                        cursor: "pointer",
+                                        width: "100%",
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center",
+                                    }}
                                     onClick={handleLinkClick}
                                 >
                                     {root.name}
-                                </Link>
+                                    <FaAngleRight />
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -155,24 +162,21 @@ const Main = () => {
 
                 <div className="banner-section">
                     <ul id="nav_bar">
-                        {rootList?.data.roots.roots.map((root) => (
-                            <li
-                                key={root.id}
-                                className="active"
-                                onMouseEnter={() => setActiveId(root.id)}
-                                onMouseLeave={() => setActiveId(null)}
-                            >
-                                <Link
-                                    to={`/allproducts/${root.id}`}
-                                    onClick={handleLinkClick}
-                                >
-                                    {root.name}
-                                </Link>
-                            </li>
-                        ))}
+                        {catalogList?.data.catalogs.catalogs
+                            .slice(0, 6)
+                            .map((root) => (
+                                <li key={root.id} className="active">
+                                    <Link
+                                        to={`/allproducts/${root.id}`}
+                                        onClick={handleLinkClick}
+                                    >
+                                        {root.name}
+                                    </Link>
+                                </li>
+                            ))}
                     </ul>
                     <div style={{ position: "absolute", zIndex: "20" }}>
-                        {activeId && <DropdownCategory parentID={activeId} />}
+                        {<DropdownCategory parentID={activeId} />}
                     </div>
                     <div className="slider-section">
                         <div className="home-img">
