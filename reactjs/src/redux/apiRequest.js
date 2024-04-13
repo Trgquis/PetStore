@@ -20,9 +20,9 @@ import {
     getAllRoots,
     addnewChild,
 } from "./SaleSlice";
-export const handleGetAllCarts = async (userId, dispatch) => {
+export const handleGetAllCarts = async ( dispatch) => {
     try {
-        const getCarts = await dispatch(GetAllCart(userId));
+        const getCarts = await dispatch(GetAllCart());
         const allCarts = unwrapResult(getCarts);
         console.log("cartList", allCarts.data);
     } catch (e) {

@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import "../Styles/Dropdown.scss";
 import { handlegetAllRoots, handlegetAllCatalogs } from "../redux/apiRequest";
 import { FaAngleRight } from "react-icons/fa";
 
-const DropdownCategory = ({ parentID }) => {
+const DropdownCategory = ({ parentID, toggleSubCatalogShut }) => {
     const catalogList = useSelector((state) => state?.sales.allCatalogs);
     const childList = useSelector((state) => state?.sales.allChilds);
     const dispatch = useDispatch();
-    const [isDropdownOpen, setIsDropdownOpen] = useState();
-    console.log(parentID);
+
     useEffect(() => {
         handlegetAllRoots(dispatch);
         handlegetAllCatalogs(dispatch);
-        setIsDropdownOpen(parentID);
-    }, [parentID, dispatch]);
-
-    const handleMouseEnter = () => {
-        setIsDropdownOpen(true);
-    };
+    }, [dispatch]);
 
     const handleMouseLeave = () => {
-        setIsDropdownOpen(false);
+        if (toggleSubCatalogShut) {
+            toggleSubCatalogShut(); // Call the function only if it's provided
+        }
     };
 
     if (!catalogList) {
@@ -30,12 +26,7 @@ const DropdownCategory = ({ parentID }) => {
     }
 
     return (
-        <div
-            className="dropdownSub"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            style={{ display: isDropdownOpen && parentID ? "block" : "none" }}
-        >
+        <div className="dropdownSub" onMouseLeave={handleMouseLeave}>
             <div className="dropdown-content">
                 <div className="wrapperCategory" style={{ width: "100%" }}>
                     <div className="catalogWrapper">

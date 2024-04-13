@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../Styles/ProductDetail.scss";
 import CategoryBar from "../components/CategoryBar";
+import CustomAlert from "../components/CustomAlert";
 import { handlegetProduct } from "../redux/apiRequest";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -22,11 +23,14 @@ function ProductDetail() {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [currentImage, setCurrentImage] = useState(null);
     const [expandedContent, setExpandedContent] = useState(false);
-
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertType, setAlertType] = useState(0); // 0: Success, 1: Error
+    const [alertOpen, setAlertOpen] = useState(false);
     const User = useSelector((state) => state.auth.currentUser);
     const product = useSelector((state) => state?.sales.ProductDetail);
+    const [quantities, setQuantities] = useState({});
+    const [count, setCount] = useState(1);
     console.log(product);
-    const [count, setCount] = useState(0);
     console.log(id);
     const handleImageHover = (path) => {
         setCurrentImage(path);
@@ -54,6 +58,35 @@ function ProductDetail() {
         );
         console.log(response);
     };
+
+    const handleAddToCart = async (pID) => {
+        try {
+            console.log(pID, count);
+            const response = await axios.post(
+                "http://localhost:8888/api/addcart",
+                {
+                    product_id: pID,
+                    quantity: count,
+                },
+                { withCredentials: true }
+            );
+            console.log(response.data);
+            setAlertMessage("Thêm vào giỏ hàng thành công!"); // Set success message
+            setAlertType(0); // Set success type
+            setAlertOpen(true); // Open the alert modal
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+            setAlertMessage("Thêm vào giỏ hàng thất bại!"); // Set error message
+            setAlertType(1); // Set error type
+            setAlertOpen(true); // Open the alert modal
+        }
+    };
+    const closeAlert = () => {
+        setAlertOpen(false);
+    };
+    const handleClick = (productID) => {
+        handleAddToCart(productID);
+    };
     const handleIncrement = () => {
         if (count < 99) {
             setCount(count + 1);
@@ -76,6 +109,12 @@ function ProductDetail() {
                     catalogId={product?.data.product.product.category_id}
                 />
             )}
+            <CustomAlert
+                message={alertMessage}
+                type={alertType}
+                isOpen={alertOpen}
+                onClose={closeAlert}
+            />
             <div className="product-detail">
                 <div className="product-infoImage">
                     {product?.data.product.images !== undefined && (
@@ -279,7 +318,14 @@ function ProductDetail() {
                                         Mua ngay
                                     </Link>
                                 )}
-                                <button className="OrderCart">
+                                <button
+                                    className="OrderCart"
+                                    onClick={() =>
+                                        handleAddToCart(
+                                            product?.data.product.product.id
+                                        )
+                                    }
+                                >
                                     Thêm vào giỏ
                                 </button>
                             </div>

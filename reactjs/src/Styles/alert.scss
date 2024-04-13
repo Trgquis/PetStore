@@ -1,26 +1,20 @@
 .custom-alert {
     position: fixed;
-    top: 120px;
-    left: 85%;
-    transform: translateX(-50%);
+    top: 120px; /* Giữ nguyên hoặc điều chỉnh top tùy thích */
+    right: 20px; /* Thay đổi từ left sang right */
+    transform: none; /* Loại bỏ transform */
     padding: 15px;
     border-radius: 5px;
-    z-index: 99;
-    display: flex;
+    z-index: 199;
+    display: block;
     background-color: #ffffff;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .custom-alert-overlay {
-    z-index: 98; /* Set a lower z-index for the overlay */
+    z-index: 198; /* Set a lower z-index for the overlay */
 }
-
-// .custom-alert::before {
-//     content: "\2714"; /* Unicode character for a checkmark */
-//     font-size: 20px;
-//     margin-right: 10px;
-// }
 
 .checkmark::before {
     content: "\2714"; /* Unicode character for a checkmark */
@@ -35,6 +29,7 @@
     margin-right: 10px;
     color: red;
 }
+
 button {
     margin-left: auto;
     cursor: pointer;

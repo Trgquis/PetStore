@@ -43,6 +43,9 @@ const Header = () => {
         setShowSearch(false);
         setOpen(false);
     };
+    const toggleCartShut = () => {
+        setShowCart(false);
+    };
     const toggleCatalog = () => {
         setOpen(!open);
         setShowLogin(false);
@@ -86,11 +89,9 @@ const Header = () => {
 
     // Xử lý sự kiện click bên ngoài header
     const handleClickOutside = (event) => {
-        if (headerRef.current && !headerRef.current.contains(event.target)) {
-            setShowLogin(false);
-            setShowSearch(false);
-            setShowCart(false);
-        }
+        setShowLogin(false);
+        setShowSearch(false);
+        setShowCart(false);
     };
     return (
         <header className="header">
@@ -155,7 +156,11 @@ const Header = () => {
                             <div className=" icon-btn" onClick={toggleLogin}>
                                 <FaUser />
                             </div>
-                            <div className="icon-btn" onClick={toggleCart}>
+                            <div
+                                className="icon-btn"
+                                onMouseEnter={toggleCart}
+                                // onClick={toggleCart}
+                            >
                                 <FaShoppingCart />
                             </div>
                             <div
@@ -180,7 +185,9 @@ const Header = () => {
                                     transition: "opacity 0.3s ease",
                                 }}
                             >
-                                {showCart && <Cart />}
+                                {showCart && (
+                                    <Cart toggleCartShut={toggleCartShut} />
+                                )}
                             </div>
                         </>
                     )}

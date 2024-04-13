@@ -154,7 +154,7 @@ const userController = {
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            security: false,
+            secure: false,
             path: "/",
             sameSite: "strict",
         });

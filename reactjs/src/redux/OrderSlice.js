@@ -1,16 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const GetAllCart = createAsyncThunk("GetAllCart", async (userId) => {
-    const res = await axios.get(
-        "http://localhost:8888/api/getAllCart?user_id=" + userId
-    );
+export const GetAllCart = createAsyncThunk("GetAllCart", async () => {
+    const res = await axios.get("http://localhost:8888/api/getAllCart", {
+        withCredentials: true,
+    });
     console.log(res);
     return res;
 });
 export const GetOrder = createAsyncThunk("GetOrder", async (userId) => {
     const res = await axios.get(
-        "http://localhost:8081/api/GetOrder?user_id=" + userId
+        "http://localhost:8888/api/GetOrder?user_id=" + userId
     );
     console.log(res);
     return res;

@@ -1,5 +1,6 @@
 const express = require("express");
 let router = express.Router();
+
 const userController = require("../controller/userController");
 const productController = require("../controller/productController");
 const orderController = require("../controller/orderController");
@@ -11,7 +12,8 @@ const csvParser = require("csv-parser");
 const { PythonShell } = require("python-shell");
 const modelFilePath = "src/recommendSystem/recommendation_model.pkl";
 const fileUploader = require("../config/cloudinary.config");
-
+const { LocalStorage } = require("node-localstorage");
+const localStorage = new LocalStorage("./scratch");
 let initWebRoutes = (app) => {
     app.use("/images", express.static("./images"));
 
@@ -77,30 +79,22 @@ let initWebRoutes = (app) => {
     router.delete("/api/deleteProduct", productController.handleDeleteProduct),
         // Cart Section
         router.get("/api/getAllCart", orderController.getAllCart);
-    router.get("/list", userController.listModels);
-
-    router.post("/test", uploadmiddleware.upload, (req, res) => {
-        // Lấy kết quả từ req.files (danh sách các file đã upload)
-        const files = req.files;
-        console.log(files);
-        // Duyệt qua từng file trong danh sách
-        files.forEach((file) => {
-            // Lấy thông tin của file đã upload từ Cloudinary
-            const public_id = file.path.split("images/")[1].split(".")[0];
-            const  secure_url  = file.path;
-
-            // Hiển thị thông tin của file đã upload
-            console.log("Public ID:", public_id);
-            console.log("Secure URL:", secure_url);
-
-            // Lưu thông tin vào cơ sở dữ liệu hoặc xử lý dữ liệu theo nhu cầu
-            // Ví dụ: Lưu public_id và secure_url vào cơ sở dữ liệu
-            // YourModel.create({ publicId: public_id, secureUrl: secure_url });
-        });
-
-        // Trả về kết quả cho client
-        res.status(200).json({ message: "Upload successful!" });
+    router.post("/api/addcart", orderController.handleAddCart);
+    router.delete("/api/deleteCart", orderController.deleteCartItem);
+    router.get("/clear", (req, res) => {
+        try {
+            res.clearCookie("userId");
+            res.clearCookie("cartData");
+            res.status(200).json({
+                success: true,
+                message: "Cookies cleared successfully.",
+            });
+        } catch (error) {
+            console.error("Error clearing", error);
+            res.status(500).json({ message: "Internal Server Error." });
+        }
     });
+    router.get("/list", userController.listModels);
 
     return app.use("/", router);
 };
