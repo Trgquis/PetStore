@@ -8,9 +8,9 @@ services:
             - "8888:8888"
         environment:
             - POSTGRES_HOST=db
-            - POSTGRES_USER=<postgres_user>
-            - POSTGRES_PASSWORD=<postgres_password>
-            - POSTGRES_DB=<postgres_database>
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=
+            - POSTGRES_DB=petstore
         depends_on:
             - db
 
