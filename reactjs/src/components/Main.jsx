@@ -196,9 +196,7 @@ const Main = () => {
             )}
             <div id="content">
                 <div className="overlayouthome">
-                    <div
-                        className="catalog"
-                    >
+                    <div className="catalog">
                         <div className="catalog_title">
                             <span>danh mục sản phẩm</span>
                         </div>
@@ -229,20 +227,6 @@ const Main = () => {
                     </div>
 
                     <div className="banner-section">
-                        <ul id="nav_bar">
-                            {catalogList?.data.catalogs.catalogs
-                                .slice(0, 6)
-                                .map((root) => (
-                                    <li key={root.id} className="active">
-                                        <Link
-                                            to={`/allproducts/${root.id}`}
-                                            onClick={handleLinkClick}
-                                        >
-                                            {root.name}
-                                        </Link>
-                                    </li>
-                                ))}
-                        </ul>
                         <div style={{ position: "absolute", zIndex: "20" }}>
                             {show && (
                                 <DropdownCategory
@@ -553,6 +537,11 @@ const Main = () => {
                                                                     <button
                                                                         type="submit"
                                                                         id="cart"
+                                                                        onClick={() => {
+                                                                            handleClick(
+                                                                                product.id
+                                                                            );
+                                                                        }}
                                                                     >
                                                                         <FaShoppingCart />
                                                                     </button>

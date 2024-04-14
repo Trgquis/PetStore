@@ -23,10 +23,14 @@ export default function Login() {
         navigate("/");
     };
 
+    const handleLinkClick = (e) => {
+        e.stopPropagation(); // Ngăn chặn sự kiện click lan rộng ra ngoài
+    };
+
     return (
         <>
             <span className="arrow-up"></span>
-            <div className="dropdown">
+            <div className="dropdown" onClick={handleLinkClick}>
                 <div className="dropdown-contentLogin">
                     <div className="dropdown-title">
                         <div className="Login--title">ĐĂNG NHẬP TÀI KHOẢN</div>

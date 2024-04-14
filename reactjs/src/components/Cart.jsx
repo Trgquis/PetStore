@@ -1,42 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "../Styles/Dropdown.scss";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { handleGetAllCarts } from "../redux/apiRequest";
-import { useDispatch } from "react-redux";
-const axios = require("axios");
-export default function Cart({ toggleCartShut }) {
+
+const Cart = () => {
     const currentUser = useSelector((state) => state.auth.currentUser);
     const cartList = useSelector((state) => state.order.allCarts);
-    console.log(currentUser?.data.user.id);
-    console.log(cartList);
-    console.log(typeof cartList?.data.productList);
     const dispatch = useDispatch();
 
-    let convertPrice = (price) => {
-        let converted = new Intl.NumberFormat(
-            { style: "currency", currency: "VND" },
-            "vnd"
-        ).format(price);
-        return converted;
-    };
+    // Function to fetch cart items
     useEffect(() => {
         async function fetchCartItems() {
             try {
-                const response = await handleGetAllCarts(dispatch);
+                await handleGetAllCarts(dispatch);
             } catch (error) {
                 console.error("Error fetching cart items:", error);
-                // Xử lý lỗi ở đây nếu cần
+                // Handle error here if needed
             }
         }
         fetchCartItems();
-    }, []);
-    const handleLeaveCart = () => {
-        // Xử lý các thao tác cần thiết khi rời khỏi Cart
-        // Sau đó gọi toggleCartShut để đóng modal Cart
-        toggleCartShut();
+    }, [dispatch]);
+
+    // Function to convert price format
+    const convertPrice = (price) => {
+        return new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        }).format(price);
+    };
+
+    // Handle click event to prevent propagation
+    const handleClick = (e) => {
+        e.stopPropagation();
     };
 
     return (
@@ -44,7 +40,7 @@ export default function Cart({ toggleCartShut }) {
             {currentUser ? (
                 <>
                     <span className="arrow-upCart"></span>
-                    <div className="dropdownCart">
+                    <div className="dropdownCart" onClick={handleClick}>
                         <div className="dropdown-contentCart">
                             <div className="dropdown-title">
                                 <div className="Login--title">PETSHOP</div>
@@ -69,64 +65,43 @@ export default function Cart({ toggleCartShut }) {
             ) : (
                 <>
                     <span className="arrow-upCartLogged"></span>
-                    <div
-                        className="dropdownCartLogged"
-                        onMouseLeave={handleLeaveCart}
-                    >
+                    <div className="dropdownCartLogged" onClick={handleClick}>
                         <div className="titleCart">
                             {cartList?.data.totalQuantity > 0
                                 ? `GIỎ HÀNG ĐANG CÓ ${cartList?.data.totalQuantity} SẢN PHẨM`
                                 : "GIỎ HÀNG KHÔNG CÓ SẢN PHẦM NÀO"}
                         </div>
-                        {cartList?.data.cart.map((item, index) => (
-                            <div>
-                                <div
-                                    className="dropdown-contentCartLogged"
-                                    key={index}
-                                >
-                                    <div>
-                                        <div id="miniCartInfo">
-                                            <div id="miniCart">
-                                                <div id="miniCartTitle">
-                                                    {item?.product.product.name}
-                                                </div>
-                                            </div>
-                                            <div id="miniCartImg">
-                                                {item?.quantity}
-                                                <Link
-                                                    to={`/product/${item?.product.product.id}`}
-                                                >
-                                                    {item?.product.images
-                                                        .slice(0, 1)
-                                                        .map(
-                                                            (
-                                                                image,
-                                                                productIndex
-                                                            ) => (
-                                                                <img
-                                                                    style={{
-                                                                        width: "50px",
-                                                                    }}
-                                                                    src={
-                                                                        image.secure_url
-                                                                    }
-                                                                    alt=""
-                                                                    key={
-                                                                        productIndex
-                                                                    }
-                                                                />
-                                                            )
-                                                        )}
-                                                </Link>
-                                            </div>
+                        <div  className="dropdown-contentCartLogged">
+                            {cartList?.data.cart.map((item, index) => (
+                                <div key={index} id="miniCartInfo">
+                                    <div id="miniCart">
+                                        <div id="miniCartTitle">
+                                            {item?.product.product.name}
                                         </div>
                                     </div>
+                                    <div id="miniCartImg">
+                                        {item?.quantity}
+                                        <Link
+                                            to={`/product/${item?.product.product.id}`}
+                                        >
+                                            <img
+                                                style={{ width: "50px" }}
+                                                src={
+                                                    item?.product.images[0]
+                                                        .secure_url
+                                                }
+                                                alt=""
+                                            />
+                                        </Link>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
                 </>
             )}
         </>
     );
-}
+};
+
+export default Cart;

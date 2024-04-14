@@ -25,7 +25,8 @@ const Header = () => {
     const navigate = useNavigate();
     const headerRef = useRef(null); // Define headerRef here
 
-    const toggleLogin = () => {
+    const toggleLogin = (e) => {
+        e.stopPropagation();
         setShowLogin(!showLogin);
         setShowSearch(false);
         setShowCart(false);
@@ -37,15 +38,15 @@ const Header = () => {
         setShowCart(false);
         setOpen(false);
     };
-    const toggleCart = () => {
+    const toggleCart = (e) => {
+        console.log("click")
+        e.stopPropagation();
         setShowCart(!showCart);
         setShowLogin(false);
         setShowSearch(false);
         setOpen(false);
     };
-    const toggleCartShut = () => {
-        setShowCart(false);
-    };
+
     const toggleCatalog = () => {
         setOpen(!open);
         setShowLogin(false);
@@ -158,8 +159,7 @@ const Header = () => {
                             </div>
                             <div
                                 className="icon-btn"
-                                onMouseEnter={toggleCart}
-                                // onClick={toggleCart}
+                                onClick={toggleCart}
                             >
                                 <FaShoppingCart />
                             </div>
@@ -185,9 +185,7 @@ const Header = () => {
                                     transition: "opacity 0.3s ease",
                                 }}
                             >
-                                {showCart && (
-                                    <Cart toggleCartShut={toggleCartShut} />
-                                )}
+                                {showCart && <Cart />}
                             </div>
                         </>
                     )}
