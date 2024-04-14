@@ -18,7 +18,7 @@ services:
         build:
             context: ./reactjs
         ports:
-            - "80:80"
+            - "8888:8888"
 
     db:
         image: postgres
