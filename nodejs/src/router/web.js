@@ -56,7 +56,7 @@ let initWebRoutes = (app) => {
     // User Section
     router.post("/api/regist", userController.handleRegist);
     router.post("/api/login", userController.handleLogin);
-    router.post("/api/logout", userController.handleLogout);
+    router.put("/api/logout", userController.handleLogout);
     router.get("/api/get-all-users", userController.handleGetAllUsers);
     router.get("/api/getuser", userController.handleGetUser);
     router.put("/api/edituser", userController.handleUpdateUser);
@@ -65,6 +65,7 @@ let initWebRoutes = (app) => {
     // Product Section
     router.get("/api/search", productController.handleSearchProduct);
     router.get("/api/getAllProducts", productController.handleGetAllProducts);
+    router.get("/api/getAllReviews", productController.handleGetAllReviews);
     router.get("/api/getProduct", productController.handleGetProduct);
     router.post(
         "/api/create-new-product",
@@ -80,10 +81,10 @@ let initWebRoutes = (app) => {
         // Cart Section
         router.get("/api/getAllCart", orderController.getAllCart);
     router.post("/api/addcart", orderController.handleAddCart);
-    router.delete("/api/deleteCart", orderController.deleteCartItem);
+    router.delete("/api/removeItemCart", orderController.handleRemoveCart);
+    router.delete("/api/deleteCart/", orderController.deleteCartItem);
     router.get("/clear", (req, res) => {
         try {
-            res.clearCookie("userId");
             res.clearCookie("cartData");
             res.status(200).json({
                 success: true,
@@ -94,6 +95,9 @@ let initWebRoutes = (app) => {
             res.status(500).json({ message: "Internal Server Error." });
         }
     });
+    //Order Section
+    router.post("/api/submitOrder", orderController.handleSubmitOrder);
+
     router.get("/list", userController.listModels);
 
     return app.use("/", router);

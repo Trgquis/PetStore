@@ -22,6 +22,10 @@ module.exports = async (sequelize, DataTypes) => {
                 through: "details",
                 foreignKey: "product_id",
             });
+
+            Product.belongsToMany(models.Review, {
+                foreignKey: "user_id",
+            });
         }
     }
     Product.init(
@@ -39,6 +43,7 @@ module.exports = async (sequelize, DataTypes) => {
             discount: DataTypes.REAL,
             content: DataTypes.TEXT,
             amount: DataTypes.INTEGER,
+            sold_amount: DataTypes.INTEGER,
         },
         {
             sequelize,

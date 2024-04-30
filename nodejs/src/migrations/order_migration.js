@@ -20,6 +20,24 @@ module.exports = {
                     onUpdate: "CASCADE",
                     onDelete: "CASCADE",
                 },
+                guestuser_id: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                    onUpdate: "CASCADE",
+                    onDelete: "CASCADE",
+                },
+                city: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                },
+                district: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                },
+                ward: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                },
                 status: {
                     allowNull: false,
                     type: Sequelize.TEXT,

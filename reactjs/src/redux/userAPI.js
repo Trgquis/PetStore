@@ -40,6 +40,7 @@ const userAPI = {
         // console.log(id)
         await axios.put("http://localhost:8888/api/logout", {
             headers: { token: `Bearer ${accessToken}` },
+            withCredentials: true,
         });
     },
     EditUser: async (user) => {

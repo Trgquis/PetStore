@@ -13,6 +13,7 @@ import {
     handlegetAllRoots,
     handlegetAllCatalogs,
     handlegetAllChilds,
+    handleGetAllCarts,
 } from "../redux/apiRequest";
 import CatalogBar from "./CatalogBar";
 const Header = () => {
@@ -22,8 +23,9 @@ const Header = () => {
     const [showCart, setShowCart] = useState(false);
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const headerRef = useRef(null); // Define headerRef here
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    const cartquantity = useSelector((state) => state.order.allCarts);
 
     const toggleLogin = (e) => {
         e.stopPropagation();
@@ -39,7 +41,6 @@ const Header = () => {
         setOpen(false);
     };
     const toggleCart = (e) => {
-        console.log("click")
         e.stopPropagation();
         setShowCart(!showCart);
         setShowLogin(false);
@@ -53,6 +54,7 @@ const Header = () => {
         setShowSearch(false);
         setShowCart(false);
     };
+
     const handleLinkClick = () => {
         window.scrollTo(0, 0); // Cuộn lên đầu trang
     };
@@ -65,11 +67,17 @@ const Header = () => {
         }
         setKeyword(newKeyword); // Cập nhật giá trị keyword với giá trị nhập vào từ ô tìm kiếm
     };
-    const currentUser = useSelector((state) => state.auth.currentUser);
+
     useEffect(() => {
         handlegetAllRoots(dispatch);
         handlegetAllCatalogs(dispatch);
         handlegetAllChilds(dispatch);
+        if (currentUser) {
+            const userId = currentUser?.data.userData.user.id;
+            console.log(userId);
+            handleGetAllCarts(userId, dispatch);
+        }
+        handleGetAllCarts(null, dispatch);
         // Thêm event listener cho sự kiện scroll
         window.addEventListener("scroll", handleScroll);
         // Thêm event listener cho sự kiện click bên ngoài header
@@ -81,10 +89,10 @@ const Header = () => {
             document.removeEventListener("click", handleClickOutside);
         };
     }, []);
+
     // Xử lý sự kiện scroll
     const handleScroll = () => {
         setShowLogin(false);
-        setShowSearch(false);
         setShowCart(false);
     };
 
@@ -100,126 +108,144 @@ const Header = () => {
                 <p>Tặng voucher miễn phí khi trở thành hội viên của PETSHOP</p>
             </div>
             <i className="fas fas fa-angle-down"></i>
-            <nav className="navbarHeader">
-                <div className="logo">
-                    <Link to="/">pet</Link>
-                </div>
-                <div
-                    className="toggleCatalog"
-                    onClick={toggleCatalog}
-                    style={{ position: "relative" }}
-                >
-                    <span style={{ fontSize: "25px", fontWeight: "bold" }}>
-                        <CiViewList />
-                    </span>
-                    Danh mục
-                    {open && <CatalogBar />}
-                </div>
-                <div className="searchSection">
-                    <input
-                        type="text"
-                        placeholder="Bạn cần tìm gì?"
-                        value={keyword}
-                        onChange={handleKeywordChange}
-                    />
-
-                    <div className="iconsearch">
-                        <FaSearch />
+            <div className="overlayoutNav">
+                <nav className="navbarHeader">
+                    <div className="logo">
+                        <Link to="/">
+                            <img
+                                src="/flavicon.ico"
+                                style={{ height: "60px", width: "70px" }}
+                                alt=""
+                            />
+                        </Link>
                     </div>
-                </div>
-                <div className="contactnumber">
-                    <p
-                        style={{
-                            fontSize: "20px",
-                            lineHeight: "20px",
-                            marginTop: "10px",
-                            marginRight: "5px",
-                        }}
+                    <div
+                        className="toggleCatalog"
+                        onClick={toggleCatalog}
+                        style={{ position: "relative" }}
                     >
-                        <FaPhoneAlt />
-                    </p>
-                    <div style={{ height: "100%" }}>
+                        <span style={{ fontSize: "25px", fontWeight: "bold" }}>
+                            <CiViewList />
+                        </span>
+                        Danh mục
+                        {open && <CatalogBar />}
+                    </div>
+                    <div className="searchSection">
+                        <input
+                            type="text"
+                            placeholder="Bạn cần tìm gì?"
+                            value={keyword}
+                            onChange={handleKeywordChange}
+                        />
+
+                        <div className="iconsearch">
+                            <FaSearch />
+                        </div>
                         <div
                             style={{
-                                height: "16px",
-                                marginTop: "-42px",
-                                marginBottom: "5px",
+                                opacity: showSearch ? 1 : 0,
+                                transition: "opacity 0.3s ease",
                             }}
                         >
-                            Gọi mua hàng
+                            {showSearch && <Search keyword={keyword} />}
                         </div>
-                        <div style={{ height: "16px" }}>0364998896</div>
                     </div>
-                </div>
-                <div className="icon">
-                    {!currentUser && (
-                        <>
-                            <div className=" icon-btn" onClick={toggleLogin}>
-                                <FaUser />
-                            </div>
-                            <div
-                                className="icon-btn"
-                                onClick={toggleCart}
-                            >
-                                <FaShoppingCart />
-                            </div>
-                            <div
-                                style={{
-                                    opacity: showLogin ? 1 : 0,
-                                    transition: "opacity 0.3s ease",
-                                }}
-                            >
-                                {showLogin && <Login />}
-                            </div>
+                    <div className="contactnumber">
+                        <p
+                            style={{
+                                fontSize: "20px",
+                                lineHeight: "20px",
+                                marginTop: "10px",
+                                marginRight: "5px",
+                            }}
+                        >
+                            <FaPhoneAlt />
+                        </p>
+                        <div style={{ height: "100%" }}>
                             <div
                                 style={{
-                                    opacity: showSearch ? 1 : 0,
-                                    transition: "opacity 0.3s ease",
+                                    height: "16px",
+                                    marginTop: "-42px",
+                                    marginBottom: "5px",
                                 }}
                             >
-                                {showSearch && <Search keyword={keyword} />}
+                                Gọi mua hàng
                             </div>
-                            <div
-                                style={{
-                                    opacity: showCart ? 1 : 0,
-                                    transition: "opacity 0.3s ease",
-                                }}
-                            >
-                                {showCart && <Cart />}
-                            </div>
-                        </>
-                    )}
-                    {currentUser && (
-                        <>
-                            <div className="icon-btn" onClick={toggleSearch}>
-                                <FaSearch />
-                            </div>
-                            <div className="icon-btn" onClick={toggleCart}>
-                                <FaShoppingCart />
-                            </div>
-                            <div className="user-information">
-                                {currentUser ? (
-                                    <UserInformation
-                                        User={currentUser.data.userData}
-                                    />
-                                ) : (
-                                    <UserInformation
-                                        User={currentUser.data.userData}
-                                    />
-                                )}
-                            </div>
-                            <div
-                                style={{
-                                    opacity: showSearch ? 1 : 0,
-                                    transition: "opacity 0.3s ease",
-                                }}
-                            >
-                                {showSearch && <Search keyword={keyword} />}
-                            </div>
-                        </>
-                    )}
-                </div>
-            </nav>
+                            <div style={{ height: "16px" }}>0364998896</div>
+                        </div>
+                    </div>
+                    <div className="icon">
+                        {!currentUser && (
+                            <>
+                                <div
+                                    className=" icon-btn"
+                                    onClick={toggleLogin}
+                                >
+                                    <FaUser />
+                                </div>
+                                <div className="icon-btn" onClick={toggleCart}>
+                                    <FaShoppingCart />
+                                    <div className="cart-icon">
+                                        <i className="fa fa-shopping-cart"></i>
+                                        <span id="cart-item-count">
+                                            {cartquantity?.data.totalQuantity}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div
+                                    style={{
+                                        opacity: showLogin ? 1 : 0,
+                                        transition: "opacity 0.3s ease",
+                                    }}
+                                >
+                                    {showLogin && <Login />}
+                                </div>
+
+                                <div
+                                    style={{
+                                        opacity: showCart ? 1 : 0,
+                                        transition: "opacity 0.3s ease",
+                                    }}
+                                >
+                                    {showCart && <Cart />}
+                                </div>
+                            </>
+                        )}
+                        {currentUser && (
+                            <>
+                                <div className="user-information">
+                                    {currentUser ? (
+                                        <UserInformation
+                                            User={currentUser.data.userData}
+                                        />
+                                    ) : (
+                                        <UserInformation
+                                            User={currentUser.data.userData}
+                                        />
+                                    )}
+                                </div>
+                                <div className="icon-btn" onClick={toggleCart}>
+                                    <FaShoppingCart />
+                                    <div className="cart-icon">
+                                        <i className="fa fa-shopping-cart"></i>
+                                        <span id="cart-item-count">
+                                            {cartquantity?.data.totalQuantity}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div
+                                    style={{
+                                        opacity: showCart ? 1 : 0,
+                                        transition: "opacity 0.3s ease",
+                                    }}
+                                >
+                                    {showCart && <Cart />}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </nav>
+            </div>
         </header>
     );
 };

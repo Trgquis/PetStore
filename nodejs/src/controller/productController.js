@@ -14,6 +14,7 @@ const productController = {
                 discount: req.body.discount,
                 content: req.body.content,
                 amount: req.body.amount,
+                sold_amount: 0,
             };
             let message = await productService.createNewProduct(data, images);
             return res.status(200).json(message);
@@ -39,11 +40,18 @@ const productController = {
 
     handleGetAllProducts: async (req, res) => {
         let products = await productService.getAllProducts();
-        console.log(products);
         return res.status(200).json({
             errCode: 0,
             errMessage: "OK",
             products,
+        });
+    },
+    handleGetAllReviews: async (req, res) => {
+        let reviews = await productService.getAllReviews();
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: "OK",
+            reviews,
         });
     },
 
@@ -76,7 +84,7 @@ const productController = {
                 errMessage: "Missing Parameters",
             });
         }
-        // console.log(req.body.id)
+        console.log(req.body.id);
         let message = await productService.deleteProduct(id);
         console.log(message);
         return res.status(200).json(message);

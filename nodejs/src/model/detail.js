@@ -38,9 +38,7 @@ module.exports = async (sequelize, DataTypes) => {
             },
             quantity: DataTypes.INTEGER, //Số lượng các sản phẩm đc đặt
             total_price: DataTypes.REAL,
-            isCart: DataTypes.SMALLINT,
             status: DataTypes.STRING,
-            complete: DataTypes.SMALLINT
         },
         {
             sequelize,

@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../redux/apiRequest";
 import PropTypes from "prop-types";
+import { FaAngleDown } from "react-icons/fa";
 import "../Styles/UserInformation.scss";
 
 const UserInformation = ({ User }) => {
@@ -20,134 +21,72 @@ const UserInformation = ({ User }) => {
     };
     return (
         <>
-            {User.user.firstName &&
-            User.user.lastName &&
-            User.user.email &&
-            User.accessToken ? (
-                <div className="user-information">
-                    <div className="container" onClick={toggleDropdown}>
-                        <div className="info-container">
-                            <h4 className="name">
-                                {User.user.lastName} {User.user.firstName}
-                            </h4>
-                            <h4 className="email">{User.user.email}</h4>
-                        </div>
+            <div className="user-information">
+                <div className="container" onClick={toggleDropdown}>
+                    <div className="info-container">
+                        <h4 className="name">
+                            Xin chào! {User.user.lastName} {User.user.firstName}
+                        </h4>
                     </div>
-                    {showDropdown && (
-                        <div className="AccountDropdown">
-                            <div>
+                </div>
+                {showDropdown && (
+                    <div className="AccountDropdown">
+                        <div>
+                            {User.user.roleId === "1" ? (
                                 <div className="dropdown-line">
                                     <Link
                                         className="dropdown--detail"
-                                        to="/maintenance"
-                                    >
-                                        <i className="fa-solid fa-id-card"></i>
-                                        <span style={{ paddingLeft: "8px" }}>
-                                            Hồ sơ
-                                        </span>
-                                    </Link>
-                                </div>
-                                <div className="dropdown-line">
-                                    <Link
-                                        className="dropdown--detail"
-                                        to="/maintenance"
+                                        to="/AdminPage"
                                     >
                                         <i className="fa-regular fa-bell"></i>
-                                        <span style={{ paddingLeft: "8px" }}>
-                                            Thông báo
-                                        </span>
+                                        <span>Trang admin</span>
                                     </Link>
                                 </div>
+                            ) : null}
+                            <div className="dropdown-line">
+                                <Link
+                                    className="dropdown--detail"
+                                    to="/maintenance"
+                                >
+                                    <i className="fa-solid fa-id-card"></i>
+                                    <span>Tài khoản của tôi</span>
+                                </Link>
+                            </div>
+                            {User.user.roleId !== "1" ? (
                                 <div className="dropdown-line">
                                     <Link
                                         className="dropdown--detail"
                                         to="/maintenance"
                                     >
                                         <i className="fa-solid fa-headset"></i>
-                                        <span style={{ paddingLeft: "8px" }}>
-                                            Hỗ trợ
-                                        </span>
+                                        <span>Đơn hàng</span>
                                     </Link>
                                 </div>
-                                <div className="dropdown-line">
-                                    <Link
-                                        className="dropdown--detail"
-                                        to="/"
-                                        onClick={handleLogOut}
-                                    >
-                                        <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                                        <span style={{ paddingLeft: "8px" }}>
-                                            Đăng xuất
-                                        </span>
-                                    </Link>
-                                </div>
+                            ) : null}
+
+                            <div className="dropdown-line">
+                                <Link
+                                    className="dropdown--detail"
+                                    to="/maintenance"
+                                >
+                                    <i className="fa-solid fa-headset"></i>
+                                    <span>Hỗ trợ</span>
+                                </Link>
                             </div>
-                        </div>
-                    )}
-                </div>
-            ) : (
-                <div className="user-information">
-                    <div className="container" onClick={toggleDropdown}>
-                        <div className="info-container">
-                            <h4 className="name">
-                                {User.user.lastName} {User.user.firstName}
-                            </h4>
-                            <h4 className="email">{User.user.email}</h4>
+                            <div className="dropdown-line">
+                                <Link
+                                    className="dropdown--detail"
+                                    to="/"
+                                    onClick={handleLogOut}
+                                >
+                                    <i className="fa-solid fa-arrow-right-from-bracket"></i>
+                                    <span>Đăng xuất</span>
+                                </Link>
+                            </div>
                         </div>
                     </div>
-                    {showDropdown && (
-                        <div className="AccountDropdown">
-                            <div>
-                                <div className="dropdown-line">
-                                    <Link
-                                        className="dropdown--detail"
-                                        to="/maintenance"
-                                    >
-                                        <i className="fa-solid fa-id-card"></i>
-                                        <span style={{ paddingLeft: "8px" }}>
-                                            Hồ sơ
-                                        </span>
-                                    </Link>
-                                </div>
-                                <div className="dropdown-line">
-                                    <Link
-                                        className="dropdown--detail"
-                                        to="/maintenance"
-                                    >
-                                        <i className="fa-regular fa-bell"></i>
-                                        <span style={{ paddingLeft: "8px" }}>
-                                            Thông báo
-                                        </span>
-                                    </Link>
-                                </div>
-                                <div className="dropdown-line">
-                                    <Link
-                                        className="dropdown--detail"
-                                        to="/maintenance"
-                                    >
-                                        <i className="fa-solid fa-headset"></i>
-                                        <span style={{ paddingLeft: "8px" }}>
-                                            Hỗ trợ
-                                        </span>
-                                    </Link>
-                                </div>
-                                <div className="dropdown-line">
-                                    <Link
-                                        className="dropdown--detail"
-                                        to="/"
-                                        onClick={handleLogOut}
-                                    >
-                                        <i className="fa-solid fa-arrow-right-from-bracket"></i>
-                                        <span style={{ paddingLeft: "8px" }}>
-                                            Đăng xuất
-                                        </span>
-                                    </Link>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            )}
+                )}
+            </div>
         </>
     );
 };

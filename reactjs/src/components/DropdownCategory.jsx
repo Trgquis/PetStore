@@ -56,6 +56,9 @@ const DropdownCategory = ({ parentID, toggleSubCatalogShut }) => {
                                                         to={`/allproducts/${child.id}`}
                                                         style={{
                                                             color: "#000",
+                                                            textDecoration:
+                                                                "none",
+                                                            fontSize: "15px",
                                                         }}
                                                     >
                                                         {child.name}

@@ -41,31 +41,22 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.REAL,
                 },
-                isCart: {
-                    allowNull: false,
-                    type: Sequelize.SMALLINT,
-                    defaultValue: 0,
-                },
                 status: {
                     allowNull: true,
                     type: Sequelize.STRING,
                 },
-                complete: {
+                createdAt: {
+                    type: "TIMESTAMP",
+                    defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
                     allowNull: false,
-                    type: Sequelize.SMALLINT,
                 },
-                // createdAt: {
-                //     type: "TIMESTAMP",
-                //     defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
-                //     allowNull: false,
-                // },
-                // updatedAt: {
-                //     type: "TIMESTAMP",
-                //     defaultValue: Sequelize.literal(
-                //       "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
-                //     ),
-                //     allowNull: false,
-                // },
+                updatedAt: {
+                    type: "TIMESTAMP",
+                    defaultValue: Sequelize.literal(
+                        "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+                    ),
+                    allowNull: false,
+                },
             },
             {
                 freezeTableName: true,

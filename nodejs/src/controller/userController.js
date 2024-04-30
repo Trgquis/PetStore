@@ -164,6 +164,8 @@ const userController = {
 
     handleLogout: async (req, res) => {
         const refreshToken = req.cookies.refreshToken;
+        const userId = req.cookies.userId
+        delete userId
         if (refreshToken) {
             const index = TokenArr.findIndex(
                 (token) => token.refreshToken === refreshToken
@@ -172,6 +174,7 @@ const userController = {
                 TokenArr.splice(index, 1);
             }
         }
+        res.clearCookie("userId")
         res.clearCookie("refreshToken");
         res.status(200).json("Logout Success!");
     },

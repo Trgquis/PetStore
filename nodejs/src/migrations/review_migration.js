@@ -2,7 +2,7 @@
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.createTable(
-            "products",
+            "reviews",
             {
                 id: {
                     allowNull: false,
@@ -10,49 +10,49 @@ module.exports = {
                     primaryKey: true,
                     type: Sequelize.INTEGER,
                 },
-                category_id: {
-                    // new foreign key column
+                user_id: {
                     allowNull: false,
                     type: Sequelize.INTEGER,
                     references: {
-                        model: "childcategories",
+                        model: "users",
                         key: "id",
                     },
                     onUpdate: "CASCADE",
                     onDelete: "CASCADE",
                 },
-                name: {
+                product_id: {
                     allowNull: false,
-                    type: Sequelize.STRING,
+                    type: Sequelize.INTEGER,
+                    references: {
+                        model: "products",
+                        key: "id",
+                    },
+                    onUpdate: "CASCADE",
+                    onDelete: "CASCADE",
                 },
-                price: {
+                score: {
                     allowNull: false,
                     type: Sequelize.REAL,
                 },
-                discount: {
-                    allowNull: false,
-                    type: Sequelize.REAL,
-                },
-                content: {
-                    allowNull: false,
+                comment: {
+                    allowNull: true,
                     type: Sequelize.TEXT,
                 },
-                amount: {
+                createdAt: {
                     allowNull: false,
-                    type: Sequelize.INTEGER,
+                    type: Sequelize.DATE,
                 },
-                sold_amount: {
+                updatedAt: {
                     allowNull: false,
-                    type: Sequelize.INTEGER,
+                    type: Sequelize.DATE,
                 },
             },
             {
                 freezeTableName: true,
             }
         );
-        queryInterface.addConstrain;
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable("products");
+        await queryInterface.dropTable("orders");
     },
 };

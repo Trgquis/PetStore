@@ -1,0 +1,65 @@
+.animate {
+    position: fixed;
+    display: block;
+    width: 20px;
+    height: 20px;
+    bottom: 100px;
+    right: 40px;
+}
+
+.delay1 {
+    z-index: 1000;
+    animation: waves-delay1 2.5s linear infinite;
+    animation-delay: 0.1s; /* Không cần thay đổi */
+}
+
+.delay2 {
+    animation: waves 2.5s linear forwards infinite;
+    background-color: rgba(1, 14, 2, 0.8); /* Màu nhạt hơn delay1 */
+    animation-delay: 0.2s; /* Thêm khoảng thời gian chờ 0.2s */
+}
+
+.delay3 {
+    animation: waves 2.5s linear 1.3s forwards infinite;
+    background-color: rgba(1, 14, 2, 0.5); /* Màu nhạt hơn delay2 */
+    animation-delay: 0.2s; /* Thêm khoảng thời gian chờ 0.2s */
+}
+
+.delay4 {
+    animation: waves 2.5s linear 1.9s forwards infinite;
+    background-color: rgba(1, 14, 2, 0.3); /* Màu nhạt hơn delay3 */
+    animation-delay: 0.2s; /* Thêm khoảng thời gian chờ 0.2s */
+}
+
+.circle {
+    display: block;
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #0194c7;
+    transition: 3s ease;
+    border: 1px solid #fff;
+}
+
+@keyframes waves {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+@keyframes waves-delay1 {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+}

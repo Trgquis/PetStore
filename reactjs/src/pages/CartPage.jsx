@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "../Styles/Cart.scss";
 import "bootstrap";
@@ -7,20 +7,135 @@ import { handleGetAllCarts } from "../redux/apiRequest";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import CustomAlert from "../components/CustomAlert";
+import Cookies from "js-cookie";
 export default function CartPage() {
-    const { userId } = useParams();
     const dispatch = useDispatch();
     const cartList = useSelector((state) => state.order.allCarts);
+    const currentUser = useSelector((state) => state.auth.currentUser);
+    const [totalPrice, setTotalPrice] = useState(0); // Khởi tạo state để lưu tổng giá trị đơn hàng
+    const [alertMessage, setAlertMessage] = useState("");
+    const [alertType, setAlertType] = useState(0); // 0: Success, 1: Error
+    const [alertOpen, setAlertOpen] = useState(false);
 
     console.log(cartList);
+    const userId = currentUser?.data.userData.user.id;
+    const guestId = Cookies.get("guestuserId");
+
     useEffect(() => {
         async function fetchCartItems() {
-            await handleGetAllCarts(20, dispatch); // gọi hàm getAllCart với user_id
+            if (userId) {
+                await handleGetAllCarts(userId, dispatch); // gọi hàm getAllCart với user_id
+            } else {
+                await handleGetAllCarts(null, dispatch); // gọi hàm getAllCart với user_id
+            }
         }
         fetchCartItems();
-    }, [userId]);
+    }, [userId, dispatch]);
+    const convertPrice = (price) => {
+        return new Intl.NumberFormat("vi-VN", {
+            style: "currency",
+            currency: "VND",
+        }).format(price);
+    };
+
+    useEffect(() => {
+        if (cartList.data) {
+            let totalPrice = 0;
+            cartList.data.cart.forEach((item) => {
+                const discountedPrice =
+                    item.product.product.price -
+                    item.product.product.price *
+                        (item.product.product.discount / 100);
+                totalPrice += discountedPrice * item.quantity;
+            });
+            setTotalPrice(totalPrice);
+        }
+    }, [cartList]);
+    const handleClickDecrease = async (productId) => {
+        await handleRemoveItemCart(productId);
+    };
+    const handleClickIncrease = async (productId, qt) => {
+        await handleAddToCart(productId, qt - qt + 1);
+    };
+    const closeAlert = () => {
+        setAlertOpen(false);
+    };
+
+    const handleRemoveItemCart = async (productID) => {
+        try {
+            await axios.delete(
+                "http://localhost:8888/api/removeItemCart/?productID=" +
+                    productID,
+                { withCredentials: true }
+            );
+            setAlertMessage("Cập nhật vào giỏ hàng thành công!"); // Set success message
+            setAlertType(0); // Set success type
+            setAlertOpen(true); // Open the alert modal
+            if (userId) {
+                await handleGetAllCarts(userId, dispatch); // gọi hàm getAllCart với user_id
+            } else {
+                await handleGetAllCarts(null, dispatch); // gọi hàm getAllCart với user_id
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    const handleAddToCart = async (pID, qt) => {
+        try {
+            console.log(pID, qt);
+            if (pID && qt) {
+                const response = await axios.post(
+                    "http://localhost:8888/api/addcart",
+                    {
+                        product_id: pID,
+                        quantity: qt,
+                    },
+                    { withCredentials: true }
+                );
+                console.log(response.data);
+                setAlertMessage("Cập nhật vào giỏ hàng thành công!"); // Set success message
+                setAlertType(0); // Set success type
+                setAlertOpen(true); // Open the alert modal
+                if (userId) {
+                    await handleGetAllCarts(userId, dispatch); // gọi hàm getAllCart với user_id
+                } else {
+                    await handleGetAllCarts(null, dispatch); // gọi hàm getAllCart với user_id
+                }
+            }
+        } catch (error) {
+            console.error("Error adding item to cart:", error);
+        }
+    };
+    const handleDeleteItem = async (productID) => {
+        try {
+            console.log(productID);
+            await axios.delete(
+                "http://localhost:8888/api/deleteCart/?productID=" + productID,
+                { withCredentials: true }
+            );
+            setAlertMessage("Cập nhật vào giỏ hàng thành công!"); // Set success message
+            setAlertType(0); // Set success type
+            setAlertOpen(true); // Open the alert modal
+            if (userId) {
+                await handleGetAllCarts(userId, dispatch); // gọi hàm getAllCart với user_id
+            } else {
+                await handleGetAllCarts(null, dispatch); // gọi hàm getAllCart với user_id
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <div className="layoutCart">
+            <CustomAlert
+                message={alertMessage}
+                type={alertType}
+                isOpen={alertOpen}
+                onClose={closeAlert}
+            />
             <div className="wrapperCart">
                 <div className="headertitle">
                     <div className="container">
@@ -41,8 +156,9 @@ export default function CartPage() {
                                                     Bạn đang có
                                                     <strong>
                                                         {" "}
-                                                        {cartList?.data.count}
-                                                        {" "}
+                                                        {
+                                                            cartList?.data.count
+                                                        }{" "}
                                                         sản phẩm{" "}
                                                     </strong>
                                                     trong giỏ hàng
@@ -50,75 +166,144 @@ export default function CartPage() {
                                             )}
                                             <div className="table-cart">
                                                 {cartList.data &&
-                                                    cartList?.data.cartItem.map(
+                                                    cartList?.data.cart.map(
                                                         (item) => {
                                                             return (
                                                                 <div className="line-item">
                                                                     <div className="line-item-left">
                                                                         <div className="item-img">
                                                                             <Link
-                                                                                to={`/detail/${item.product.id}`}
+                                                                                to={`/detail/${item.product.product.id}`}
                                                                             >
                                                                                 <img
-                                                                                    src={item.secure_url}
+                                                                                    src={
+                                                                                        item
+                                                                                            .product
+                                                                                            .images[0]
+                                                                                            .secure_url
+                                                                                    }
                                                                                     alt=""
                                                                                 />
                                                                             </Link>
                                                                         </div>
                                                                     </div>
                                                                     <div className="line-item-right">
-                                                                        <div className="item-info">
-                                                                            <Link
-                                                                                to={`/detail/${item.product.id}`}
-                                                                            >
-                                                                                <h3 className="item--title">
-                                                                                    {
-                                                                                        item
-                                                                                            .product
-                                                                                            .name
-                                                                                    }
-                                                                                </h3>
-                                                                            </Link>
-                                                                        </div>
                                                                         <div className="item-qty">
-                                                                            <div className="qty-parent">
-                                                                                <button className="qty-btn">
-                                                                                    +
-                                                                                </button>
-                                                                                <input
-                                                                                    className="item-quantity"
-                                                                                    type="text"
-                                                                                />
-                                                                                <button className="qty-btn">
-                                                                                    -
-                                                                                </button>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div className="item-price">
-                                                                            <p>
-                                                                                <span className="span--price">
-                                                                                    190,000đ
-                                                                                </span>
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="item--totalPrice">
-                                                                        <div className="item--price">
-                                                                            <span>
-                                                                                Thành
-                                                                                tiền:
-                                                                            </span>
-                                                                            <span className="price--total">
-                                                                                190,000đ
-                                                                            </span>
-                                                                        </div>
-                                                                        <div className="remove">
-                                                                            <Link>
-                                                                                <img
-                                                                                    src="https://theme.hstatic.net/1000296747/1000891809/14/delete-cart.png?v=20"
-                                                                                    alt=""
-                                                                                />
+                                                                            <Link
+                                                                                className="span--title"
+                                                                                to={`/detail/${item?.product.product.id}`}
+                                                                            >
+                                                                                {
+                                                                                    item
+                                                                                        ?.product
+                                                                                        .product
+                                                                                        .name
+                                                                                }
                                                                             </Link>
+                                                                            <div className="qty-parent">
+                                                                                <div className="item--totalPrice">
+                                                                                    <p className="price">
+                                                                                        {convertPrice(
+                                                                                            item
+                                                                                                .product
+                                                                                                .product
+                                                                                                .price -
+                                                                                                item
+                                                                                                    .product
+                                                                                                    .product
+                                                                                                    .price *
+                                                                                                    (item
+                                                                                                        .product
+                                                                                                        .product
+                                                                                                        .discount /
+                                                                                                        100)
+                                                                                        )}
+                                                                                    </p>
+                                                                                    <button
+                                                                                        className="qty-btn"
+                                                                                        onClick={() =>
+                                                                                            handleClickDecrease(
+                                                                                                item
+                                                                                                    .product
+                                                                                                    .product
+                                                                                                    .id,
+                                                                                                item.quantity
+                                                                                            )
+                                                                                        }
+                                                                                        disabled={
+                                                                                            item.quantity ===
+                                                                                            1
+                                                                                        }
+                                                                                    >
+                                                                                        -
+                                                                                    </button>
+                                                                                    <input
+                                                                                        className="item-quantity"
+                                                                                        type="text"
+                                                                                        readOnly
+                                                                                        value={
+                                                                                            item.quantity
+                                                                                        }
+                                                                                    />
+                                                                                    <button
+                                                                                        className="qty-btn"
+                                                                                        onClick={() =>
+                                                                                            handleClickIncrease(
+                                                                                                item
+                                                                                                    .product
+                                                                                                    .product
+                                                                                                    .id,
+                                                                                                item.quantity
+                                                                                            )
+                                                                                        }
+                                                                                    >
+                                                                                        +
+                                                                                    </button>
+                                                                                </div>
+
+                                                                                <div className="btnsection">
+                                                                                    <div className="item--price">
+                                                                                        <span>
+                                                                                            Thành
+                                                                                            tiền:{" "}
+                                                                                            {convertPrice(
+                                                                                                (item
+                                                                                                    .product
+                                                                                                    .product
+                                                                                                    .price -
+                                                                                                    item
+                                                                                                        .product
+                                                                                                        .product
+                                                                                                        .price *
+                                                                                                        (item
+                                                                                                            .product
+                                                                                                            .product
+                                                                                                            .discount /
+                                                                                                            100)) *
+                                                                                                    item.quantity
+                                                                                            )}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div
+                                                                                    className="remove"
+                                                                                    onClick={() =>
+                                                                                        handleDeleteItem(
+                                                                                            item
+                                                                                                .product
+                                                                                                .product
+                                                                                                .id
+                                                                                        )
+                                                                                    }
+                                                                                >
+                                                                                    <Link>
+                                                                                        <img
+                                                                                            src="https://theme.hstatic.net/1000296747/1000891809/14/delete-cart.png?v=20"
+                                                                                            alt=""
+                                                                                        />
+                                                                                    </Link>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -138,7 +323,7 @@ export default function CartPage() {
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12 sidebarCart-sticky">
+                            <div className="col-md-4 col-sm-4 col-xs-12 sidebarCart-sticky">
                                 <div className="wrapOrder">
                                     <div className="order-block">
                                         <h2 className="order-block--title">
@@ -147,7 +332,9 @@ export default function CartPage() {
                                         <div className="order-total">
                                             <p>
                                                 Tổng tiền :{" "}
-                                                <span>190,000đ</span>
+                                                <span>
+                                                    {convertPrice(totalPrice)}
+                                                </span>
                                             </p>
                                         </div>
                                         <div className="order-action">
@@ -159,9 +346,33 @@ export default function CartPage() {
                                                 Bạn cũng có thể nhập mã giảm giá
                                                 ở trang thanh toán.
                                             </p>
-                                            <Link id="checkout-btn">
-                                                ĐẶT HÀNG
-                                            </Link>
+                                            {!cartList.data ||
+                                            cartList.data.cart.length === 0 ? (
+                                                <span id="checkout-btn">
+                                                    Giỏ hàng của bạn đang trống
+                                                </span>
+                                            ) : userId ? (
+                                                <Link
+                                                    id="checkout-btn"
+                                                    to={"/order"}
+                                                    // onClick={() => {
+                                                    //     handleSubmitOrder();
+                                                    // }}
+                                                >
+                                                    ĐẶT MUA
+                                                </Link>
+                                            ) : (
+                                                <Link
+                                                    id="checkout-btn"
+                                                    to={"/order"}
+
+                                                    // onClick={() => {
+                                                    //     handleSubmitOrder();
+                                                    // }}
+                                                >
+                                                    ĐẶT MUA
+                                                </Link>
+                                            )}
                                         </div>
                                     </div>
                                     <div className="order-block order-notify">

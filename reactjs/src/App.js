@@ -18,6 +18,7 @@ import Maintenance from "./pages/Maintenance";
 import OrderPage from "./pages/OrderPage";
 import CartPage from "./pages/CartPage";
 import SearchResult from "./pages/SearchResult";
+import DashBoard from "./Auth/DashBoard";
 
 const useRouteElement = () => {
     const routeElement = useRoutes([
@@ -114,7 +115,7 @@ const useRouteElement = () => {
             ),
         },
         {
-            path: "/order/:id/:isCart",
+            path: "/order/",
             element: (
                 <>
                     <OrderPage />
@@ -141,7 +142,14 @@ const useRouteElement = () => {
                 </>
             ),
         },
-        
+        {
+            path: "AdminPage",
+            element: (
+                <>
+                    <DashBoard />
+                </>
+            ),
+        },
     ]);
     return routeElement;
 };

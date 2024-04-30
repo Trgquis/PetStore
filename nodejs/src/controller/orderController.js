@@ -4,6 +4,7 @@ const { LocalStorage } = require("node-localstorage");
 const localStorage = new LocalStorage("./scratch");
 const db = require("../model/server");
 const productService = require("../service/productService");
+const { INTEGER, STRING } = require("sequelize");
 const generateUniqueUserId = () => {
     return uuidv4(); // Tạo một UUID duy nhất
 };
@@ -16,7 +17,16 @@ let handleSubmitOrder = async (req, res) => {
         });
     }
     let message = await orderService.handleSubmitOrder(data);
-    console.log(message);
+    console.log("return", message);
+    if (message.isGuest) {
+        res.cookie("submittedOrder", message, {
+            httpOnly: true,
+            secure: false,
+            path: "/",
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+    }
     return res.status(200).json(message);
 };
 
@@ -30,18 +40,20 @@ const handleAddCart = async (req, res) => {
         });
     }
     try {
-        // Lấy hoặc tạo một định danh duy nhất cho người dùng từ cookies
-        let userId = req.cookies.userId;
-        if (!userId) {
-            userId = generateUniqueUserId(); // Hàm này sẽ tạo một định danh duy nhất
-            res.cookie("userId", userId, { maxAge: 24 * 60 * 60 * 1000 }); // Max age: 24 giờ
+        let requestId = req.cookies.guestuserId;
+        if (data.userId) {
+            userId = data.userId;
+            console.log(userId);
+            res.clearCookie("guestuserId");
+            // res.cookie("userId", userId, { maxAge: 24 * 60 * 60 * 1000 });
+        } else {
+            res.clearCookie("userId");
+            if (!requestId) {
+                id = generateUniqueUserId();
+                res.cookie("guestuserId", id, { maxAge: 24 * 60 * 60 * 1000 });
+            }
         }
-        res.cookie("userId", userId, {
-            httpOnly: true,
-            secure: false,
-            path: "/",
-            sameSite: "strict",
-        });
+
         // Xử lý logic thêm sản phẩm vào giỏ hàng
         let cartData = req.cookies.cartData || {};
         console.log(cartData);
@@ -78,58 +90,58 @@ const handleAddCart = async (req, res) => {
     }
 };
 
-// const getAllCart = async (req, res) => {
-//     try {
-//         // Lấy thông tin giỏ hàng từ localStorage
-//         const cartData = JSON.parse(localStorage.getItem("cartData")) || {};
+const handleRemoveCart = async (req, res) => {
+    const data = req.query.productID;
+    console.log(data);
+    if (!data) {
+        return res.status(400).json({
+            errCode: 1,
+            errMessage: "Invalid input data",
+        });
+    }
+    try {
+        let cartData = req.cookies.cartData || {};
+        console.log(cartData);
+        const productId = parseInt(data); // Chuyển đổi product_id thành số nguyên
+        if (isNaN(productId)) {
+            throw new Error("Invalid input data");
+        }
 
-//         // Mảng để lưu trữ thông tin sản phẩm trong giỏ hàng
-//         const cartItems = [];
+        if (cartData[data] && cartData[data].quantity > 1) {
+            cartData[data].quantity -= 1; // Giảm số lượng sản phẩm đi 1
+        } else if (cartData[data] && cartData[data].quantity === 1) {
+            delete cartData[data]; // Nếu số lượng là 1 thì loại bỏ sản phẩm khỏi giỏ hàng
+        }
 
-//         // Tổng số lượng sản phẩm trong giỏ hàng
-//         let totalQuantity = 0;
-
-//         // Lặp qua từng mục trong giỏ hàng
-//         for (const productId in cartData) {
-//             const item = cartData[productId];
-//             // Gọi hàm getProduct để lấy thông tin sản phẩm từ cơ sở dữ liệu
-//             const product = await productService.getProductById(productId);
-//             if (product) {
-//                 cartItems.push({
-//                     product: product,
-//                     quantity: item.quantity,
-//                 });
-//                 // Cộng dồn vào tổng số lượng sản phẩm
-//                 totalQuantity += item.quantity;
-//             }
-//         }
-
-//         return res.status(200).json({
-//             cartItems: cartItems,
-//             totalQuantity: totalQuantity,
-//         });
-//     } catch (error) {
-//         console.error("Error getting cart:", error);
-//         return res.status(500).json({
-//             errCode: 2,
-//             errMessage: "Internal Server Error",
-//         });
-//     }
-// };
+        // Lưu thông tin giỏ hàng vào cookies
+        res.cookie("cartData", cartData, {
+            httpOnly: true,
+            secure: false,
+            path: "/",
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000,
+        }); // Max age: 24 giờ
+        return res.status(200).json("success");
+    } catch (error) {
+        console.error("Error removing item from cart:", error);
+        return res.status(500).json({
+            errCode: 2,
+            errMessage: "Internal Server Error",
+        });
+    }
+};
 
 const getAllCart = async (req, res) => {
     try {
-        // Get cart data from cookies
+        const userId = req.query.userId;
+        console.log(userId);
         let cartData = req.cookies.cartData || {};
         console.log(cartData);
 
-        // Total quantity of products in the cart
         let totalQuantity = 0;
 
-        // Array to store product information
-        const productList = [];
-        let cart = []
-        // Get product information from productService
+        // const productList = [];
+        let cart = [];
         for (const productId in cartData) {
             const item = cartData[productId];
             const productInfo = await productService.getProductById(productId);
@@ -138,7 +150,7 @@ const getAllCart = async (req, res) => {
                 totalQuantity += item.quantity;
                 cart.push({
                     product: productInfo,
-                    quantity: item.quantity
+                    quantity: item.quantity,
                 });
             }
         }
@@ -157,17 +169,42 @@ const getAllCart = async (req, res) => {
     }
 };
 
-const deleteCartItem = async () => {
+const deleteCartItem = async (req, res) => {
+    const productId = req.query.productID;
+    console.log(productId);
+    if (!productId) {
+        return res.status(400).json({
+            errCode: 1,
+            errMessage: "Product ID is required",
+        });
+    }
     try {
-        // Xóa tất cả các mục trong localStorage có key là "cartData"
-        localStorage.removeItem("cartData");
-        console.log("Cart data has been deleted successfully.");
-        // Hoặc nếu bạn muốn xóa tất cả các mục trong localStorage, bạn có thể sử dụng:
-        // localStorage.clear();
-        // console.log("All localStorage data has been deleted successfully.");
+        let cartData = req.cookies.cartData || {};
+        console.log(cartData);
+
+        if (!cartData[productId]) {
+            return res.status(400).json({
+                errCode: 3,
+                errMessage: "Product not found in cart",
+            });
+        } else {
+            delete cartData[productId];
+        }
+
+        res.cookie("cartData", cartData, {
+            httpOnly: true,
+            secure: false,
+            path: "/",
+            sameSite: "strict",
+            maxAge: 24 * 60 * 60 * 1000,
+        });
+        return res.status(200).json("success");
     } catch (error) {
-        console.error("Error deleting cart data:", error);
-        // Xử lý lỗi ở đây nếu cần thiết
+        console.error("Error removing item from cart:", error);
+        return res.status(500).json({
+            errCode: 4,
+            errMessage: "Internal Server Error",
+        });
     }
 };
 
@@ -186,6 +223,7 @@ let getOrder = async (req, res) => {
 module.exports = {
     handleSubmitOrder: handleSubmitOrder,
     handleAddCart: handleAddCart,
+    handleRemoveCart: handleRemoveCart,
     getAllCart: getAllCart,
     getOrder: getOrder,
     deleteCartItem: deleteCartItem,

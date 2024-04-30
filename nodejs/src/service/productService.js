@@ -1,8 +1,9 @@
 const db = require("../model/server");
-const { Op, where } = require("sequelize");
+const { Op, where, Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
 const unidecode = require("unidecode");
+const product = require("../model/product");
 
 const productService = {
     checkProduct: (productInfo) => {
@@ -40,6 +41,7 @@ const productService = {
                         discount: parseFloat(data.discount),
                         content: data.content,
                         amount: parseInt(data.amount),
+                        sold_amount: data.sold_amount,
                     });
                     console.log(product);
 
@@ -81,20 +83,62 @@ const productService = {
             try {
                 let product = null;
                 let images = null;
+                let reviewsData = null;
+                let reviewsCount = 0;
+                let averageRating = 0;
 
                 if (productId) {
+                    // Lấy thông tin sản phẩm từ bảng products
                     product = await db.Product.findOne({
                         where: { id: productId },
-                        unique: true,
                         raw: true,
                         nest: true,
                     });
+                    // Lấy tất cả hình ảnh của sản phẩm từ bảng images
                     images = await db.Image.findAll({
                         where: { product_id: productId },
                     });
+
+                    reviewsData = await db.Review.findAll({
+                        attributes: {
+                            raw: true,
+                        },
+                        where: { product_id: productId },
+                    });
+
+                    // Lấy số lượng đánh giá của sản phẩm từ bảng reviews
+                    reviews = await db.Review.findAll({
+                        attributes: [
+                            [
+                                Sequelize.fn("COUNT", Sequelize.col("id")),
+                                "reviewCount",
+                            ],
+                            [
+                                Sequelize.fn("AVG", Sequelize.col("score")),
+                                "avgScore",
+                            ],
+                        ],
+                        // attributes: {
+                        //     raw: true,
+                        // },
+                        where: { product_id: productId },
+                    });
+                    // Lấy số lượng đánh giá và điểm trung bình từ kết quả
+                    if (reviews.length > 0) {
+                        reviewsCount = parseInt(reviews[0].reviewCount);
+                        averageRating = Math.round(
+                            parseFloat(reviews[0].avgScore || 0)
+                        );
+                    }
                 }
 
-                let result = { product, images };
+                let result = {
+                    product,
+                    images,
+                    reviewsData,
+                    reviewsCount,
+                    averageRating,
+                };
                 console.log(result);
                 resolve(result);
             } catch (e) {
@@ -104,9 +148,73 @@ const productService = {
         });
     },
 
+    getAllReviews: async () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const reviews = await db.Review.findAll();
+                console.log(reviews);
+                resolve(reviews);
+            } catch (error) {
+                throw error;
+            }
+        });
+    },
+
+    avgRating: async (productId) => {
+        try {
+            const reviews = await db.Review.findAll({
+                attributes: [
+                    [Sequelize.fn("AVG", Sequelize.col("score")), "avgScore"],
+                ],
+                where: { product_id: productId },
+            });
+
+            // Lấy giá trị trung bình đánh giá từ reviews, hoặc trả về 0 nếu không có đánh giá nào
+            const averageRating = reviews.length > 0 ? reviews[0].avgScore : 0;
+
+            return averageRating;
+        } catch (error) {
+            throw error;
+        }
+    },
+
     getAllProducts: async () => {
         return new Promise(async (resolve, reject) => {
             try {
+                const reviewsCount = await db.Review.findAll({
+                    attributes: [
+                        "product_id",
+                        [
+                            Sequelize.fn("COUNT", Sequelize.col("id")),
+                            "reviewCount",
+                        ],
+                    ],
+                    group: ["product_id"],
+                });
+
+                // Lấy trung bình đánh giá từ bảng reviews
+                const averageRatings = await db.Review.findAll({
+                    attributes: [
+                        "product_id",
+                        [
+                            Sequelize.fn("AVG", Sequelize.col("score")),
+                            "avgScore",
+                        ],
+                    ],
+                    group: ["product_id"],
+                });
+
+                // Chuyển danh sách số lượng đánh giá và trung bình đánh giá thành các bản đồ
+                const reviewCountMap = {};
+                reviewsCount.forEach((review) => {
+                    reviewCountMap[review.product_id] = review.reviewCount;
+                });
+
+                const avgRatingMap = {};
+                averageRatings.forEach((review) => {
+                    avgRatingMap[review.product_id] = review.avgScore || 0;
+                });
+
                 let products = "";
                 products = await db.Product.findAll({
                     attributes: {
@@ -114,6 +222,15 @@ const productService = {
                     },
                     order: [["discount", "DESC"]], // Sắp xếp theo discount giảm dần
                 });
+
+                products.forEach((product) => {
+                    const reviewCount = reviewCountMap[product.id] || 0; // Nếu không có đánh giá nào, đặt số lượng là 0
+                    const averageRating = avgRatingMap[product.id] || 0; // Nếu không có trung bình đánh giá, đặt là 0
+                    // Làm tròn trung bình đánh giá thành số nguyên
+                    product.avgRating = parseFloat(averageRating.toFixed(1));
+                    product.reviewCount = parseInt(reviewCount);
+                });
+
                 let images = "";
                 images = await db.Image.findAll({
                     where: {
@@ -123,7 +240,7 @@ const productService = {
                     },
                 });
                 let count = await db.Product.count();
-                console.log(products);
+                // console.log(products);
                 let result = { products, images, count };
 
                 resolve(result);

@@ -378,9 +378,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="line"></div>
-
                         <h5>Hình ảnh sản phẩm</h5>
                         <div className="image-upload-container-group">
                             {EdituploadedImages.map((image, index) => (

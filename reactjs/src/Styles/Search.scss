@@ -1,97 +1,95 @@
-.dropdownSearch {
-    position: relative; /* Đặt dropdownSearch làm điểm đề xuất cho việc định vị tương đối */
-    height: 450px;
-    width: 70%;
-    .dropdown-contentSearch {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        background-color: #fff;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        border-radius: 4px;
-        z-index: 999;
-        max-height: 100%;
-        .formdataSearch {
-            .searchInput {
-                height: 42px;
-                padding: 0 15px;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                font-size: 16px;
-                transition: border-color 0.3s ease;
+.dropdown-contentSearch {
+    position: absolute;
+    width: 700px;
+    left: 0;
+    top: 45px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    z-index: 10;
+    max-height: 100%;
 
-                &:focus {
-                    outline: none;
-                    border-color: #ec7263;
-                }
-            }
+    #searchBtn {
+        width: 40px;
+        height: 42px;
+        margin-left: -40px;
+        background-color: transparent;
+        border: none;
+        overflow-y: hidden;
+        cursor: pointer;
 
-            #searchBtn {
-                width: 40px;
-                height: 42px;
-                margin-left: -40px;
-                background-color: transparent;
-                border: none;
-                cursor: pointer;
-
-                &:focus {
-                    outline: none;
-                }
-            }
+        &:focus {
+            outline: none;
         }
-        .searchresultmodal {
-            position: relative; /* Đặt vị trí tương đối cho phần kết quả tìm kiếm */
-            background-color: transparent;
+    }
 
-            .searchresultcontent {
-                .searchTitle {
-                    font-size: 18px;
-                    color: #333;
+    .searchresultcontent {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        .searchResults {
+            align-items: center;
+            list-style: none;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            .inforsearch {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                max-height: 70px;
+                padding: 10px 0;
+                border-bottom: 1px solid #e7e7e7;
+                cursor: pointer;
+                &:last-child {
+                    border: none; // Loại bỏ đường viền cho khung sản phẩm cuối cùng
                 }
-                .searchResults {
-                    list-style: none;
-                    padding: 0;
-                    max-height: 200px; /* Giới hạn chiều cao của kết quả tìm kiếm */
-                    width: 100%;
-                    .search-infor {
-                        display: flex;
-                        align-items: center;
-                        padding: 0;
-                        border-bottom: solid 1px #aaa;
-
-                        .inforsearch {
-                            display: flex;
-                            justify-content: center;
-                            font-size: 14px;
-                            color: #333;
-                            cursor: pointer;
-                            &:hover {
-                                color: #ec7263;
-                            }
-                            .productInfo-name {
-                                white-space: nowrap; /* Ngăn tên sản phẩm xuống hàng */
-                                overflow: hidden; /* Ẩn đi phần nội dung vượt quá độ rộng */
-                                text-overflow: ellipsis;
-                                width: 800px;
-                            }
-                            .productInfo-price {
-                                // margin-top: 5px; /* Điều chỉnh khoảng cách dọc giữa tên sản phẩm và giá */
-                                font-weight: bold;
-                                color: #ec7263;
-                            }
-                        }
-
-                        .thumbnail {
-                            margin-left: auto;
-                            width: 70px;
-
-                            img {
-                                width: 100%;
-                                height: 100%;
-                                object-fit: cover;
-                            }
-                        }
+                &:hover a {
+                    transition: 0.3s;
+                    color: #ec7263 !important;
+                }
+                .productInfo-name {
+                    height: 50px;
+                    font-size: 14px;
+                    line-height: 14px;
+                    white-space: nowrap; /* Ngăn tên sản phẩm xuống hàng */
+                    width: calc(100% - 80px);
+                    overflow: hidden; /* Ẩn đi phần nội dung vượt quá độ rộng */
+                    text-overflow: ellipsis;
+                    a {
+                        text-decoration: none;
+                        color: #333;
+                        font-weight: 500;
                     }
+                    .price-search {
+                        margin-top: 25px;
+                        font-size: 14px;
+                        line-height: 14px;
+                        line-height: 0;
+                        font-weight: bold;
+                    }
+                }
+                .thumbnail {
+                    margin-left: auto;
+
+                    img {
+                        width: 60px;
+                        height: 60px;
+                        object-fit: cover;
+                    }
+                }
+            }
+            .more {
+                width: 100%;
+                text-align: center;
+                font-size: 14px;
+                a {
+                    text-decoration: none;
+                    color: #333;
                 }
             }
         }

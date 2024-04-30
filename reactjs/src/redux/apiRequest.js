@@ -20,9 +20,10 @@ import {
     getAllRoots,
     addnewChild,
 } from "./SaleSlice";
-export const handleGetAllCarts = async ( dispatch) => {
+export const handleGetAllCarts = async (userId, dispatch) => {
     try {
-        const getCarts = await dispatch(GetAllCart());
+        console.log("oke", userId);
+        const getCarts = await dispatch(GetAllCart(userId));
         const allCarts = unwrapResult(getCarts);
         console.log("cartList", allCarts.data);
     } catch (e) {
@@ -96,7 +97,7 @@ export const AddChild = async (child, dispatch, navigate) => {
         const res = await dispatch(addnewChild(child));
         const addedCatalog = unwrapResult(res);
         console.log("added", addedCatalog);
-        handlegetAllChilds(dispatch)
+        handlegetAllChilds(dispatch);
         return addedCatalog.data.errCode;
         // navigate("/catalogsmanage");
     } catch (e) {

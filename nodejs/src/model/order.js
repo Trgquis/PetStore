@@ -14,9 +14,15 @@ module.exports = async (sequelize, DataTypes) => {
                 foreignKey: "user_id",
                 targetKey: "id",
             });
+            Order.belongsTo(models.GuestUser, {
+                foreignKey: "guestuser_id",
+                targetKey: "id",
+            });
 
-            Order.belongsToMany(models.Product, { through: 'details', foreignKey: 'order_id' });
-
+            Order.belongsToMany(models.Product, {
+                through: "details",
+                foreignKey: "order_id",
+            });
 
             // Order.hasOne(models.Transaction, {
             //     foreignKey: "order_id",
@@ -34,6 +40,7 @@ module.exports = async (sequelize, DataTypes) => {
                 type: DataTypes.INTEGER,
             },
             user_id: DataTypes.INTEGER,
+            guestuser_id: DataTypes.INTEGER,
             status: DataTypes.TEXT, //Trạng thái của đơn hàng (đang xử lý, hoàn thành, hủy bỏ)
         },
         {

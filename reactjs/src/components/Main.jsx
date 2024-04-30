@@ -5,7 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { handlegetAllProducts, handlegetProduct } from "../redux/apiRequest";
+import {
+    handleGetAllCarts,
+    handlegetAllProducts,
+    handlegetProduct,
+} from "../redux/apiRequest";
 import "bootstrap/dist/css/bootstrap.min.css";
 import DropdownCategory from "./DropdownCategory";
 import { FaAngleRight } from "react-icons/fa";
@@ -13,6 +17,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
 import CustomAlert from "./CustomAlert";
+import DisplayStar from "./DisplayStar";
+
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
     return (
@@ -77,12 +83,14 @@ const Main = () => {
     const handleAddToCart = async (pID) => {
         const qt = quantities[pID] || 0;
         try {
-            console.log(pID, qt + 1);
+            const userId = User?.data.userData.user.id;
+            console.log(pID, qt + 1, userId);
             const response = await axios.post(
                 "http://localhost:8888/api/addcart",
                 {
+                    userId: userId,
                     product_id: pID,
-                    quantity: qt + 1,
+                    quantity: qt - qt + 1,
                 },
                 { withCredentials: true }
             );
@@ -90,6 +98,11 @@ const Main = () => {
             setAlertMessage("Thêm vào giỏ hàng thành công!"); // Set success message
             setAlertType(0); // Set success type
             setAlertOpen(true); // Open the alert modal
+            if (userId) {
+                handleGetAllCarts(userId, dispatch);
+            } else {
+                handleGetAllCarts(null, dispatch);
+            }
         } catch (error) {
             console.error("Error adding item to cart:", error);
             setAlertMessage("Thêm vào giỏ hàng thất bại!"); // Set error message
@@ -115,7 +128,7 @@ const Main = () => {
         // dots: true,
         initialSlide: 0,
         infinite: true,
-        slidesToShow: 3,
+        slidesToShow: 4,
         slidesToScroll: 1,
         rows: 2,
         speed: 500,
@@ -198,7 +211,7 @@ const Main = () => {
                 <div className="overlayouthome">
                     <div className="catalog">
                         <div className="catalog_title">
-                            <span>danh mục sản phẩm</span>
+                            <span>danh mục</span>
                         </div>
 
                         <div className="catalog_item">
@@ -211,16 +224,13 @@ const Main = () => {
                                     <div
                                         style={{
                                             cursor: "pointer",
-                                            width: "100%",
-                                            display: "flex",
-                                            justifyContent: "space-between",
                                             alignItems: "center",
                                         }}
                                         onClick={handleLinkClick}
                                     >
                                         {root.name}
-                                        <FaAngleRight />
                                     </div>
+                                    <FaAngleRight />
                                 </div>
                             ))}
                         </div>
@@ -275,56 +285,7 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
-                <div className="post-grid--sc2">
-                    <div className="post-item--banner">
-                        <Link
-                            to={`/allproducts/${1}`}
-                            onClick={handleLinkClick}
-                        >
-                            <img
-                                src="/images/Banner01.jpg"
-                                alt=""
-                                className="content_img"
-                                id="largest-img--bg"
-                            />
-                        </Link>
-                        <div className="preview_title">
-                            <h2>Shop cho chó</h2>
-                            <div className="preview">
-                                <Link
-                                    to={`/allproducts/${1}`}
-                                    onClick={handleLinkClick}
-                                >
-                                    Xem ngay <i className="ti-angle-right"></i>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="post-item--banner">
-                        <Link
-                            to={`/allproducts/${2}`}
-                            onClick={handleLinkClick}
-                        >
-                            <img
-                                src="/images/Banner02.jpg"
-                                alt=""
-                                className="content_img"
-                                id="largest-img--bg"
-                            />
-                        </Link>
-                        <div className="preview_title">
-                            <h2>Shop cho mèo</h2>
-                            <div className="preview">
-                                <Link
-                                    to={`/allproducts/${2}`}
-                                    onClick={handleLinkClick}
-                                >
-                                    Xem ngay <i className="ti-angle-right"></i>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div className="title">
                     <h3>Khuyến mãi - On Sale</h3>
                     <p style={{ fontSize: "16px" }}>Sản phẩm cho mèo</p>
@@ -441,12 +402,21 @@ const Main = () => {
                                                         ₫
                                                     </span>
                                                 </p>
+                                                <div className="underframe">
+                                                    Đã bán:{" "}
+                                                    {product.sold_amount}
+                                                    <DisplayStar
+                                                        rating={
+                                                            product.avgRating
+                                                        }
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
                                     </Fragment>
                                 );
                             } else {
-                                return null; // Không hiển thị sản phẩm nếu parent_id không nằm trong khoảng từ 1 đến 7
+                                return null;
                             }
                         })}
                     </Slider>
@@ -456,7 +426,7 @@ const Main = () => {
                     <p style={{ fontSize: "16px" }}>Sản phẩm cho chó</p>
                 </div>
 
-                <div className="post-grid--sc">
+                <div className="post-grid--sc2">
                     {productList?.data.products.products.length === 0 ? (
                         <p>Không có sản phẩm</p>
                     ) : (
@@ -513,7 +483,7 @@ const Main = () => {
                                                                         .slice(
                                                                             0,
                                                                             1
-                                                                        ) // get last of product image
+                                                                        )
                                                                         .map(
                                                                             (
                                                                                 item,
@@ -585,6 +555,17 @@ const Main = () => {
                                                                     ₫
                                                                 </span>
                                                             </p>
+                                                            <div className="underframe">
+                                                                Đã bán:{" "}
+                                                                {
+                                                                    product.sold_amount
+                                                                }
+                                                                <DisplayStar
+                                                                    rating={
+                                                                        product.avgRating
+                                                                    }
+                                                                />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </Fragment>

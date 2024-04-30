@@ -10,7 +10,7 @@ export default function AllProducts() {
     const dispatch = useDispatch();
     const data = useSelector((state) => state?.sales.allProducts);
     const { id } = useParams();
-
+    console.log(data);
     useEffect(() => {
         handlegetAllProducts(dispatch);
     }, [dispatch]);
@@ -36,11 +36,25 @@ export default function AllProducts() {
                         if (product.category_id === parseInt(id)) {
                             return (
                                 <div className="post-items" key={product.id}>
-                                    {product.discount !== 0 ? (
+                                    {product.discount > 0 &&
+                                        product.amount > 0 && (
+                                            <div id="discount-percent--contents">
+                                                {product.discount}% GIẢM
+                                            </div>
+                                        )}
+                                    {product.discount === 0 && (
                                         <div id="discount-percent--contents">
-                                            {product.discount}% GIẢM
+                                            GIÁ GỐC
                                         </div>
-                                    ) : null}
+                                    )}
+                                    {product.amount === 0 && (
+                                        <div
+                                            id="discount-percent--contents"
+                                            style={{ backgroundColor: "gray" }}
+                                        >
+                                            TẠM HẾT HÀNG
+                                        </div>
+                                    )}
                                     <div className="overlayouts">
                                         <div className="overlayout-img">
                                             {data?.data.products.images
@@ -116,8 +130,8 @@ export default function AllProducts() {
                                                     }}
                                                     id="old-price"
                                                 >
-                                                    Số lượng còn lại:{" "}
-                                                    {product.amount}
+                                                    Đã bán:{" "}
+                                                    {product.sold_amount}
                                                 </p>
                                             </p>
                                         ) : (
@@ -133,8 +147,8 @@ export default function AllProducts() {
                                                         }}
                                                         id="old-price"
                                                     >
-                                                        Số lượng còn lại:{" "}
-                                                        {product.amount}
+                                                        Đã bán:{" "}
+                                                        {product.sold_amount}
                                                     </p>
                                                 </p>
                                             </>

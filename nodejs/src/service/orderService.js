@@ -1,61 +1,77 @@
 const { Op, where } = require("sequelize");
-
+const orderController = require("../controller/orderController");
+const db = require("../model/server");
 const orderService = {
     handleSubmitOrder: async (data) => {
-        try {
-            // Tạo đơn hàng mới
-            const order = await db.Orders.create({
-                user_id: parseInt(data.user_id),
-                status: data.status,
-            });
-            console.log("data", data);
-
-            // Lấy danh sách sản phẩm trong giỏ hàng hoặc sản phẩm cần đặt
-            let productOrders = [];
-            if (data.status === "isCart") {
-                productOrders = await db.ProductOrders.findAll({
-                    where: {
-                        order_id: order.id,
-                        isCart: 1,
-                    },
-                });
-            } else if (data.status === "buyNow") {
-                // Nếu không ở trong giỏ hàng, lấy sản phẩm cần đặt
-                productOrders.push({
-                    product_id: parseInt(data.product_id),
-                    quantity: parseInt(data.quantity),
-                    total_price: parseFloat(data.total_price),
-                    isCart: 0,
-                });
+        return new Promise(async (resolve, reject) => {
+            try {
+                // console.log(data);
+                // Tạo đơn hàng mới
+                if (data.guestuserId) {
+                    const order = await db.Order.create({
+                        user_id: 1,
+                        guestuser_id: data.guestuserId,
+                        status: "Pending",
+                    });
+                    const OrderValue = order.dataValues;
+                    // console.log(OrderValue);
+                    console.log(
+                        `Khách hàng: ${data.guestuserId} đã đặt sản phẩm `
+                    );
+                    // Tạo bản ghi mới cho các sản phẩm
+                    const orderItemList = [];
+                    for (const productOrder of data.cart) {
+                        const orderItem = await db.Detail.create({
+                            product_id: parseInt(productOrder.productId),
+                            order_id: parseInt(order.id),
+                            quantity: parseInt(productOrder.quantity),
+                            total_price: productOrder.price,
+                            status: "pending",
+                        });
+                        orderItemList.push(orderItem.dataValues);
+                    }
+                    // console.log(orderItemList);
+                    resolve({
+                        errCode: 0,
+                        errMessage: "OK",
+                        isGuest: true,
+                        orderItemList,
+                        OrderValue,
+                    });
+                } else {
+                    const order = await db.Order.create({
+                        user_id: parseInt(data.userId),
+                        guestuser_id: null,
+                        status: "Pending",
+                    });
+                    const OrderValue = order.dataValues;
+                    console.log(`Khách hàng: ${data.userId} đã đặt sản phẩm `);
+                    // Tạo bản ghi mới cho các sản phẩm
+                    const orderItemList = [];
+                    for (const productOrder of data.cart) {
+                        const orderItem = await db.Detail.create({
+                            product_id: parseInt(productOrder.productId),
+                            order_id: parseInt(order.id),
+                            quantity: parseInt(productOrder.quantity),
+                            total_price: productOrder.price,
+                            status: "pending",
+                        });
+                        orderItemList.push(orderItem.dataValues);
+                        
+                    }
+                    resolve({
+                        errCode: 0,
+                        errMessage: "OK",
+                        isGuest: false,
+                        orderItemList,
+                        OrderValue,
+                    });
+                }
+            } catch (e) {
+                console.log(e);
+                return false;
             }
-
-            // Tạo bản ghi mới cho các sản phẩm
-            for (const productOrder of productOrders) {
-                await db.ProductOrders.create({
-                    product_id: productOrder.product_id,
-                    order_id: order.id,
-                    quantity: productOrder.quantity,
-                    total_price: productOrder.total_price,
-                    isCart: productOrder.isCart,
-                    status: productOrder.isCart ? "pending" : "processing",
-                });
-            }
-
-            // Nếu đang ở trạng thái giỏ hàng, xóa các sản phẩm đã được đặt hàng khỏi giỏ hàng
-            if (data.status === "isCart") {
-                await db.ProductOrders.destroy({
-                    where: {
-                        order_id: order.id,
-                        isCart: 1,
-                    },
-                });
-            }
-
-            return true;
-        } catch (e) {
-            console.log(e);
-            return false;
-        }
+        });
     },
 
     getOrder: async (id) => {
@@ -89,55 +105,6 @@ const orderService = {
                     images,
                 };
             }
-        } catch (e) {
-            console.log(e);
-        }
-    },
-    getAllCart: async (id, quantity) => {
-        console.log(id)
-        try {
-            console.log(id, quantity);
-            // const cartItem = await db.Product.findOne({
-            //     where: {
-            //         id: id,
-            //     },
-            //     order: [["createdAt", "DESC"]],
-            // });
-            // if (cartItem) {
-            //     // Lấy tất cả các sản phẩm trong giỏ hàng của đơn hàng đó
-            //     const cartItems = await db.ProductOrders.findAll({
-            //         where: {
-            //             order_id: order.id,
-            //             isCart: 1,
-            //         },
-            //         raw: false,
-            //     });
-            //     console.log(cartItems);
-
-            //     // Lấy thông tin sản phẩm tương ứng với mỗi item trong giỏ hàng
-            //     const cartItemsWithProductInfo = await Promise.all(
-            //         cartItems.map(async (cartItem) => {
-            //             const product = await db.Products.findOne({
-            //                 where: { id: cartItem.product_id },
-            //             });
-            //             const images = await db.Images.findOne({
-            //                 where: { product_id: product.id },
-            //             });
-            //             return {
-            //                 ...cartItem.toJSON(),
-            //                 product,
-            //                 images,
-            //             };
-            //         })
-            //     );
-            //     const cartItemCount = cartItemsWithProductInfo.length;
-
-            //     return {
-            //         count: cartItemCount,
-            //         cartItem: cartItemsWithProductInfo,
-            //     };
-            // }
-            // resolve("Error");
         } catch (e) {
             console.log(e);
         }

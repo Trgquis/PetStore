@@ -49,6 +49,7 @@ const salesAPI = {
         return res;
     },
     getProduct: async (productId) => {
+        console.log(productId)
         const res = await axios.get(
             "http://localhost:8888/api/getProduct/?id=" + productId
         );
