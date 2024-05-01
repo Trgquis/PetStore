@@ -6,6 +6,27 @@ const unidecode = require("unidecode");
 const product = require("../model/product");
 
 const productService = {
+    sendReview: async (data) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let review = await db.Review.create({
+                    user_id: data.userId,
+                    product_id: data.productId,
+                    score: data.rating,
+                    comment: data.comment,
+                });
+                console.log(review);
+                if (review) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
+
     checkProduct: (productInfo) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -104,6 +125,7 @@ const productService = {
                             raw: true,
                         },
                         where: { product_id: productId },
+                        order: [["createdAt", "DESC"]],
                     });
 
                     // Lấy số lượng đánh giá của sản phẩm từ bảng reviews

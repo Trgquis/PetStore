@@ -157,7 +157,7 @@ export default function AllProducts() {
                                 </div>
                             );
                         } else {
-                            return null; // If category ID does not match, return null
+                            return null;
                         }
                     })}
                 </div>

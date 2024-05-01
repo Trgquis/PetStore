@@ -11,9 +11,10 @@ import {
 const CategoryBar = ({ catalogId }) => {
     const dispatch = useDispatch();
     const [categoryChain, setCategoryChain] = useState([]);
-    const catalogList = useSelector((state) => state.sales.allCatalogs);
     const rootList = useSelector((state) => state.sales.allRoots);
+    const catalogList = useSelector((state) => state.sales.allCatalogs);
     const childList = useSelector((state) => state.sales.allChilds);
+
 
     useEffect(() => {
         const fetchData = async () => {

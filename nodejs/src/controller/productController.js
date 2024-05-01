@@ -1,6 +1,21 @@
 const productService = require("../service/productService.js");
 
 const productController = {
+    handleSendReview: async (req, res) => {
+        try {
+            let data = {
+                userId: parseInt(req.body.userId),
+                productId: parseInt(req.body.productId),
+                rating: parseFloat(req.body.rating),
+                comment: req.body.comment,
+            };
+            let message = await productService.sendReview(data);
+            return res.status(200).json(message);
+        } catch (e) {
+            console.log(e);
+        }
+    },
+
     handleCreateNewProduct: async (req, res) => {
         try {
             console.log(req.body);

@@ -78,7 +78,8 @@ let initWebRoutes = (app) => {
             productController.handleAddProductImage
         );
     router.delete("/api/deleteProduct", productController.handleDeleteProduct),
-        // Cart Section
+    router.post("/api/handleSendReview", productController.handleSendReview)
+    // Cart Section
         router.get("/api/getAllCart", orderController.getAllCart);
     router.post("/api/addcart", orderController.handleAddCart);
     router.delete("/api/removeItemCart", orderController.handleRemoveCart);

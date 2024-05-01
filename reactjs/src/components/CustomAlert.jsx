@@ -8,7 +8,7 @@ const CustomAlert = ({ message, type, isOpen, onClose }) => {
         if (isOpen) {
             const timer = setTimeout(() => {
                 onClose();
-            }, 1000); // Auto-close after 3 seconds (adjust as needed)
+            }, 3000);
 
             return () => {
                 clearTimeout(timer);

@@ -4,7 +4,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../Styles/ProductDetail.scss";
 import CategoryBar from "../components/CategoryBar";
 import CustomAlert from "../components/CustomAlert";
-import { handleGetAllCarts, handlegetProduct } from "../redux/apiRequest";
+import {
+    handleGetAllCarts,
+    handlegetAllUsers,
+    handlegetProduct,
+} from "../redux/apiRequest";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import Slider from "react-slick";
@@ -24,10 +28,12 @@ function ProductDetail() {
     const [alertOpen, setAlertOpen] = useState(false);
     const User = useSelector((state) => state.auth.currentUser);
     const product = useSelector((state) => state?.sales.ProductDetail);
-    const allProducts = useSelector((state) => state?.sales.allProducts);
+    const userList = useSelector((state) => state?.users.allUsers);
     const [count, setCount] = useState(1);
     const navigate = useNavigate();
     const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState("");
+
     console.log(product);
     console.log(id);
     const userId = User?.data.userData.user.id;
@@ -166,9 +172,47 @@ function ProductDetail() {
     const getViewedProductsFromCookies = () => {
         return Cookies.get("viewedproducts") || [];
     };
+    const convertDate = (timestamp) => {
+        const date = new Date(timestamp);
+
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+        const year = date.getFullYear();
+
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
+    };
+    const handleSendReview = async () => {
+        try {
+            const data = {
+                userId: User?.data.userData.user.id,
+                productId: id,
+                rating: rating,
+                comment: comment,
+            };
+            const res = await axios.post(
+                "http://localhost:8888/api/handleSendReview",
+                data
+            );
+            console.log(res);
+            setAlertMessage("Đánh giá sản phẩm thành công!"); // Set success message
+            setAlertType(0); // Set success type
+            setAlertOpen(true);
+            setComment("");
+            setRating(0);
+            handlegetProduct(dispatch, id);
+        } catch (e) {
+            console.log(e);
+            setAlertMessage("Đánh giá sản phẩm thất bại!"); // Set success message
+            setAlertType(1); // Set success type
+            setAlertOpen(true);
+        }
+    };
     useEffect(() => {
         handlegetProduct(dispatch, id);
         saveProductIdToCookies(id);
+        handlegetAllUsers(dispatch);
     }, [dispatch, id]);
     // console.log(product.product);
     return (
@@ -482,13 +526,6 @@ function ProductDetail() {
                                 {product?.data.product.product.name}
                             </div>
                             <div className="review-detail">
-                                <div className="your-review">
-                                    <p>Đánh giá của bạn:</p>
-                                    <StarRating
-                                        rating={rating}
-                                        onRatingChange={handleRatingChange}
-                                    />
-                                </div>
                                 <div className="over--review">
                                     <div className="rating-score">
                                         <p>
@@ -496,7 +533,7 @@ function ProductDetail() {
                                                 product?.data.product
                                                     .averageRating
                                             }
-                                            /5
+                                            /5 ĐIỂM
                                             <DisplayStar
                                                 rating={
                                                     product?.data.product
@@ -506,12 +543,103 @@ function ProductDetail() {
                                             {product?.data.product.reviewsCount}{" "}
                                             LƯỢT ĐÁNH GIÁ
                                         </p>
+                                        <span id="border"></span>
+                                        <div className="your-review">
+                                            <div className="review--action">
+                                                Đánh giá ngay
+                                                <StarRating
+                                                    rating={rating}
+                                                    onRatingChange={
+                                                        handleRatingChange
+                                                    }
+                                                />
+                                                {rating ? (
+                                                    <span>
+                                                        {rating === 1
+                                                            ? "Rất tệ"
+                                                            : rating === 2
+                                                            ? "Tệ"
+                                                            : rating === 3
+                                                            ? "Bình thường"
+                                                            : rating === 4
+                                                            ? "Hài lòng"
+                                                            : rating === 5
+                                                            ? "Rất hài lòng"
+                                                            : ""}
+                                                    </span>
+                                                ) : null}
+                                            </div>
+                                        </div>
                                     </div>
+
                                     <div className="rating-quantity">
+                                        {rating ? (
+                                            <div className="comment">
+                                                <span>
+                                                    Nội dung đánh giá
+                                                    <button
+                                                        onClick={
+                                                            handleSendReview
+                                                        }
+                                                    >
+                                                        Gửi
+                                                    </button>
+                                                </span>
+                                                <textarea
+                                                    required
+                                                    name=""
+                                                    id=""
+                                                    style={{
+                                                        width: "100%",
+                                                        padding: "5px",
+                                                    }}
+                                                    rows={"5"}
+                                                    value={comment}
+                                                    onChange={(e) =>
+                                                        setComment(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                ></textarea>
+                                            </div>
+                                        ) : null}
                                         {product?.data.product.reviewsData.map(
                                             (item, index) => (
-                                                <div key={index}>
-                                                    {item.user_id}
+                                                <div
+                                                    className="user-rating"
+                                                    key={index}
+                                                >
+                                                    <p className="header-rating">
+                                                        <span>
+                                                            {
+                                                                userList?.data.users.users.find(
+                                                                    (user) =>
+                                                                        user.id ===
+                                                                        item.user_id
+                                                                )?.lastName
+                                                            }{" "}
+                                                            {
+                                                                userList?.data.users.users.find(
+                                                                    (user) =>
+                                                                        user.id ===
+                                                                        item.user_id
+                                                                )?.firstName
+                                                            }
+                                                        </span>
+                                                        <span
+                                                            style={{
+                                                                fontSize:
+                                                                    "14px",
+                                                            }}
+                                                        >
+                                                            {convertDate(
+                                                                item.createdAt
+                                                            )}
+                                                        </span>
+                                                    </p>
+                                                    <DisplayStar
+                                                        rating={item?.score}
+                                                    />
                                                     {item.comment}
                                                 </div>
                                             )

@@ -235,6 +235,9 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                                     key={catalog.id}
                                                     value={catalog.id}
                                                 >
+                                                    {catalog.parent_id <= 7
+                                                        ? "Mèo: "
+                                                        : "Chó: "}
                                                     {catalog.name}
                                                 </option>
                                             )
