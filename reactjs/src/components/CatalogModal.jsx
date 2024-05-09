@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     AddCatalog,
+    AddChild,
     editCatalog,
+    handlegetAllChilds,
     handlegetAllRoots,
 } from "../redux/apiRequest";
 import { useNavigate } from "react-router-dom";
@@ -81,7 +83,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
         if (validate(catalog) !== true) {
             return false;
         }
-        const res = await AddCatalog(catalog, dispatch, navigate);
+        const res = await AddChild(catalog, dispatch, navigate);
         if (res === 0) {
             setStatus(res);
             setMess("Thêm danh mục thành công!");
@@ -98,7 +100,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
         const Editcatalog = {
             id: id,
             name: Editname,
-            rootcategory_id: Editparent_id,
+            parent_id: Editparent_id,
         };
         console.log(Editcatalog);
         if (validate(Editcatalog) !== true) {
@@ -112,6 +114,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
             setMess("Chỉnh sửa danh mục thành công!");
             console.log(status, mess);
             toggleAlert();
+            handlegetAllChilds(dispatch)
         } else if (response.data.errCode === 1) {
             setStatus(response.data.errCode);
             setMess("Thiếu dữ liệu");
@@ -122,11 +125,11 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
     return (
         <Modal isOpen={isOpen} toggle={onClose}>
             <ModalHeader toggle={onClose}>
-                {catalogId === null ? "Thêm danh mục" : "Chỉnh sửa danh mục"}
+                {!catalogId ? "Thêm danh mục" : "Chỉnh sửa danh mục"}
             </ModalHeader>
             <ModalBody>
                 <Form>
-                    {catalogId === null ? (
+                    {!catalogId ? (
                         <>
                             <FormGroup>
                                 <Label for="catalogName">Tên danh mục</Label>
@@ -192,7 +195,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
                                         )
                                     }
                                 >
-                                    <option value="">
+                                    <option value={""}>
                                         -- Chọn loại danh mục --
                                     </option>
                                     {catalogList?.data.catalogs.catalogs.map(
@@ -212,7 +215,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
                 </Form>
             </ModalBody>
             <ModalFooter>
-                {catalogId === null ? (
+                {!catalogId ? (
                     <Button
                         color="primary"
                         onClick={(e) => handleAddCatalog(e)}

@@ -129,32 +129,32 @@ const Usermanage = () => {
             <div className="main">
                 <div className="content">
                     <div className="userInformation">
-                        <h4>Quản lý người dùng</h4>
+                        <div>
+                            <h4>Quản lý người dùng</h4>
+                            <div className="navigate">
+                                <select
+                                    onChange={(e) =>
+                                        (window.location.href = e.target.value)
+                                    }
+                                >
+                                    <option value="#">
+                                        -- Chọn trang quản lý --
+                                    </option>
+                                    <option value="/categoriesmanage">
+                                        Quản lý danh mục
+                                    </option>
+                                    <option value="/productsmanage">
+                                        Quản lý sản phẩm
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
                         <div className="addBtn">
                             <Button onClick={(e) => handleOpen(null)}>
-                                + Thêm sản phẩm <span> </span>
+                                + Thêm người dùng <span> </span>
                                 <i className="fas fa-table"></i>
                             </Button>
                         </div>
-
-                        {/* <Link to="/manage">Quản lý người dùng</Link>
-                    <Link to="/productsmanage">Quản lý sản phẩm</Link>
-                    <Link to="/catalogsmanage"> Quản lý danh mục</Link>
-                    <button
-                        className="addUser-btn"
-                        onClick={(e) => handleOpen("root", null)}
-                    >
-                        Cài đặt loại danh mục <span> </span>
-                        <i className="fas fa-table"></i>
-                    </button>
-                    <button
-                        className="refresh-btn"
-                        onClick={(e) => handleRefresh()}
-                    >
-                        Refresh <span> </span>
-                        <i className="fas fa-sync"></i>
-                    </button>
-                    {User && <UserInformation User={User.data} />} */}
                     </div>
 
                     <div className="table-wrapper">
@@ -219,7 +219,7 @@ const Usermanage = () => {
             </div>
             {modal && (
                 <div className="modal-container">
-                    {!id ? (
+                    {id ? (
                         <UserModal
                             isOpen={modal}
                             userId={id}
@@ -228,7 +228,7 @@ const Usermanage = () => {
                     ) : (
                         <UserModal
                             isOpen={modal}
-                            userId={id}
+                            userId={null}
                             onClose={handleClose}
                         />
                     )}
@@ -238,7 +238,6 @@ const Usermanage = () => {
                 isOpen={showDeleteConfirmation}
                 onConfirm={confirmDelete}
                 onCancel={cancelDelete}
-                // message={`Bạn có chắc muốn xóa người dùng: ${deleteUserInfo.email}?`}
                 message={`Bạn có chắc muốn xóa người dùng`}
             />
 

@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
     handleGetAllCarts,
+    handlegetAllChilds,
     handlegetAllProducts,
     handlegetProduct,
 } from "../redux/apiRequest";
@@ -18,6 +19,8 @@ import { FaShoppingCart } from "react-icons/fa";
 import axios from "axios";
 import CustomAlert from "./CustomAlert";
 import DisplayStar from "./DisplayStar";
+import Loader from "./Loader";
+import AllProducts from "./ProductComponent";
 
 function SampleNextArrow(props) {
     const { className, style, onClick } = props;
@@ -28,7 +31,7 @@ function SampleNextArrow(props) {
                 ...style,
                 background: "#d3d6db",
                 paddingTop: "4px",
-                top: "70%",
+                top: "50%",
                 right: "-40px",
                 borderRadius: "50%",
                 width: "30px",
@@ -48,7 +51,7 @@ function SamplePrevArrow(props) {
                 ...style,
                 background: "#d3d6db",
                 paddingTop: "4px",
-                top: "70%",
+                top: "50%",
                 left: "-40px",
                 borderRadius: "50%",
                 width: "30px",
@@ -64,8 +67,6 @@ const Main = () => {
     const User = useSelector((state) => state?.auth.currentUser);
     const [activeId, setActiveId] = useState(null);
     const rootList = useSelector((state) => state?.sales.allRoots);
-    const catalogList = useSelector((state) => state?.sales.allCatalogs);
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
@@ -73,6 +74,7 @@ const Main = () => {
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState(0); // 0: Success, 1: Error
     const [alertOpen, setAlertOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const increaseQuantity = (pID) => {
         setQuantities((prevState) => ({
             ...prevState,
@@ -95,14 +97,18 @@ const Main = () => {
                 { withCredentials: true }
             );
             console.log(response.data);
-            setAlertMessage("Thêm vào giỏ hàng thành công!"); // Set success message
-            setAlertType(0); // Set success type
-            setAlertOpen(true); // Open the alert modal
-            if (userId) {
-                handleGetAllCarts(userId, dispatch);
-            } else {
-                handleGetAllCarts(null, dispatch);
-            }
+
+            setTimeout(() => {
+                setAlertMessage("Thêm vào giỏ hàng thành công!");
+                setAlertType(0);
+                setAlertOpen(true);
+                if (userId) {
+                    handleGetAllCarts(userId, dispatch);
+                } else {
+                    handleGetAllCarts(null, dispatch);
+                }
+                setIsLoading(false);
+            }, 300);
         } catch (error) {
             console.error("Error adding item to cart:", error);
             setAlertMessage("Thêm vào giỏ hàng thất bại!"); // Set error message
@@ -111,6 +117,7 @@ const Main = () => {
         }
     };
     const handleClick = (productID) => {
+        setIsLoading(true);
         increaseQuantity(productID);
         handleAddToCart(productID);
     };
@@ -128,7 +135,7 @@ const Main = () => {
         // dots: true,
         initialSlide: 0,
         infinite: true,
-        slidesToShow: 4,
+        slidesToShow: 5,
         slidesToScroll: 1,
         rows: 2,
         speed: 500,
@@ -233,6 +240,81 @@ const Main = () => {
                                     <FaAngleRight />
                                 </div>
                             ))}
+                            <Link to={"/pages/chinh-sach-mua-hang"}>
+                                Liên hệ
+                            </Link>
+                            <Link to={"/pages/chinh-sach-mua-hang"}>
+                                Giới thiệu
+                            </Link>
+                            <Link to={"/maintenance"}>Tin tức</Link>
+                            <div class="mobile-menu__help">
+                                <p class="help-title">LIÊN HỆ VỚI HAPPYPET</p>{" "}
+                                <div class="help-item">
+                                    <a
+                                        class="help-item--link"
+                                        href="tel:0988004089"
+                                        rel="nofollow"
+                                    >
+                                        <svg
+                                            viewBox="0 0 24 24"
+                                            role="presentation"
+                                        >
+                                            <g
+                                                stroke-width="2"
+                                                fill="none"
+                                                fill-rule="evenodd"
+                                                stroke-linecap="square"
+                                            >
+                                                <path
+                                                    d="M17 15l-3 3-8-8 3-3-5-5-3 3c0 9.941 8.059 18 18 18l3-3-5-5z"
+                                                    stroke="#252a2b"
+                                                ></path>
+                                                <path
+                                                    d="M14 1c4.971 0 9 4.029 9 9m-9-5c2.761 0 5 2.239 5 5"
+                                                    stroke="#6b4433"
+                                                ></path>
+                                            </g>
+                                        </svg>
+                                        0364.998.896
+                                    </a>
+                                </div>
+                                <div class="help-item">
+                                    <a
+                                        class="help-item--link"
+                                        href="mailto:info@mozzi.vn"
+                                        rel="nofollow"
+                                    >
+                                        <svg
+                                            viewBox="0 0 22 22"
+                                            role="presentation"
+                                        >
+                                            <g fill="none" fill-rule="evenodd">
+                                                <path
+                                                    stroke="#252a2b"
+                                                    d="M.916667 10.08333367l3.66666667-2.65833334v4.65849997zm20.1666667 0L17.416667 7.42500033v4.65849997z"
+                                                ></path>
+                                                <path
+                                                    stroke="#252a2b"
+                                                    stroke-width="2"
+                                                    d="M4.58333367 7.42500033L.916667 10.08333367V21.0833337h20.1666667V10.08333367L17.416667 7.42500033"
+                                                ></path>
+                                                <path
+                                                    stroke="#252a2b"
+                                                    stroke-width="2"
+                                                    d="M4.58333367 12.1000003V.916667H17.416667v11.1833333m-16.5-2.01666663L21.0833337 21.0833337m0-11.00000003L11.0000003 15.5833337"
+                                                ></path>
+                                                <path
+                                                    d="M8.25000033 5.50000033h5.49999997M8.25000033 9.166667h5.49999997"
+                                                    stroke="#6b4433"
+                                                    stroke-width="2"
+                                                    stroke-linecap="square"
+                                                ></path>
+                                            </g>
+                                        </svg>
+                                        info@happypet.vn
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -285,21 +367,84 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
+                <section class="section-index-promotion">
+                    <div class="container container-md-pd0">
+                        <div class="promotion-bgwhite">
+                            <div class="list-promotion">
+                                <div class="promotion-item">
+                                    <div class="promotion-item__inner">
+                                        <Link
+                                            to="pages/chinh-sach-giao-hang"
+                                            title="SHIP COD TOÀN QUỐC"
+                                        >
+                                            <span class="title">
+                                                SHIP COD TOÀN QUỐC
+                                            </span>
+                                            <span class="content">
+                                                Thanh toán khi nhận hàng
+                                            </span>
+                                        </Link>
+                                    </div>
+                                </div>
 
+                                <div class="promotion-item">
+                                    <div class="promotion-item__inner">
+                                        <Link
+                                            to="/pages/chinh-sach-doi-tra"
+                                            title="MIỄN PHÍ ĐỔI HÀNG *"
+                                        >
+                                            <span class="title">
+                                                MIỄN PHÍ ĐỔI HÀNG *
+                                            </span>
+                                            <span class="content">
+                                                Trong vòng 7 ngày
+                                            </span>
+                                        </Link>
+                                    </div>
+                                </div>
+
+                                <div class="promotion-item">
+                                    <div class="promotion-item__inner">
+                                        <Link
+                                            to="/pages/chinh-sach-giao-hang"
+                                            title="GIAO HÀNG TRONG NGÀY"
+                                        >
+                                            <span class="title">
+                                                GIAO HÀNG TRONG NGÀY
+                                            </span>
+                                            <span class="content">
+                                                Đối với đơn nội thành Cần Thơ
+                                            </span>
+                                        </Link>
+                                    </div>
+                                </div>
+
+                                <div class="promotion-item">
+                                    <div class="promotion-item__inner">
+                                        <Link
+                                            to="allproducts/0/san-pham-khuyen-mai"
+                                            title="ĐẶT HÀNG TRỰC TUYẾN"
+                                        >
+                                            <span class="title">
+                                                ĐẶT HÀNG TRỰC TUYẾN
+                                            </span>
+                                            <span class="content">
+                                                Hotline: 0364.998.996
+                                            </span>
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <AllProducts />
                 <div className="title">
                     <h3>Khuyến mãi - On Sale</h3>
                     <p style={{ fontSize: "16px" }}>Sản phẩm cho mèo</p>
                 </div>
 
                 <div className="post-grid--sc">
-                    <div className="post-item">
-                        <img
-                            src="/images/Banner04.jpg"
-                            alt=""
-                            className="content_img"
-                            id="largest-img--sp"
-                        />
-                    </div>
                     <Slider {...settings}>
                         {productList?.data.products.products.map((product) => {
                             if (
@@ -364,7 +509,11 @@ const Main = () => {
                                                                 );
                                                             }}
                                                         >
-                                                            <FaShoppingCart />
+                                                            {isLoading ? (
+                                                                <Loader />
+                                                            ) : (
+                                                                <FaShoppingCart />
+                                                            )}
                                                         </button>
                                                         <Link
                                                             onClick={
@@ -421,28 +570,26 @@ const Main = () => {
                         })}
                     </Slider>
                 </div>
+                <Link
+                    to="/allproducts/1/Mua%20sắm%20cho%20mèo"
+                    className="imagebackground"
+                >
+                    <img src="/images/image1.png" alt="" />
+                </Link>
+
                 <div className="title">
                     <h3>Khuyến mãi - On Sale</h3>
                     <p style={{ fontSize: "16px" }}>Sản phẩm cho chó</p>
                 </div>
 
-                <div className="post-grid--sc2">
+                <div className="post-grid--sc">
                     {productList?.data.products.products.length === 0 ? (
                         <p>Không có sản phẩm</p>
                     ) : (
                         <>
-                            <div className="post-item">
-                                <img
-                                    src="/images/Banner03.jpg"
-                                    alt=""
-                                    className="content_img"
-                                    id="largest-img--sp"
-                                />
-                            </div>
                             <Slider {...settings}>
                                 {productList?.data.products.products.map(
                                     (product) => {
-                                        // Kiểm tra nếu parent_id của sản phẩm nằm trong khoảng từ 1 đến 7 thì mới hiển thị sản phẩm
                                         if (
                                             product.category_id >= 8 &&
                                             product.category_id <= 12 &&
@@ -513,7 +660,11 @@ const Main = () => {
                                                                             );
                                                                         }}
                                                                     >
-                                                                        <FaShoppingCart />
+                                                                        {isLoading ? (
+                                                                            <Loader />
+                                                                        ) : (
+                                                                            <FaShoppingCart />
+                                                                        )}
                                                                     </button>
                                                                     <Link
                                                                         onClick={
@@ -571,7 +722,7 @@ const Main = () => {
                                                 </Fragment>
                                             );
                                         } else {
-                                            return null; // Không hiển thị sản phẩm nếu parent_id không nằm trong khoảng từ 1 đến 7
+                                            return null;
                                         }
                                     }
                                 )}
@@ -579,6 +730,12 @@ const Main = () => {
                         </>
                     )}
                 </div>
+                <Link
+                    to="/allproducts/2/Mua%20sắm%20cho%20chó"
+                    className="imagebackground"
+                >
+                    <img src="/images/image2.png" alt="" />
+                </Link>
             </div>
         </>
     );

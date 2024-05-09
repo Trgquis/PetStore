@@ -29,10 +29,137 @@
         list-style: none;
         height: 90%;
         font-weight: 600;
+        .mobile-menu__help {
+            padding: 20px 0;
+            .help-title {
+                font-size: 13px;
+                margin: 20px 0;
+                color: #333333;
+                line-height: 1.5;
+                text-transform: uppercase;
+                font-weight: 500;
+                font-style: normal;
+            }
+            .help-item--link {
+                svg {
+                    margin-right: 14px;
+                    width: 16px;
+                    height: 24px;
+                }
+                color: #333333;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                margin: 0;
+                font-size: 14px;
+                border: 0;
+                padding: 7px 0;
+            }
+        }
+        a {
+            text-transform: uppercase;
+            height: 30px;
+            font-size: 15px;
+            margin: 4px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #000;
+            text-decoration: none;
+        }
         .active {
             text-transform: uppercase;
             height: 30px;
             font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            &:hover {
+                color: #ec7263;
+            }
+        }
+    }
+}
+
+.catalogfixed {
+    width: 250px;
+    height: 400px;
+    top: 12vh;
+    border: solid 1px #333333;
+    background-color: #fff;
+    text-transform: uppercase;
+    position: fixed;
+    .catalog_title {
+        width: 100%;
+        height: 30px;
+        text-align: center;
+        border-bottom: solid 1px #333333;
+        background-color: #ec7263;
+        padding-top: 2px;
+
+        span {
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 15px;
+        }
+    }
+
+    .catalog_item {
+        display: flex;
+        text-transform: uppercase;
+        flex-direction: column;
+        justify-content: space-around;
+        list-style: none;
+        height: 90%;
+        font-weight: 600;
+        margin: 10px 20px;
+
+        .mobile-menu__help {
+            padding: 20px 0;
+            .help-title {
+                font-size: 13px;
+                color: #333333;
+                line-height: 1.5;
+                text-transform: uppercase;
+                font-weight: 500;
+                font-style: normal;
+            }
+            .help-item--link {
+                svg {
+                    margin-right: 14px;
+                    width: 16px;
+                    height: 24px;
+                }
+                color: #333333;
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                margin: 0;
+                font-size: 14px;
+                border: 0;
+                padding: 7px 0;
+            }
+        }
+        a {
+            text-transform: uppercase;
+            height: 30px;
+            font-size: 15px;
+            margin: 4px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #000;
+            text-decoration: none;
+            &:hover {
+                color: #ec7263;
+            }
+        }
+        .active {
+            text-transform: uppercase;
+            height: 30px;
+            font-size: 15px;
+            color: #000;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -48,7 +175,7 @@
     margin: 0 auto;
     margin-top: 20px;
     height: 420px;
-    width: 1223px;
+    width: 1100px;
     justify-content: space-between;
     .catalog {
         width: 20%;
@@ -123,6 +250,60 @@
 #content {
     max-width: 100%;
     min-height: 100%;
+    .section-index-promotion {
+        margin-top: 1px;
+        margin-bottom: 30px;
+        .container {
+            max-width: 1120px;
+            .promotion-bgwhite {
+                padding: 10px 12px;
+                overflow: hidden;
+                .list-promotion {
+                    margin: 0 -8px;
+                    display: -ms-flexbox;
+                    display: flex;
+                    .promotion-item {
+                        flex: 0 0 25%;
+                        -ms-flex: 0 0 25%;
+                        max-width: 25%;
+                        padding: 0 8px;
+                        .promotion-item__inner {
+                            height: 100%;
+                            border-radius: 4px;
+                            border: 1px solid #ec7263;
+                            padding: 10px;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            .title {
+                                font-weight: 600;
+                                font-size: 17px;
+                                margin: 0;
+                                text-align: left;
+                                border: none;
+                            }
+                            .content {
+                                font-size: 13px;
+                            }
+                            span {
+                                display: block;
+                                padding: 0;
+                            }
+                            a {
+                                color: var(--shop-color-main);
+                                text-decoration: none;
+                                outline: none;
+                                -moz-transition: all 0.3s ease-in-out;
+                                -o-transition: all 0.3s ease-in-out;
+                                -webkit-transition: all 0.3s ease-in-out;
+                                transition: all 0.3s ease-in-out;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .post-item {
@@ -135,7 +316,12 @@
     height: 100%;
     color: #000;
     transition: 0.5s;
-    border: solid 1px #3333;
+    border: solid 10px #fff;
+    .post-content,
+    .overlayout {
+        box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px,
+            rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    }
     .over-btn {
         width: 100%;
         height: 28px;
@@ -145,11 +331,6 @@
         text-align: center;
         text-transform: uppercase;
     }
-}
-
-.post-item:first-child {
-    grid-area: h1;
-    overflow: hidden;
 }
 
 .post-item:hover {
@@ -268,6 +449,9 @@
     /* margin-left: 50px; */
     color: #ec7263 !important;
     font-size: 10px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #e7e7e7;
+    margin: 0 150px;
 }
 .title h2 {
     padding-bottom: 8px;
@@ -279,48 +463,51 @@
     display: grid;
     justify-content: center;
     top: 0;
-    grid-template-columns: 476px 225px 225px 225px;
+    grid-template-columns: 225px 225px 225px 225px;
     grid-template-rows: 1fr auto;
     grid-gap: 25px;
     grid-template-areas:
         "h1 h2 h3 h4"
-        "h1 h5 h6 h7";
+        "h5 h6 h7 h8";
     padding: 35px;
 }
 
 .post-grid--sc {
     width: 100%;
     height: auto;
-    display: grid;
     justify-content: center;
-    top: 0;
-    // background-color: #ec7263;
-    // max-height: 174px;
-    // max-width: 253px;
-    grid-template-columns: 800px 400px;
-    grid-template-rows: 400px 191px;
-    grid-column-gap: 25px;
-    grid-template-areas:
-        "h2 h1"
-        "h2 h1";
-    padding: 35px;
-}
-
-.post-grid--sc2 {
-    width: 100%;
-    height: auto;
     display: grid;
-    justify-content: center;
-    top: 0;
-    grid-template-columns: 400px 800px;
-    grid-template-rows: 400px 191px;
-
-    grid-column-gap: 30px;
-    grid-template-areas:
-        "h1 h2"
-        "h1 h2";
+    grid-template-columns: repeat(
+        1,
+        1120px
+    ); /* Hai cột với chiều rộng cố định */
+    grid-template-rows: repeat(2, auto); /* Hai hàng với chiều cao tự động */
+    grid-row-gap: 30px; /* Khoảng cách giữa các hàng */
+    grid-column-gap: 30px; /* Khoảng cách giữa các cột */
     padding: 25px;
 }
+
+.imagebackground {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    width: 100%;
+    img {
+        width: 1100px;
+        height: auto;
+        transition: 0.7s;
+
+        &:hover {
+            transform: scale(1.1);
+            transition: 0.7s;
+            cursor: pointer;
+        }
+    }
+}
+
+/* Các quy tắc CSS khác tùy thuộc vào nhu cầu thiết kế của bạn */
 
 #discount-percent {
     display: flex;

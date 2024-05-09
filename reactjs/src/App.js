@@ -19,6 +19,8 @@ import OrderPage from "./pages/OrderPage";
 import CartPage from "./pages/CartPage";
 import SearchResult from "./pages/SearchResult";
 import DashBoard from "./Auth/DashBoard";
+import ManageOrder from "./pages/ManageOrder";
+import WebsitePolicy from "./pages/WebsitePolicy";
 
 const useRouteElement = () => {
     const routeElement = useRoutes([
@@ -123,6 +125,16 @@ const useRouteElement = () => {
             ),
         },
         {
+            path: "/manageOrder/",
+            element: (
+                <>
+                    <Header />
+                    <ManageOrder />
+                    <Footer />
+                </>
+            ),
+        },
+        {
             path: "/maintenance/",
             element: (
                 <>
@@ -132,12 +144,23 @@ const useRouteElement = () => {
                 </>
             ),
         },
+
         {
-            path: "/allproducts/:id",
+            path: "/allproducts/:id/:name",
             element: (
                 <>
                     <Header />
                     <AllProducts />
+                    <Footer />
+                </>
+            ),
+        },
+        {
+            path: "/pages/:name",
+            element: (
+                <>
+                    <Header />
+                    <WebsitePolicy />
                     <Footer />
                 </>
             ),

@@ -5,7 +5,7 @@ services:
         build:
             context: ./nodejs
         ports:
-            - "127.0.0.1:8888:8888"
+            - "127.0.0.1:8888"
         environment:
             - POSTGRES_HOST=db
             - POSTGRES_USER=postgres
@@ -18,7 +18,7 @@ services:
         build:
             context: ./reactjs
         ports:
-            - "127.0.0.1:3000:3000"
+            - "127.0.0.1:3000"
 
     db:
         image: postgres

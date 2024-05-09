@@ -42,7 +42,7 @@ function ProductModal({ isOpen, mode, productId, onClose }) {
             console.log(productId);
             const fetchData = async () => {
                 const results = await axios.get(
-                    "http://localhost:8081/api/get-product/?id=" + productId
+                    "http://localhost:8888/api/getproduct/?id=" + productId
                 );
                 console.log(results.data.product);
                 let data = results.data.product;
@@ -92,8 +92,15 @@ function ProductModal({ isOpen, mode, productId, onClose }) {
         formData.append("price", Editprice);
         formData.append("content", Editcontent);
         formData.append("discount", Editdiscount);
-        for (let i = 0; i < Editimg.length; i++) {
-            formData.append("productPhotos", Editimg[i]);
+        if (Editimg.length === 4) {
+            for (let i = 0; i < Editimg.length; i++) {
+                formData.append("productPhotos", Editimg[i]);
+            }
+        } else {
+            alert("Allow only 4 images");
+            return console.error(
+                `allow upload 4 images but got ${img.length} images`
+            );
         }
         await editProduct(formData, dispatch);
     };
@@ -105,10 +112,7 @@ function ProductModal({ isOpen, mode, productId, onClose }) {
         setPriceDisplay(formattedValue);
         setPrice(parseFloat(formattedValue.replace(/,/g, "")));
     };
-    //   const formatPrice = (price) => {
-    //     const formatted = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    //     return formatted;
-    //   };
+
     console.log(img);
     if (!isOpen) {
         return null;
@@ -281,9 +285,10 @@ function ProductModal({ isOpen, mode, productId, onClose }) {
                             <Form.Label>Upload image</Form.Label>
                             <Form.Control
                                 type="file"
+                                value={Editimg}
                                 name="image"
                                 placeholder=""
-                                onChange={(e) => setImg(e.target.files)}
+                                onChange={(e) => setEditImg(e.target.files)}
                                 multiple
                             />
                         </div>

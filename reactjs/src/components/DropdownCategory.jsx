@@ -26,7 +26,7 @@ const DropdownCategory = ({ parentID, toggleSubCatalogShut }) => {
     }
 
     return (
-        <div className="dropdownSub" onMouseLeave={handleMouseLeave}>
+        <div className="dropdownSub2" onMouseLeave={handleMouseLeave}>
             <div className="dropdown-content">
                 <div className="wrapperCategory" style={{ width: "100%" }}>
                     <div className="catalogWrapper">
@@ -39,6 +39,7 @@ const DropdownCategory = ({ parentID, toggleSubCatalogShut }) => {
                                 <div key={catalog.id} className="catalogItem">
                                     <div className="catalogTitle">
                                         {catalog.name}
+                                        
                                     </div>
                                     <div className="children">
                                         {childList?.data.childs.childs
@@ -53,12 +54,12 @@ const DropdownCategory = ({ parentID, toggleSubCatalogShut }) => {
                                                     className="child"
                                                 >
                                                     <Link
-                                                        to={`/allproducts/${child.id}`}
+                                                        to={`/allproducts/${child.id}/${child.name}`}
                                                         style={{
                                                             color: "#000",
                                                             textDecoration:
                                                                 "none",
-                                                            fontSize: "15px",
+                                                            fontSize: "14px",
                                                         }}
                                                     >
                                                         {child.name}

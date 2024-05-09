@@ -61,6 +61,25 @@ const productController = {
             products,
         });
     },
+
+    handleGetAllPopular: async (req, res) => {
+        let products = await productService.getAllPopular();
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: "OK",
+            products,
+        });
+    },
+
+    handleGetAllTopSale: async (req, res) => {
+        let products = await productService.getAllTopSale();
+        return res.status(200).json({
+            errCode: 0,
+            errMessage: "OK",
+            products,
+        });
+    },
+
     handleGetAllReviews: async (req, res) => {
         let reviews = await productService.getAllReviews();
         return res.status(200).json({

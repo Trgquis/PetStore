@@ -16,7 +16,7 @@ const { LocalStorage } = require("node-localstorage");
 const localStorage = new LocalStorage("./scratch");
 let initWebRoutes = (app) => {
     app.use("/images", express.static("./images"));
-
+    
     // Categories Section
     router.get("/api/getAllRoots", categoriesController.handleGetAllRoots);
     router.get(
@@ -65,6 +65,8 @@ let initWebRoutes = (app) => {
     // Product Section
     router.get("/api/search", productController.handleSearchProduct);
     router.get("/api/getAllProducts", productController.handleGetAllProducts);
+    router.get("/api/getAllPopular", productController.handleGetAllPopular);
+
     router.get("/api/getAllReviews", productController.handleGetAllReviews);
     router.get("/api/getProduct", productController.handleGetProduct);
     router.post(
@@ -72,15 +74,18 @@ let initWebRoutes = (app) => {
         uploadmiddleware.upload,
         productController.handleCreateNewProduct
     );
-    router.post("/api/editproduct", productController.handleEditProduct),
+    router.put("/api/editproduct", productController.handleEditProduct),
         router.post(
             "/api/addproductimage",
             productController.handleAddProductImage
         );
     router.delete("/api/deleteProduct", productController.handleDeleteProduct),
-    router.post("/api/handleSendReview", productController.handleSendReview)
+        router.post(
+            "/api/handleSendReview",
+            productController.handleSendReview
+        );
     // Cart Section
-        router.get("/api/getAllCart", orderController.getAllCart);
+    router.get("/api/getAllCart", orderController.getAllCart);
     router.post("/api/addcart", orderController.handleAddCart);
     router.delete("/api/removeItemCart", orderController.handleRemoveCart);
     router.delete("/api/deleteCart/", orderController.deleteCartItem);

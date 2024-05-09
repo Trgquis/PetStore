@@ -7,8 +7,11 @@ module.exports = async (sequelize, DataTypes) => {
             RootCategories.hasMany(models.Categories, {
                 foreignKey: "rootcategory_id",
                 sourceKey: "id",
-            }); // một danh mục có nhiều sản phẩm
-            //   models.Products.belongsTo(Catalogs, { foreignKey: 'catalog_id' }); // mỗi sản phẩm thuộc một danh mục
+            }); 
+            RootCategories.hasMany(models.Product, {
+                foreignKey: "root_id",
+                sourceKey: "id",
+            });
         }
     }
     RootCategories.init(

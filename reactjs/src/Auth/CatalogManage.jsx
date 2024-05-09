@@ -16,6 +16,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import CustomAlert from "../components/CustomAlert";
 import ConfirmationModal from "../components/ConfirmationModal";
 import RootModal from "../components/RootModal";
+import axios from "axios";
 const PAGE_SIZE = 12;
 
 const CatalogManage = () => {
@@ -51,7 +52,7 @@ const CatalogManage = () => {
         }
     }, []);
 
-    const handleOpen = async (mode, id) => {
+    const handleOpen = async (id) => {
         try {
             setModal(true);
             setId(id);
@@ -109,12 +110,14 @@ const CatalogManage = () => {
     const confirmDelete = async () => {
         try {
             if (catalogToDelete) {
-                let res = await deleteCatalog(dispatch, catalogToDelete.id);
-
+                let res = await axios.delete(
+                    `http://localhost:8888/api/deletechild/?id=${catalogToDelete.id}`
+                );
                 if (res) {
                     setStatus(0);
                     setMess("Xóa danh mục thành công");
                     handleShowAlert();
+                    handlegetAllChilds(dispatch);
                 } else if (!res) {
                     setStatus(1);
                     setMess("Xóa danh mục thất bại");
@@ -166,6 +169,9 @@ const CatalogManage = () => {
                                         (window.location.href = e.target.value)
                                     }
                                 >
+                                    <option value="#">
+                                        -- Chọn trang quản lý --
+                                    </option>
                                     <option value="/usersmanage">
                                         Quản lý người dùng
                                     </option>
@@ -177,7 +183,7 @@ const CatalogManage = () => {
                         </div>
                         {modal && (
                             <div className="modal-container">
-                                {!id ? (
+                                {id ? (
                                     <CatalogModal
                                         isOpen={modal}
                                         catalogId={id}
@@ -186,7 +192,7 @@ const CatalogManage = () => {
                                 ) : (
                                     <CatalogModal
                                         isOpen={modal}
-                                        catalogId={id}
+                                        catalogId={null}
                                         onClose={handleClose}
                                     />
                                 )}
@@ -229,11 +235,8 @@ const CatalogManage = () => {
                                         <td className="action">
                                             <FaPencilAlt
                                                 className="pen"
-                                                onClick={(e) =>
-                                                    handleOpen(
-                                                        "edit",
-                                                        catalog.id
-                                                    )
+                                                onClick={() =>
+                                                    handleOpen(catalog.id)
                                                 }
                                             />
                                             <RiDeleteBin5Fill
@@ -270,7 +273,7 @@ const CatalogManage = () => {
                 isOpen={showDeleteConfirmation}
                 onConfirm={confirmDelete}
                 onCancel={cancelDelete}
-                message={`Are you sure you want to delete the catalog: ${catalogToDelete?.name}?`}
+                message={`Bạn có chắc muốn xóa danh mục: ${catalogToDelete?.name}?`}
             />
             <CustomAlert
                 message={mess}

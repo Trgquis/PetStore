@@ -48,8 +48,14 @@ const salesAPI = {
         const res = await axios.get("http://localhost:8888/api/getAllProducts");
         return res;
     },
+
+    getAllPopular: async () => {
+        const res = await axios.get("http://localhost:8888/api/getAllPopular");
+        return res;
+    },
+
     getProduct: async (productId) => {
-        console.log(productId)
+        console.log(productId);
         const res = await axios.get(
             "http://localhost:8888/api/getProduct/?id=" + productId
         );
@@ -68,7 +74,7 @@ const salesAPI = {
 
     EditCatalog: async (catalog) => {
         const res = await axios.put(
-            "http://localhost:8888/api/editcategory",
+            "http://localhost:8888/api/editchild",
             catalog
         );
         console.log(res);
@@ -76,8 +82,8 @@ const salesAPI = {
     },
 
     Editproduct: async (product) => {
-        const res = await axios.put(
-            "http://localhost:8888/api/edit-product",
+        const res = await axios.post(
+            "http://localhost:8888/api/editproduct",
             product
         );
         console.log(res);

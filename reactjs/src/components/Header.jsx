@@ -105,8 +105,21 @@ const Header = () => {
     return (
         <header className="header">
             <div id="top">
-                <p>Tặng voucher miễn phí khi trở thành hội viên của PETSHOP</p>
+                <p>Miễn phí vận chuyển cho đơn hàng từ 700.000đ</p>
             </div>
+            {open && (
+                <div
+                    style={{
+                        backgroundColor: "rgba(0, 0, 0, 0.5)",
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        zIndex: 3,
+                    }}
+                ></div>
+            )}
             <i className="fas fas fa-angle-down"></i>
             <div className="overlayoutNav">
                 <nav className="navbarHeader">
@@ -119,21 +132,32 @@ const Header = () => {
                             />
                         </Link>
                     </div>
+
                     <div
                         className="toggleCatalog"
                         onClick={toggleCatalog}
-                        style={{ position: "relative" }}
+                        style={{
+                            position: "relative",
+                            backgroundColor: open ? "#ec7263" : "#fff",
+                            color: open ? "#fff" : "#ec7263",
+                        }}
                     >
-                        <span style={{ fontSize: "25px", fontWeight: "bold" }}>
-                            <CiViewList />
+                        <span
+                            style={{
+                                fontSize: "15px",
+                            }}
+                        >
+                            <CiViewList
+                                style={{ fontSize: "25px", fontWeight: "bold" }}
+                            />
+                            Danh mục
                         </span>
-                        Danh mục
                         {open && <CatalogBar />}
                     </div>
                     <div className="searchSection">
                         <input
                             type="text"
-                            placeholder="Bạn cần tìm gì?"
+                            placeholder="Tìm kiếm sản phẩm..."
                             value={keyword}
                             onChange={handleKeywordChange}
                         />

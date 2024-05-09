@@ -38,6 +38,30 @@ module.exports = {
                     allowNull: false,
                     type: Sequelize.STRING,
                 },
+                address: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                },
+                phonenumber: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                },
+                delivery: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                },
+                shipFee: {
+                    allowNull: false,
+                    type: Sequelize.REAL,
+                },
+                payment: {
+                    allowNull: false,
+                    type: Sequelize.STRING,
+                },
+                totalPayment: {
+                    allowNull: false,
+                    type: Sequelize.REAL,
+                },
                 status: {
                     allowNull: false,
                     type: Sequelize.TEXT,

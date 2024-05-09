@@ -1,0 +1,238 @@
+user_id,product_id,score,comment,createdAt,updatedAt,id
+7,4,3,"Chất lượng của sản phẩm vượt xa mong đợi của tôi.
+",2024-01-02 05:42:48.983148,2024-05-01 03:19:13.79401,2113415
+53,31,4,"Đó là một lựa chọn tuyệt vời cho thú cưng của bạn.
+",2024-03-17 11:32:27.075948,2024-05-01 03:19:13.79401,2113416
+11,14,3,"Sản phẩm này thực sự là một điều cần thiết cho bất kỳ chủ nhân thú cưng nào.
+",2024-02-24 04:17:19.933548,2024-05-01 03:19:13.79401,2113417
+49,14,3,"Tôi đã giới thiệu sản phẩm này cho nhiều bạn bè vì tôi thực sự hài lòng với nó.
+",2024-02-10 05:12:59.725548,2024-05-01 03:19:13.79401,2113418
+8,9,5,"Tôi đã dành rất nhiều thời gian để tìm kiếm sản phẩm hoàn hảo cho thú cưng của mình và tôi rất may mắn khi tìm thấy nó.
+",2024-02-15 01:31:12.656748,2024-05-01 03:19:13.79401,2113419
+6,13,3,"Sản phẩm này là một trong những đầu tư tốt nhất mà tôi đã làm cho thú cưng của mình.
+",2024-02-21 17:58:29.965548,2024-05-01 03:19:13.79401,2113420
+52,9,3,"Tôi đã đọc rất nhiều đánh giá tích cực về sản phẩm này trước khi quyết định mua và tôi không hối hận về quyết định của mình.
+",2024-03-18 10:09:36.397548,2024-05-01 03:19:13.79401,2113421
+30,33,4,"Tôi rất ấn tượng với chất lượng của sản phẩm này, nó đã vượt xa mong đợi của tôi.
+",2024-03-27 10:44:44.471148,2024-05-01 03:19:13.79401,2113434
+32,38,4,"Sản phẩm dùng tốt, shop hỗ trợ nhiệt tình!",2024-01-27 07:51:34.093548,2024-05-01 03:19:13.79401,2113435
+44,2,3,"Sản phẩm này đã giúp thú cưng của tôi giảm bớt căng thẳng sau một ngày dài.
+",2024-02-29 16:47:51.267948,2024-05-01 03:19:13.79401,2113438
+34,55,4,"Sản phẩm này là một trong những đầu tư tốt nhất mà tôi đã làm cho thú cưng của mình.
+",2024-05-08 18:35:24.092639,2024-05-08 18:35:24.092639,2113513
+14,68,5,"Sản phẩm này là một trong những đầu tư tốt nhất mà tôi đã làm cho thú cưng của mình.
+",2024-05-08 18:35:31.599378,2024-05-08 18:35:31.599378,2113514
+1,53,4,"Sản phẩm này đã giúp tôi và thú cưng của tôi tạo ra những kỷ niệm đẹp và vui vẻ.
+",2024-05-08 18:35:33.763082,2024-05-08 18:35:33.763082,2113515
+19,51,4,"Tôi đã sử dụng sản phẩm này trong một thời gian dài và vẫn rất hài lòng với hiệu suất của nó.
+",2024-05-08 18:35:45.863515,2024-05-08 18:35:45.863515,2113516
+47,67,5,"Thiết kế đẹp mắt, tiện lợi, dễ dàng sử dụng.
+",2024-05-08 18:35:46.263374,2024-05-08 18:35:46.263374,2113518
+55,53,5,"Tôi đã ngạc nhiên trước sự phản ứng tích cực của thú cưng của mình đối với sản phẩm này.
+",2024-05-08 18:37:44.412152,2024-05-08 18:37:44.412152,2113519
+43,70,4,"Sản phẩm này đã giúp thú cưng của tôi tạo ra một mối quan hệ mạnh mẽ hơn với tôi.
+",2024-05-08 18:37:44.996693,2024-05-08 18:37:44.996693,2113520
+36,73,4,"Tôi đã sử dụng sản phẩm này trong một thời gian dài và vẫn rất hài lòng với hiệu suất của nó.
+",2024-05-08 18:37:45.461357,2024-05-08 18:37:45.461357,2113521
+46,60,5,"Thú cưng của tôi rất thích ăn sản phẩm này, ăn ngon miệng và tiêu hóa tốt.
+",2024-05-08 18:37:45.844385,2024-05-08 18:37:45.844385,2113522
+12,5,5,"Sản phẩm này thực sự tuyệt vời, thú cưng của tôi rất thích.",2024-01-02 05:42:48.983148,2024-05-01 03:19:13.79401,2113413
+15,25,5,Tôi đã mua nhiều sản phẩm khác nhau nhưng đây là một trong những sản phẩm tốt nhất.,2024-01-02 05:42:48.983148,2024-05-01 03:19:13.79401,2113414
+12,13,5,"Sản phẩm này đã mang lại nụ cười trên khuôn mặt của thú cưng mỗi ngày.
+",2024-02-19 15:02:51.325548,2024-05-01 03:19:13.79401,2113439
+28,11,5,"Tôi đã dành rất nhiều thời gian để tìm kiếm một sản phẩm như vậy và cuối cùng tôi đã tìm thấy nó.
+",2024-02-22 13:24:16.208748,2024-05-01 03:19:13.79401,2113440
+41,27,3,"Sản phẩm này đã giúp thú cưng của tôi trở nên sôi nổi và khỏe mạnh hơn.
+",2024-01-13 13:28:39.642348,2024-05-01 03:19:13.79401,2113442
+15,24,4,"Sản phẩm này không chỉ là một món quà tuyệt vời cho thú cưng của tôi mà còn là một món quà cho chính tôi.
+",2024-01-23 01:26:06.368748,2024-05-01 03:19:13.79401,2113461
+35,34,3,"Tôi thực sự không thể hài lòng hơn với sản phẩm này.
+",2024-03-25 07:18:24.819948,2024-05-01 03:19:13.79401,2113462
+32,10,3,"Sản phẩm này là một món quà tuyệt vời cho thú cưng của tôi vào dịp sinh nhật.
+",2024-02-19 11:16:23.715948,2024-05-01 03:19:13.79401,2113463
+24,20,3,"Sản phẩm này không chỉ là một đồ chơi mà còn là một công cụ huấn luyện tuyệt vời cho thú cưng của tôi.
+",2024-02-07 20:27:45.498348,2024-05-01 03:19:13.79401,2113464
+21,38,3,"Tôi đã ngạc nhiên trước sự phản ứng tích cực của thú cưng của mình đối với sản phẩm này.
+",2024-01-01 03:16:18.042348,2024-05-01 03:19:13.79401,2113465
+52,20,4,"Sản phẩm này đã trở thành một phần không thể thiếu trong cuộc sống hàng ngày của thú cưng của tôi.
+",2024-02-24 18:54:22.112748,2024-05-01 03:19:13.79401,2113466
+40,8,3,"Sản phẩm này có thiết kế đơn giản nhưng rất hiệu quả trong việc giải trí cho thú cưng của tôi.
+",2024-03-08 21:14:21.229548,2024-05-01 03:19:13.79401,2113467
+62,27,5,vị cá hồi rất tốt cho mèo!,2024-05-01 18:09:02.889,2024-05-01 18:09:02.889,2113502
+63,23,4,"sản phẩm tốt, rất đáng tiền",2024-05-07 17:44:35.511,2024-05-07 17:44:35.511,2113506
+63,45,5,good,2024-05-08 01:43:51.866,2024-05-08 01:43:51.866,2113510
+10,59,4,"Sản phẩm giúp thú cưng phát triển khỏe mạnh, lông mượt, da đẹp.
+",2024-05-08 18:37:46.215915,2024-05-08 18:37:46.215915,2113523
+26,52,3,Tôi đã sử dụng sản phẩm này trong việc huấn luyện thú cưng và thấy kết quả ngay từ lần đầu tiên.,2024-05-08 18:37:46.585394,2024-05-08 18:37:46.585394,2113524
+39,64,5,Sản phẩm này đã giúp thú cưng của tôi tạo ra thói quen tốt hơn và tăng cường sức khỏe.,2024-05-08 18:37:47.145511,2024-05-08 18:37:47.145511,2113526
+27,61,4,"Chất lượng của sản phẩm vượt xa mong đợi của tôi.
+",2024-05-08 18:37:47.452019,2024-05-08 18:37:47.452019,2113527
+45,63,5,"Chất lượng của sản phẩm vượt xa mong đợi của tôi.
+",2024-05-08 18:37:47.748897,2024-05-08 18:37:47.748897,2113528
+53,81,4,"Chất lượng của sản phẩm vượt xa mong đợi của tôi.
+",2024-05-08 18:37:48.054261,2024-05-08 18:37:48.054261,2113529
+45,59,3,Tôi đã sử dụng sản phẩm này và thấy sự khác biệt ngay từ lần đầu tiên sử dụng.,2024-05-08 18:37:48.325317,2024-05-08 18:37:48.325317,2113530
+4,87,4,"Thú cưng của tôi rất thích ăn sản phẩm này, ăn ngon miệng và tiêu hóa tốt.
+",2024-05-08 18:39:00.35435,2024-05-08 18:39:00.35435,2113531
+4,17,4,"Sản phẩm này đã giúp thú cưng của tôi giảm căng thẳng và trở nên hạnh phúc hơn.
+",2024-01-17 10:42:47.312748,2024-05-01 03:19:13.79401,2113422
+33,24,4,"Sản phẩm này đã giúp tôi tiết kiệm rất nhiều thời gian và nỗ lực trong việc chăm sóc thú cưng.
+",2024-03-05 10:54:44.173548,2024-05-01 03:19:13.79401,2113423
+16,30,3,"Tôi đã sử dụng sản phẩm này mỗi ngày và vẫn không chán chường với nó.
+",2024-03-18 05:03:46.938348,2024-05-01 03:19:13.79401,2113424
+32,43,4,"Tôi đã sử dụng sản phẩm này theo hướng dẫn và thú cưng của tôi đã thích nghi với nó ngay lập tức.
+",2024-01-21 15:49:26.624748,2024-05-01 03:19:13.79401,2113425
+30,42,5,"Tôi đã sử dụng sản phẩm này để huấn luyện thú cưng của mình và thấy kết quả rất tích cực.
+",2024-01-27 01:07:29.043948,2024-05-01 03:19:13.79401,2113426
+50,28,3,"Tôi đã sử dụng sản phẩm này và thấy thú cưng của tôi trở nên năng động hơn sau một thời gian ngắn.
+",2024-02-07 00:06:50.048748,2024-05-01 03:19:13.79401,2113427
+31,10,3,"Sản phẩm này là một trong những món đồ chơi yêu thích nhất của thú cưng của tôi.
+",2024-01-11 14:43:36.762348,2024-05-01 03:19:13.79401,2113428
+10,24,3,"Tôi đã sử dụng sản phẩm này và cảm nhận được sự yên bình trong không gian sống của mình.
+",2024-01-29 22:34:51.162348,2024-05-01 03:19:13.79401,2113429
+46,23,3,"Sản phẩm này đã giúp thú cưng của tôi tạo ra một mối quan hệ mạnh mẽ hơn với tôi.
+",2024-02-22 05:06:31.443948,2024-05-01 03:19:13.79401,2113430
+46,35,4,"Tôi đã giới thiệu sản phẩm này cho bạn bè và họ cũng rất hài lòng với nó.
+",2024-03-15 11:39:00.455148,2024-05-01 03:19:13.79401,2113431
+27,20,5,Sản phẩm này đã giúp thú cưng của tôi cảm thấy hạnh phúc và thoải mái trong mọi hoàn cảnh.,2024-03-05 05:13:02.403948,2024-05-01 03:19:13.79401,2113432
+52,101,5,"Tôi đã mua sản phẩm này dành riêng cho thú cưng của mình và không thể hài lòng hơn với sự lựa chọn của mình.
+",2024-05-08 18:39:00.645646,2024-05-08 18:39:00.645646,2113532
+36,100,4,"Dễ dàng mua tìm tại các cửa hàng thú cưng.
+",2024-05-08 18:39:01.259704,2024-05-08 18:39:01.259704,2113535
+10,92,4,"Sản phẩm này là một trong những đầu tư tốt nhất mà tôi đã làm cho thú cưng của mình.
+",2024-05-08 18:39:01.42744,2024-05-08 18:39:01.42744,2113536
+34,71,3,"Tôi đã thử nghiệm nhiều loại sản phẩm trước đây nhưng không có gì có thể so sánh được với sản phẩm này.
+",2024-05-08 18:39:01.743947,2024-05-08 18:39:01.743947,2113537
+53,89,4,"Sản phẩm này là một món quà tuyệt vời cho thú cưng của tôi vào dịp sinh nhật.
+",2024-05-08 18:39:02.05755,2024-05-08 18:39:02.05755,2113538
+51,100,4,"Tôi đã mua sản phẩm này dành riêng cho thú cưng của mình và không thể hài lòng hơn với sự lựa chọn của mình.
+",2024-05-08 18:39:02.269053,2024-05-08 18:39:02.269053,2113539
+20,94,5,"Sản phẩm này là một trong những món đồ chơi yêu thích nhất của thú cưng của tôi.
+",2024-05-08 18:39:02.546471,2024-05-08 18:39:02.546471,2113540
+17,73,4,Sản phẩm này không chỉ giúp thú cưng của tôi vui chơi mà còn giúp kích thích trí óc của chúng.,2024-05-08 18:39:02.711519,2024-05-08 18:39:02.711519,2113541
+35,81,3,"Tôi thực sự không thể hài lòng hơn với sản phẩm này.
+",2024-05-08 18:39:03.025236,2024-05-08 18:39:03.025236,2113542
+29,84,4,"Sản phẩm này là một trong những món đồ chơi yêu thích nhất của thú cưng của tôi.
+",2024-05-08 18:39:03.189214,2024-05-08 18:39:03.189214,2113543
+34,71,3,"Tôi đã dành rất nhiều thời gian để tìm kiếm một sản phẩm như vậy và rất hạnh phúc khi đã tìm thấy.
+",2024-05-08 18:39:03.425355,2024-05-08 18:39:03.425355,2113544
+9,36,3,Tôi đã mua sản phẩm này và sử dụng nó theo hướng dẫn và thấy kết quả rất tích cực.,2024-02-19 14:59:49.712748,2024-05-01 03:24:51.514933,2113477
+23,43,3,Sản phẩm này đã giúp thú cưng của tôi giảm bớt căng thẳng và trở nên thoải mái hơn.,2024-02-24 04:04:12.397548,2024-05-01 03:24:51.514933,2113478
+24,35,3,Tôi đã mua sản phẩm này dựa trên những đánh giá tích cực và không thể hài lòng hơn với quyết định của mình.,2024-01-10 06:48:19.664748,2024-05-01 03:24:51.514933,2113479
+51,3,5,Sản phẩm này không chỉ là một lựa chọn tuyệt vời cho thú cưng mà còn là một món quà ý nghĩa cho bạn bè.,2024-03-20 09:24:34.410348,2024-05-01 03:24:51.514933,2113480
+40,36,4,"Sản phẩm có chất lượng tốt, nguyên liệu an toàn, đảm bảo sức khỏe cho thú cưng.",2024-02-11 10:58:27.431148,2024-05-01 03:24:51.514933,2113481
+16,17,4,"Sản phẩm giúp thú cưng phát triển khỏe mạnh, lông mượt, da đẹp.
+",2024-01-29 00:25:49.491948,2024-05-01 03:24:51.514933,2113483
+23,20,4,"Giá cả hợp lý, phù hợp với túi tiền.
+",2024-02-03 07:11:05.043948,2024-05-01 03:24:51.514933,2113484
+52,17,4,"Dễ dàng mua tìm tại các cửa hàng thú cưng.
+",2024-03-29 16:17:37.213548,2024-05-01 03:24:51.514933,2113485
+12,10,5,"Thiết kế đẹp mắt, tiện lợi, dễ dàng sử dụng.
+",2024-03-02 19:08:19.587948,2024-05-01 03:24:51.514933,2113487
+43,42,4,"Giá cả hợp lý, phù hợp với nhu cầu sử dụng.
+",2024-01-23 10:53:38.595948,2024-05-01 03:24:51.514933,2113488
+26,43,4,"Đảm bảo an toàn cho thú cưng khi sử dụng.
+",2024-03-12 17:19:19.367148,2024-05-01 03:24:51.514933,2113489
+33,40,4,"Thiết kế độc đáo, thu hút sự chú ý của thú cưng.
+",2024-02-23 02:38:06.541548,2024-05-01 03:24:51.514933,2113492
+17,1,4,"Sản phẩm chất lượng tốt, an toàn cho thú cưng khi dùng.
+",2024-02-17 05:44:33.786348,2024-05-01 03:25:16.412146,2113491
+11,8,5,"Sản phẩm chất lượng tốt!
+",2024-01-21 08:08:46.573548,2024-05-01 03:26:58.083145,2113486
+35,12,4,"Phù hợp với nhiều giống thú cưng khác nhau.
+",2024-02-08 14:28:31.981548,2024-05-01 03:27:41.220265,2113490
+42,107,5,"Sản phẩm này thực sự tuyệt vời, thú cưng của tôi rất thích.",2024-05-08 18:39:03.692838,2024-05-08 18:39:03.692838,2113545
+17,106,5,"Tôi đã dành rất nhiều thời gian để tìm kiếm một sản phẩm như vậy và tôi rất tự hào khi đã tìm thấy nó.
+",2024-05-08 18:39:04.0308,2024-05-08 18:39:04.0308,2113546
+41,102,5,"Tôi đã sử dụng sản phẩm này và cảm nhận được sự yên bình trong không gian sống của mình.
+",2024-05-08 18:39:04.358758,2024-05-08 18:39:04.358758,2113547
+2,7,5,"Chất lượng của sản phẩm vượt xa mong đợi của tôi.
+",2024-01-02 05:42:48.983148,2024-01-02 05:42:48.983148,2113493
+62,2,4,cho chó ăn khi bị rụng lông rất tốt!,2024-05-01 18:10:31.539,2024-05-01 18:10:31.539,2113503
+63,58,4,cún tôi rất thích!,2024-05-07 17:45:02.855,2024-05-07 17:45:02.855,2113507
+54,45,4,"công dụng tốt, đáng mua!",2024-05-08 14:43:13.17,2024-05-08 14:43:13.17,2113511
+19,39,4,"Sản phẩm này không chỉ giúp thú cưng của tôi vui chơi mà còn giúp tăng cường sức khỏe của họ.
+",2024-03-25 21:43:46.640748,2024-05-08 18:04:17.734279,2113433
+21,44,5,"Sản phẩm này đáng giá từng xu.
+",2024-03-13 11:16:22.160748,2024-05-01 03:19:13.79401,2113443
+62,11,5,"Hàng được đóng gói cẩn thận, mèo của tôi rất thích dùng!",2024-05-01 18:02:02.819,2024-05-01 18:02:02.819,2113500
+62,13,4,sản phẩm tốt!,2024-05-01 22:47:56.767,2024-05-01 22:47:56.767,2113504
+63,59,3,Sản phẩm tốt,2024-05-07 17:50:22.685,2024-05-07 17:50:22.685,2113508
+15,32,4,Chó của tôi rất thích,2024-01-02 05:42:48.983148,2024-05-08 18:03:11.26466,2113512
+20,70,5,"Sản phẩm này đã giúp tôi tiết kiệm rất nhiều thời gian và nỗ lực trong việc chăm sóc thú cưng.
+",2024-05-08 18:39:04.697188,2024-05-08 18:39:04.697188,2113548
+26,105,4,"Tôi rất ấn tượng với chất lượng của sản phẩm này, nó đã vượt xa mong đợi của tôi.
+",2024-05-08 18:39:05.027095,2024-05-08 18:39:05.027095,2113549
+16,97,3,Sản phẩm này không chỉ là một lựa chọn tuyệt vời cho thú cưng mà còn là một món quà ý nghĩa cho bạn bè.,2024-05-08 18:39:05.199,2024-05-08 18:39:05.199,2113550
+17,95,5,Tôi đã mua sản phẩm này và sử dụng nó theo hướng dẫn và thấy kết quả rất tích cực.,2024-05-08 18:39:05.607836,2024-05-08 18:39:05.607836,2113552
+32,72,5,Tôi đã mua sản phẩm này dành riêng cho thú cưng của mình và đã nhận được phản hồi tích cực từ chúng.,2024-05-08 18:39:05.880765,2024-05-08 18:39:05.880765,2113553
+44,89,4,"Tôi đã sử dụng sản phẩm này và thấy thú cưng của tôi trở nên năng động hơn sau một thời gian ngắn.
+",2024-05-08 18:39:06.203034,2024-05-08 18:39:06.203034,2113554
+22,84,3,Sản phẩm này không chỉ là một lựa chọn tuyệt vời cho thú cưng mà còn là một món quà ý nghĩa cho bạn bè.,2024-05-08 18:39:06.443261,2024-05-08 18:39:06.443261,2113555
+38,63,5,"Sản phẩm này đã giúp thú cưng của tôi tạo ra một mối quan hệ mạnh mẽ hơn với tôi.
+",2024-05-08 18:35:46.0525,2024-05-08 18:39:41.764961,2113517
+8,72,5,Tôi đã mua sản phẩm này và sử dụng nó theo hướng dẫn và thấy kết quả rất tích cực.,2024-05-08 18:37:46.900366,2024-05-08 18:39:41.764961,2113525
+28,88,5,"Đảm bảo an toàn cho thú cưng khi sử dụng.
+",2024-05-08 18:39:00.955206,2024-05-08 18:39:41.764961,2113533
+20,83,5,"Chất lượng của sản phẩm vượt xa mong đợi của tôi.
+",2024-05-08 18:39:01.098533,2024-05-08 18:39:41.764961,2113534
+14,83,5,"Tôi đã dành rất nhiều thời gian để tìm kiếm một sản phẩm như vậy và tôi rất tự hào khi đã tìm thấy nó.
+",2024-05-08 18:39:05.371454,2024-05-08 18:39:41.764961,2113551
+34,81,5,"Sản phẩm này không chỉ là một món quà tuyệt vời cho thú cưng mà còn là một món quà cho chính bản thân tôi.
+",2024-05-08 18:39:06.71989,2024-05-08 18:39:41.764961,2113556
+64,99,4,good!,2024-05-08 18:40:12.555,2024-05-08 18:40:12.555,2113557
+14,15,5,"Sản phẩm này đã trở thành một phần quan trọng trong việc chăm sóc và huấn luyện thú cưng của tôi.
+",2024-01-14 15:24:46.679148,2024-05-01 03:19:13.79401,2113436
+2,3,5,"Tôi đã mua sản phẩm này dành riêng cho thú cưng của mình và không thể hài lòng hơn với sự lựa chọn của mình.
+",2024-01-17 09:12:24.935148,2024-05-01 03:19:13.79401,2113437
+32,25,5,"Sản phẩm này đã giúp tôi và thú cưng của tôi tạo ra những kỷ niệm đẹp và vui vẻ.
+",2024-01-15 16:10:11.475948,2024-05-01 03:19:13.79401,2113441
+10,22,4,"Tôi đã mua sản phẩm này với mong đợi cao và thực sự rất hạnh phúc với kết quả.
+",2024-01-04 12:47:09.075948,2024-05-01 03:19:13.79401,2113444
+9,35,4,"Sản phẩm này là một trong những món đồ chơi yêu thích của thú cưng của tôi.
+",2024-02-19 08:16:13.002348,2024-05-01 03:19:13.79401,2113445
+42,16,4,"Sản phẩm này là một phần không thể thiếu trong danh sách mua sắm hàng tháng của tôi.
+",2024-03-02 07:06:08.778348,2024-05-01 03:19:13.79401,2113447
+11,23,3,"Tôi đã thử nghiệm nhiều loại sản phẩm trước đây nhưng không có gì có thể so sánh được với sản phẩm này.
+",2024-02-20 11:43:42.205548,2024-05-01 03:19:13.79401,2113448
+41,40,4,"Sản phẩm này đã giúp thú cưng của tôi giảm căng thẳng và trở nên thư thái hơn.
+",2024-02-02 10:28:52.429548,2024-05-01 03:19:13.79401,2113449
+13,11,4,"Tôi đã sử dụng sản phẩm này trong một khoảng thời gian ngắn và đã nhận thấy sự khác biệt rõ ràng.
+",2024-03-23 13:08:58.381548,2024-05-01 03:19:13.79401,2113450
+8,20,5,"Tôi đã sử dụng sản phẩm này cho cả thú cưng lớn và bé và đều rất hài lòng với kết quả.
+",2024-01-19 12:25:58.218348,2024-05-01 03:19:13.79401,2113451
+9,10,3,"Tôi đã dành rất nhiều thời gian để nghiên cứu và so sánh sản phẩm trước khi quyết định mua và tôi tin rằng tôi đã chọn đúng.
+",2024-01-20 21:01:16.803948,2024-05-01 03:19:13.79401,2113452
+12,35,4,"Tôi đã mua nhiều sản phẩm khác nhau từ nhiều thương hiệu khác nhau, nhưng không có sản phẩm nào tốt như vậy.
+",2024-03-02 00:35:16.967148,2024-05-01 03:19:13.79401,2113453
+2,23,3,"Tôi đã thử nghiệm nhiều sản phẩm trước đây nhưng đây là lần đầu tiên tôi thực sự hài lòng với một sản phẩm.
+",2024-01-16 09:51:04.602348,2024-05-01 03:19:13.79401,2113454
+32,10,4,"Tôi đã sử dụng sản phẩm này trong một thời gian dài và vẫn rất hài lòng với hiệu suất của nó.
+",2024-02-21 19:23:47.351148,2024-05-01 03:19:13.79401,2113455
+52,16,3,"Sản phẩm này không gây kích ứng cho thú cưng của tôi và đã được kiểm định an toàn.
+",2024-02-24 06:48:23.120748,2024-05-01 03:19:13.79401,2113456
+40,44,5,"Sản phẩm này không chỉ là một món quà tuyệt vời cho thú cưng mà còn là một món quà cho chính bản thân tôi.
+",2024-01-20 04:11:15.498348,2024-05-01 03:19:13.79401,2113457
+31,33,4,"Tôi đã sử dụng sản phẩm này trong một thời gian dài và vẫn không thể tin nổi vào hiệu quả của nó.
+",2024-01-12 22:58:18.099948,2024-05-01 03:19:13.79401,2113458
+11,42,4,"Tôi đã mua sản phẩm này cho thú cưng của mình và ngay từ lần đầu tiên sử dụng, tôi đã nhận thấy sự khác biệt.
+",2024-03-06 21:33:07.367148,2024-05-01 03:19:13.79401,2113459
+52,11,4,"Tôi đã mua sản phẩm này dựa trên những đánh giá tích cực và tôi rất hạnh phúc với quyết định của mình.
+",2024-03-16 03:33:19.722348,2024-05-01 03:19:13.79401,2113460
+17,4,4,Sản phẩm này đã giúp thú cưng của tôi tạo ra thói quen tốt hơn và tăng cường sức khỏe.,2024-03-15 14:30:40.285548,2024-05-01 03:24:51.514933,2113468
+2,41,3,Tôi đã sử dụng sản phẩm này trong việc huấn luyện thú cưng và thấy kết quả ngay từ lần đầu tiên.,2024-03-30 06:42:23.351148,2024-05-01 03:24:51.514933,2113469
+53,29,4,Sản phẩm này đã mang lại nhiều niềm vui và tiện ích cho cuộc sống hàng ngày của thú cưng và tôi.,2024-01-15 05:46:55.827948,2024-05-01 03:24:51.514933,2113470
+21,22,4,Tôi đã mua sản phẩm này dành riêng cho thú cưng của mình và đã nhận được phản hồi tích cực từ chúng.,2024-03-02 04:13:23.197548,2024-05-01 03:24:51.514933,2113471
+3,21,5,Sản phẩm này không chỉ giúp thú cưng của tôi vui chơi mà còn giúp kích thích trí óc của chúng.,2024-01-20 13:09:31.991148,2024-05-01 03:24:51.514933,2113472
+37,16,5,Tôi đã sử dụng sản phẩm này và thấy sự khác biệt ngay từ lần đầu tiên sử dụng.,2024-02-10 12:02:15.555948,2024-05-01 03:24:51.514933,2113473
+42,26,5,Sản phẩm này đã giúp thú cưng của tôi thể hiện tính cách tích cực và trở nên tự tin hơn.,2024-03-25 00:15:52.986348,2024-05-01 03:24:51.514933,2113474
+33,6,4,"Tôi đã dành rất nhiều thời gian để tìm kiếm một sản phẩm như vậy và rất hạnh phúc khi đã tìm thấy.
+",2024-01-18 20:01:36.301548,2024-05-01 03:24:51.514933,2113475
+47,15,5,Sản phẩm này không chỉ là một món đồ chơi mà còn là một công cụ huấn luyện hiệu quả cho thú cưng của tôi.,2024-01-22 13:16:15.738348,2024-05-01 03:24:51.514933,2113476
+1,11,4,"Thú cưng của tôi rất thích ăn sản phẩm này, ăn ngon miệng và tiêu hóa tốt.
+",2024-03-21 20:04:37.741548,2024-05-01 03:24:51.514933,2113482
+62,25,5,rất hài lòng về sản phẩm!,2024-05-01 18:08:13.689,2024-05-01 18:08:13.689,2113501
+62,42,5,rất tốt!,2024-05-03 15:43:16.835,2024-05-03 15:43:16.835,2113505
+63,5,3,Sản phẩm dùng tốt nhưng giá tiền còn khá cao,2024-05-07 18:07:18.37,2024-05-07 18:07:18.37,2113509
+49,86,5,"Tôi đã dành rất nhiều thời gian để tìm kiếm một sản phẩm như vậy và tôi rất tự hào khi đã tìm thấy nó.
+",2024-03-26 06:58:25.501548,2024-05-08 16:33:20.99705,2113446

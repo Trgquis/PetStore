@@ -24,11 +24,7 @@ module.exports = async (sequelize, DataTypes) => {
                 foreignKey: "order_id",
             });
 
-            // Order.hasOne(models.Transaction, {
-            //     foreignKey: "order_id",
-            //     sourceKey: "id",
-            // });
-            // models.Transactions.belongsTo(Orders, { foreignKey: 'order_id', targetKey: 'id' });
+            
         }
     }
     Order.init(
@@ -41,6 +37,15 @@ module.exports = async (sequelize, DataTypes) => {
             },
             user_id: DataTypes.INTEGER,
             guestuser_id: DataTypes.INTEGER,
+            city: DataTypes.STRING,
+            district: DataTypes.STRING,
+            ward: DataTypes.STRING,
+            address: DataTypes.STRING,
+            phonenumber: DataTypes.STRING,
+            delivery: DataTypes.STRING,
+            payment: DataTypes.STRING,
+            shipFee: DataTypes.REAL,
+            totalPayment: DataTypes.REAL,
             status: DataTypes.TEXT, //Trạng thái của đơn hàng (đang xử lý, hoàn thành, hủy bỏ)
         },
         {

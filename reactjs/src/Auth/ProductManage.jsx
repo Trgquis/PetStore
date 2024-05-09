@@ -146,7 +146,26 @@ const ProductManage = () => {
             <div className="main">
                 <div className="content">
                     <div className="userInformation">
-                        <h4>Quản lý sản phẩm</h4>
+                        <div>
+                            <h4>Quản lý sản phẩm</h4>
+                            <div className="navigate">
+                                <select
+                                    onChange={(e) =>
+                                        (window.location.href = e.target.value)
+                                    }
+                                >
+                                    <option value="#">
+                                        -- Chọn trang quản lý --
+                                    </option>
+                                    <option value="/categoriesmanage">
+                                        Quản lý danh mục
+                                    </option>
+                                    <option value="/usersmanage">
+                                        Quản lý người dùng
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
                         <div className="addBtn">
                             <Button onClick={(e) => handleOpen(null)}>
                                 + Thêm sản phẩm <span> </span>

@@ -121,7 +121,7 @@
                 .insection2,
                 .insection3 {
                     width: 50%;
-                   
+
                     input {
                         width: 90%;
                     }
@@ -197,6 +197,51 @@
             width: 100px;
             height: 100px;
             object-fit: contain;
+        }
+    }
+}
+
+.breadcrumb-shop {
+    margin-top: -1px;
+    background: transparent;
+    margin-bottom: 50px;
+    padding: 0 0px;
+}
+.wrapper-pageDetail {
+    margin-bottom: 20px;
+    .container {
+        width: 1170px;
+        .row {
+            margin-right: -15px;
+            margin-left: -15px;
+            .pageDetail-content {
+                h3 {
+                    color: chocolate;
+                    font-weight: 600;
+                }
+            }
+            .sidebar-page {
+                h3 {
+                    color: chocolate;
+                    font-weight: 600;
+                    font-size: 16px;
+                }
+                .group-sidebox {
+                    margin: 0 0 20px;
+                    position: relative;
+                    padding: 20px 15px;
+                    padding-left: 0;
+                    background: #ffffff;
+                }
+            }
+            .menuList-links {
+                list-style: none;
+                padding: 0;
+                a {
+                    text-decoration: none;
+                    color: #000;
+                }
+            }
         }
     }
 }

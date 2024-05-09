@@ -11,7 +11,17 @@ module.exports = async (sequelize, DataTypes) => {
             Product.belongsTo(models.ChildCategories, {
                 foreignKey: "category_id",
                 targetKey: "id",
-            }); // mỗi sản phẩm thuộc một danh mục
+            });
+
+            Product.belongsTo(models.Categories, {
+                foreignKey: "parent_id",
+                targetKey: "id",
+            });
+
+            Product.belongsTo(models.RootCategories, {
+                foreignKey: "root_id",
+                targetKey: "id",
+            });
 
             Product.hasMany(models.Detail, {
                 foreignKey: "product_id",
@@ -37,6 +47,8 @@ module.exports = async (sequelize, DataTypes) => {
                 primaryKey: true,
                 type: DataTypes.INTEGER,
             },
+            root_id: DataTypes.INTEGER,
+            parent_id: DataTypes.INTEGER,
             category_id: DataTypes.INTEGER,
             name: DataTypes.STRING,
             price: DataTypes.REAL,

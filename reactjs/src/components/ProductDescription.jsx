@@ -6,10 +6,12 @@ import {
     AddProduct,
     handlegetAllCatalogs,
     handlegetAllChilds,
+    handlegetAllProducts,
 } from "../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import "../Styles/Modal.scss";
 import axios from "axios";
+import { EditProduct } from "../redux/SaleSlice";
 const ProductDescription = ({ isOpen, productId, onClose }) => {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("0");
@@ -22,8 +24,8 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     const [Editname, setEditName] = useState("");
     const [Editprice, setEditPrice] = useState();
     const [Editdiscount, setEditDiscount] = useState("");
-    const [Editamount, setEditAmount] = useState("");
-    const [EditcategoryId, setEditCategoryId] = useState("");
+    const [Editamount, setEditAmount] = useState(0);
+    const [EditcategoryId, setEditCategoryId] = useState(0);
     const [EdituploadedImages, setEditUploadedImages] = useState([]);
     const [EditproductDescription, setEditProductDescription] = useState("");
     const catalogList = useSelector((state) => state?.sales.allCatalogs);
@@ -35,7 +37,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
             console.log(productId);
             const fetchData = async () => {
                 const results = await axios.get(
-                    "http://localhost:8888/api/getProduct/?id=" + productId
+                    "http://localhost:8888/api/getproduct/?id=" + productId
                 );
                 console.log(results.data.product);
                 const productdata = results.data.product;
@@ -74,7 +76,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
         "underline",
         "strike",
         "color",
-        "background", // Thêm định dạng màu chữ và nền
+        "background",
         "list",
         "bullet",
         "link",
@@ -109,7 +111,6 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
 
         return formattedPrice;
     };
-    console.log(typeof price);
     const handleDiscountChange = (e) => {
         setDiscount(e.target.value);
     };
@@ -118,6 +119,10 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     };
     const handleCategoryChange = (e) => {
         setCategoryId(e.target.value);
+    };
+    const handleEditCategoryChange = (e) => {
+        console.log(e.target.value);
+        setEditCategoryId(e.target.value);
     };
     const handleDescriptionChange = (content) => {
         setProductDescription(content);
@@ -151,6 +156,21 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
             );
         }
         AddProduct(formData, dispatch);
+    };
+    const submitEdit = async () => {
+        const productData = {
+            id: parseInt(productId),
+            name: Editname,
+            price: parseFloat(Editprice),
+            discount: parseFloat(Editdiscount),
+            content: EditproductDescription,
+            category_id: EditcategoryId,
+            amount: parseInt(Editamount),
+        };
+        console.log("Dữ liệu sản phẩm:", productData.EditcategoryId);
+
+        await axios.put("http://localhost:8888/api/editproduct", productData);
+        // handlegetAllProducts(dispatch);
     };
     const onDrop = (acceptedFiles) => {
         if (
@@ -326,7 +346,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                 <div>Đơn giá</div>
                                 <input
                                     type="text"
-                                    value={convertEditPrice(Editprice)}
+                                    value={Editprice}
                                     onChange={(e) =>
                                         setEditPrice(e.target.value)
                                     }
@@ -360,9 +380,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                     <div>Loại danh mục</div>
                                     <select
                                         value={EditcategoryId}
-                                        onChange={(e) =>
-                                            setEditCategoryId(e.target.value)
-                                        }
+                                        onChange={handleEditCategoryChange}
                                     >
                                         <option value="">
                                             -- Loại danh mục --
@@ -426,20 +444,25 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                         <div className="line"></div>
                         <div className="quill">
                             <ReactQuill
+                                theme="snow"
                                 value={EditproductDescription}
                                 onChange={(value) =>
                                     setEditProductDescription(value)
                                 }
                                 modules={modules}
                                 formats={formats}
-                                theme="snow"
                             />
                         </div>
                     </>
                 )}
             </div>
             <div className="modal-footer">
-                <button onClick={submitProductDescription}>Xác nhận</button>
+                {!productId ? (
+                    <button onClick={submitProductDescription}>Xác nhận</button>
+                ) : (
+                    <button onClick={submitEdit}>Xác nhận</button>
+                )}
+
                 <button onClick={onClose}>Hủy</button>
             </div>
         </div>

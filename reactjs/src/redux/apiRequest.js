@@ -19,6 +19,7 @@ import {
     addRootCategory,
     getAllRoots,
     addnewChild,
+    getAllPopular,
 } from "./SaleSlice";
 export const handleGetAllCarts = async (userId, dispatch) => {
     try {
@@ -119,6 +120,16 @@ export const AddProduct = async (product, dispatch) => {
 export const handlegetAllProducts = async (dispatch) => {
     try {
         const getProducts = await dispatch(getAllProducts());
+        const allProducts = unwrapResult(getProducts);
+        console.log("ProductList", allProducts);
+    } catch (e) {
+        console.log(e);
+    }
+};
+
+export const handlegetAllPopular = async (dispatch) => {
+    try {
+        const getProducts = await dispatch(getAllPopular());
         const allProducts = unwrapResult(getProducts);
         console.log("ProductList", allProducts);
     } catch (e) {

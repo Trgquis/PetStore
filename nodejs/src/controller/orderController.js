@@ -5,9 +5,11 @@ const localStorage = new LocalStorage("./scratch");
 const db = require("../model/server");
 const productService = require("../service/productService");
 const { INTEGER, STRING } = require("sequelize");
+
 const generateUniqueUserId = () => {
-    return uuidv4(); // Tạo một UUID duy nhất
+    return uuidv4(); 
 };
+
 let handleSubmitOrder = async (req, res) => {
     const data = req.body;
     if (!data) {

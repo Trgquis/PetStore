@@ -94,7 +94,7 @@ const userService = {
                         firstName: data.firstName,
                         lastName: data.lastName,
                         address: data.address,
-                        phonenumber: data.phonenumber,
+                        phonenumber: parseInt(data.phonenumber),
                         gender: data.gender,
                         roleId: data.roleId,
                     });

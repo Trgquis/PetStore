@@ -29,6 +29,11 @@ export const getAllProducts = createAsyncThunk("getallproducts", async () => {
     return res;
 });
 
+export const getAllPopular = createAsyncThunk("getallpopular", async () => {
+    const res = await salesAPI.getAllPopular();
+    return res;
+});
+
 export const getProduct = createAsyncThunk("getproduct", async (productId) => {
     const res = await salesAPI.getProduct(productId);
     return res;
@@ -43,7 +48,6 @@ export const addnewChild = createAsyncThunk("addChild", async (catalog) => {
     const res = await salesAPI.addChild(catalog);
     return res;
 });
-
 
 export const addnewProduct = createAsyncThunk("addProduct", async (product) => {
     const res = await salesAPI.addProduct(product);
@@ -89,6 +93,7 @@ const SaleSlice = createSlice({
         isFetching: false,
         error: false,
         allProducts: null,
+        allPopular: null,
         ProductSearchInfo: null,
         allCatalogs: null,
         allChilds: null,
@@ -148,6 +153,19 @@ const SaleSlice = createSlice({
             state.error = true;
         },
 
+        [getAllPopular.pending]: (state) => {
+            state.isFetching = true;
+        },
+        [getAllPopular.fulfilled]: (state, action) => {
+            state.isFetching = false;
+            state.allPopular = action.payload;
+            state.error = false;
+        },
+        [getAllPopular.rejected]: (state) => {
+            state.isFetching = false;
+            state.error = true;
+        },
+
         [SearchProduct.pending]: (state) => {
             state.isFetching = true;
         },
@@ -202,17 +220,17 @@ const SaleSlice = createSlice({
             state.error = true;
         },
 
-        [addnewChild.pending]:(state) => {
-            state.isFetching = true
+        [addnewChild.pending]: (state) => {
+            state.isFetching = true;
         },
-        [addnewChild.fulfilled]:(state, action) => {
+        [addnewChild.fulfilled]: (state, action) => {
             console.log(action.payload);
             state.error = false;
             state.isFetching = false;
         },
-        [addnewChild.rejected]:(state) => {
-            state.isFetching = false
-            state.error = true
+        [addnewChild.rejected]: (state) => {
+            state.isFetching = false;
+            state.error = true;
         },
 
         [addnewProduct.pending]: (state) => {
@@ -267,8 +285,6 @@ const SaleSlice = createSlice({
             state.isFetching = false;
             state.error = true;
         },
-
-       
     },
 });
 

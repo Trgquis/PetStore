@@ -162,9 +162,25 @@ function UserModal({ isOpen, userId, onClose }) {
         return null;
     }
     return (
-        <div className="custom-modal">
+        <div
+            className="custom-modal"
+            style={{
+                position: "absolute",
+                display: "flex",
+                backgroundColor: "#fff",
+                width: "700px",
+                top: "30%",
+                left:"30%",
+                boxShadow:
+                    "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
+            }}
+        >
             <div className="modal-content">
-                <h2>{userId === null ? "Add User" : "Edit User Info"}</h2>
+                <h2>
+                    {userId === null
+                        ? "Thêm người dùng"
+                        : "Sửa thông tin người dùng"}
+                </h2>
                 {userId === null ? (
                     <>
                         <div className="Edit-input">

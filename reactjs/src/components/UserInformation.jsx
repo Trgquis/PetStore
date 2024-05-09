@@ -56,7 +56,7 @@ const UserInformation = ({ User }) => {
                                 <div className="dropdown-line">
                                     <Link
                                         className="dropdown--detail"
-                                        to="/maintenance"
+                                        to="/manageOrder"
                                     >
                                         <i className="fa-solid fa-headset"></i>
                                         <span>Đơn hàng</span>

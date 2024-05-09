@@ -55,7 +55,26 @@ const productService = {
                         errMessage: "Product already exists!",
                     });
                 } else {
+                    const childcategory = await db.ChildCategories.findOne({
+                        where: {
+                            id: parseInt(data.category_id),
+                        },
+                    });
+                    const category = await db.Categories.findOne({
+                        where: {
+                            id: parseInt(childcategory.parent_id),
+                        },
+                    });
+                    const root = await db.RootCategories.findOne({
+                        where: {
+                            id: parseInt(category.rootcategory_id),
+                        },
+                    });
+
                     const product = await db.Product.create({
+                        category_id: parseInt(data.category_id),
+                        parent_id: parseInt(category.id),
+                        root_id: parseInt(root.id),
                         category_id: parseInt(data.category_id),
                         name: data.name,
                         price: parseFloat(data.price),
@@ -272,15 +291,99 @@ const productService = {
         });
     },
 
+    getAllPopular: async () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const reviewsCount = await db.Review.findAll({
+                    attributes: [
+                        "product_id",
+                        [
+                            Sequelize.fn("COUNT", Sequelize.col("id")),
+                            "reviewCount",
+                        ],
+                    ],
+                    group: ["product_id"],
+                });
+
+                // Lấy trung bình đánh giá từ bảng reviews
+                const averageRatings = await db.Review.findAll({
+                    attributes: [
+                        "product_id",
+                        [
+                            Sequelize.fn("AVG", Sequelize.col("score")),
+                            "avgScore",
+                        ],
+                    ],
+                    group: ["product_id"],
+                });
+
+                // Chuyển danh sách số lượng đánh giá và trung bình đánh giá thành các bản đồ
+                const reviewCountMap = {};
+                reviewsCount.forEach((review) => {
+                    reviewCountMap[review.product_id] = review.reviewCount;
+                });
+
+                const avgRatingMap = {};
+                averageRatings.forEach((review) => {
+                    avgRatingMap[review.product_id] = review.avgScore || 0;
+                });
+
+                let products = "";
+                products = await db.Product.findAll({
+                    attributes: {
+                        raw: true,
+                    },
+                    order: [["sold_amount", "DESC"]], // Sắp xếp theo discount giảm dần
+                });
+
+                products.forEach((product) => {
+                    const reviewCount = reviewCountMap[product.id] || 0; // Nếu không có đánh giá nào, đặt số lượng là 0
+                    const averageRating = avgRatingMap[product.id] || 0; // Nếu không có trung bình đánh giá, đặt là 0
+                    // Làm tròn trung bình đánh giá thành số nguyên
+                    product.avgRating = parseFloat(averageRating.toFixed(1));
+                    product.reviewCount = parseInt(reviewCount);
+                });
+
+                let images = "";
+                images = await db.Image.findAll({
+                    where: {
+                        product_id: {
+                            [Op.not]: null,
+                        },
+                    },
+                });
+                let count = await db.Product.count();
+                // console.log(products);
+                let result = { products, images, count };
+
+                resolve(result);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    },
+
     updateProduct: (data, images) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const productId = data.id;
+                console.log(productId);
                 const exist = await db.Product.findOne({
                     where: {
                         id: productId,
                     },
                 });
+                console.log(exist);
+                console.log(typeof data.id);
+                console.log(typeof data.category_id);
+                console.log(typeof data.price);
+                console.log(typeof data.name);
+                console.log(typeof data.discount);
+                console.log(typeof data.content);
+                console.log(typeof data.amount);
+
+                console.log(parseInt(data.category_id));
+                console.log(parseInt(data.amount));
 
                 if (!exist) {
                     resolve({
@@ -290,18 +393,17 @@ const productService = {
                 } else {
                     const newdata = await db.Product.update(
                         {
-                            category_id: parseInt(data.category_id),
+                            category_id: 2,
                             name: data.name,
                             price: parseFloat(data.price),
-                            discount: parseFloat(data.discount),
+                            discount: parseInt(data.discount),
                             content: data.content,
-                            amount: data.amount,
+                            amount: 160,
                         },
                         {
                             where: {
-                                id: data.id,
+                                id: productId,
                             },
-                            returning: true,
                         }
                     );
                     resolve({
@@ -311,7 +413,7 @@ const productService = {
                     });
                 }
             } catch (e) {
-                console.error("Error updating product:", error);
+                console.error("Error updating product:", e);
                 reject(e);
             }
         });
