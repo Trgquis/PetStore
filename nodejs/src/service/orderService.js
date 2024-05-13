@@ -1,6 +1,7 @@
 const { Op, where } = require("sequelize");
 const orderController = require("../controller/orderController");
 const db = require("../model/server");
+const { raw } = require("body-parser");
 const orderService = {
     handleSubmitOrder: async (data) => {
         return new Promise(async (resolve, reject) => {
@@ -170,40 +171,63 @@ const orderService = {
         });
     },
 
-    getOrder: async (id) => {
-        try {
-            const order = await db.Orders.findOne({
-                where: {
-                    user_id: id,
-                    status: "buyNow",
-                },
-                order: [["createdAt", "DESC"]],
-            });
-            console.log(order);
-            if (order) {
-                const cartItem = await db.ProductOrders.findOne({
-                    where: {
-                        order_id: order.id,
-                        isCart: 0,
-                    },
-                    raw: false,
+    getAllOrders: async () => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const orders = await db.Order.findAll({
+                    raw: true,
+                    order: [["createdAt", "DESC"]],
                 });
-                console.log(cartItem);
-                const product = await db.Products.findOne({
-                    where: { id: cartItem.product_id },
+                const details = [];
+
+                // Lặp qua mỗi đơn hàng để lấy chi tiết tương ứng
+                for (let order of orders) {
+                    const orderDetails = await db.Detail.findAll({
+                        where: {
+                            order_id: order.id,
+                        },
+                    });
+
+                    details.push({
+                        orderId: order.id,
+                        details: orderDetails,
+                    });
+                }
+
+                resolve({
+                    orders,
+                    details,
                 });
-                const images = await db.Images.findOne({
-                    where: { product_id: product.id },
-                });
-                return {
-                    ...cartItem.toJSON(),
-                    product,
-                    images,
-                };
+            } catch (e) {
+                console.log(e);
+                reject(e);
             }
-        } catch (e) {
-            console.log(e);
-        }
+        });
+    },
+
+    editStatus: async (orderId, status) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const updatedOrder = await db.Order.update(
+                    { status: status }, 
+                    {
+                        where: {
+                            id: orderId
+                        },
+                    }
+                );
+
+                console.log(updatedOrder); 
+
+                resolve({
+                    errCode: 0,
+                    errMessage: "Success",
+                });
+            } catch (e) {
+                console.log(e);
+                reject(e);
+            }
+        });
     },
 };
 

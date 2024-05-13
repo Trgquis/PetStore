@@ -7,7 +7,7 @@ const productService = require("../service/productService");
 const { INTEGER, STRING } = require("sequelize");
 
 const generateUniqueUserId = () => {
-    return uuidv4(); 
+    return uuidv4();
 };
 
 let handleSubmitOrder = async (req, res) => {
@@ -222,6 +222,19 @@ let getOrder = async (req, res) => {
     console.log(message);
     return res.status(200).json(message);
 };
+
+const handleGetAllOrders = async (req, res) => {
+    let message = await orderService.getAllOrders();
+    return res.status(200).json(message);
+};
+
+const handleEditStatus = async (req, res) => {
+    const orderId = parseInt(req.body.id);
+    const status = req.body.status;
+    console.log(status);
+    let message = await orderService.editStatus(orderId, status);
+    return res.status(200).json(message);
+};
 module.exports = {
     handleSubmitOrder: handleSubmitOrder,
     handleAddCart: handleAddCart,
@@ -229,4 +242,6 @@ module.exports = {
     getAllCart: getAllCart,
     getOrder: getOrder,
     deleteCartItem: deleteCartItem,
+    handleGetAllOrders: handleGetAllOrders,
+    handleEditStatus: handleEditStatus,
 };

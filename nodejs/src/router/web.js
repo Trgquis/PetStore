@@ -16,7 +16,7 @@ const { LocalStorage } = require("node-localstorage");
 const localStorage = new LocalStorage("./scratch");
 let initWebRoutes = (app) => {
     app.use("/images", express.static("./images"));
-    
+
     // Categories Section
     router.get("/api/getAllRoots", categoriesController.handleGetAllRoots);
     router.get(
@@ -103,9 +103,9 @@ let initWebRoutes = (app) => {
     });
     //Order Section
     router.post("/api/submitOrder", orderController.handleSubmitOrder);
-
+    router.get("/api/handleGetAllOrders", orderController.handleGetAllOrders);
     router.get("/list", userController.listModels);
-
+    router.put("/api/editStatus", orderController.handleEditStatus);
     return app.use("/", router);
 };
 
