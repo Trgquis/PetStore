@@ -14,6 +14,7 @@ import { RiDeleteBin5Fill } from "react-icons/ri";
 import CustomAlert from "../components/CustomAlert";
 import ConfirmationModal from "../components/ConfirmationModal";
 import ProductDescription from "../components/ProductDescription";
+import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 12;
 
@@ -145,6 +146,7 @@ const ProductManage = () => {
         <>
             <div className="main">
                 <div className="content">
+                    <Link to={"/AdminPage"}>{"<<"}Quay lại trang thống kê</Link>
                     <div className="userInformation">
                         <div>
                             <h4>Quản lý sản phẩm</h4>

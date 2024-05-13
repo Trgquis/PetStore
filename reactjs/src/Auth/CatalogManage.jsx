@@ -160,6 +160,7 @@ const CatalogManage = () => {
         <>
             <div className="main">
                 <div className="content">
+                    <Link to={"/AdminPage"}>{"<<"}Quay lại trang thống kê</Link>
                     <div className="userInformation">
                         <div>
                             <h4>Quản lý danh mục</h4>

@@ -339,12 +339,10 @@ export default function CartPage() {
                                         </div>
                                         <div className="order-action">
                                             <p>
-                                                Phí vận chuyển sẽ được tính ở
-                                                trang thanh toán.
+                                                Xem phí vận chuyển ở trang thanh toán
                                             </p>
                                             <p>
-                                                Bạn cũng có thể nhập mã giảm giá
-                                                ở trang thanh toán.
+                                                Voucher giảm giá được áp dụng ở trang thanh toán
                                             </p>
                                             {!cartList.data ||
                                             cartList.data.cart.length === 0 ? (
@@ -383,11 +381,9 @@ export default function CartPage() {
                                                 </strong>
                                             </p>
                                             <p>
-                                                Hiện chúng tôi chỉ áp dụng thanh
-                                                toán với đơn hàng có giá trị tối
-                                                thiểu
-                                                <strong>0đ</strong>
-                                                trở lên
+                                                Hiện chúng tôi chỉ áp dụng miễn
+                                                phí vận chuyển cho đơn hàng từ
+                                                <strong> 700.000đ </strong>
                                             </p>
                                         </div>
                                     </div>

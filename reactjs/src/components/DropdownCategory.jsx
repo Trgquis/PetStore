@@ -39,7 +39,6 @@ const DropdownCategory = ({ parentID, toggleSubCatalogShut }) => {
                                 <div key={catalog.id} className="catalogItem">
                                     <div className="catalogTitle">
                                         {catalog.name}
-                                        
                                     </div>
                                     <div className="children">
                                         {childList?.data.childs.childs

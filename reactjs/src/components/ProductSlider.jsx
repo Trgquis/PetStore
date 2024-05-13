@@ -62,13 +62,12 @@ function ProductSlider({ type }) {
     const popularList = useSelector((state) => state?.sales.allPopular);
     const [isLoading, setIsLoading] = useState(false);
     const User = useSelector((state) => state?.auth.currentUser);
-    const [activeId, setActiveId] = useState(null);
-    const rootList = useSelector((state) => state?.sales.allRoots);
     const [show, setShow] = useState(false);
     const [quantities, setQuantities] = useState({});
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState(0); // 0: Success, 1: Error
     const [alertOpen, setAlertOpen] = useState(false);
+    const [reviews, setReviews] = useState();
     const [n1, setN1] = useState(0);
     const [n2, setN2] = useState(0);
 
@@ -129,15 +128,15 @@ function ProductSlider({ type }) {
             setAlertOpen(true); // Open the alert modal
         }
     };
-
     useEffect(() => {
         handlegetAllProducts(dispatch);
         handleGetAllCarts(dispatch);
         handlegetAllPopular(dispatch);
-        setN1(Math.floor(Math.random() * 107) + 1);
-        setN2(Math.floor(Math.random() * 107) + 1);
+            const tmp1 = Math.floor(Math.random() * 95) + 10;
+            const tmp2 = Math.floor(Math.random() * 95) + 10;
+            setN1(tmp1);
+            setN2(tmp2);
     }, [dispatch]);
-
     const settings = {
         // dots: true,
         initialSlide: 0,
@@ -184,7 +183,7 @@ function ProductSlider({ type }) {
             {type === 1 && (
                 <Slider {...settings}>
                     {productList?.data.products.products
-                        .slice(0, 20)
+                        .slice(0, 40)
                         .map((product) => {
                             return (
                                 <div className="post-item" key={product.id}>
