@@ -51,7 +51,7 @@ const handleAddCart = async (req, res) => {
         } else {
             res.clearCookie("userId");
             if (!requestId) {
-                id = generateUniqueUserId();
+                const id = generateUniqueUserId();
                 res.cookie("guestuserId", id, { maxAge: 24 * 60 * 60 * 1000 });
             }
         }
