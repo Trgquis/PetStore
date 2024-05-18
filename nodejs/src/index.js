@@ -7,13 +7,21 @@ const cookieParser = require("cookie-parser");
 let app = express();
 
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
-app.use(
-    cors({
-        origin: "https://petstore-backend-pgof.onrender.com",
-        credentials: true,
-    })
-);
+const customCors = function (req, callback) {
+    const whitelist = [
+        "http://localhost:3000",
+        "https://petstore-backend-pgof.onrender.com",
+    ];
+    let corsOptions;
+    if (whitelist.indexOf(req.header("Origin")) !== -1) {
+        corsOptions = { origin: true, credentials: true }; // Chấp nhận yêu cầu từ trang web trong whitelist
+    } else {
+        corsOptions = { origin: false }; // Từ chối yêu cầu từ các trang web khác
+    }
+    callback(null, corsOptions);
+};
+
+app.use(cors(customCors));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
