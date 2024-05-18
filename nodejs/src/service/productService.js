@@ -126,6 +126,7 @@ const productService = {
                 let reviewsData = null;
                 let reviewsCount = 0;
                 let averageRating = 0;
+                let reviews = {};
 
                 if (productId) {
                     // Lấy thông tin sản phẩm từ bảng products
