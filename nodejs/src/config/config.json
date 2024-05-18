@@ -15,17 +15,33 @@
         "timezone": "+07:00"
     },
     "test": {
-        "username": "postgres",
-        "password": null,
-        "database": "database_test",
-        "host": "127.0.0.1",
-        "dialect": "postgres"
+        "username": "postgres.xuvkitjdclpsegbbrutg",
+        "password": "emlaQui@150602",
+        "database": "postgres",
+        "host": "aws-0-ap-southeast-1.pooler.supabase.com",
+        "port": 5432,
+        "dialect": "postgres",
+        "dialectOptions": {
+            "ssl": {
+                "require": true,
+                "rejectUnauthorized": false
+            }
+        },
+        "timezone": "+07:00"
     },
     "production": {
-        "username": "postgres",
-        "password": null,
-        "database": "database_production",
-        "host": "127.0.0.1",
-        "dialect": "postgres"
+        "username": "postgres.xuvkitjdclpsegbbrutg",
+        "password": "emlaQui@150602",
+        "database": "postgres",
+        "host": "aws-0-ap-southeast-1.pooler.supabase.com",
+        "port": 5432,
+        "dialect": "postgres",
+        "dialectOptions": {
+            "ssl": {
+                "require": true,
+                "rejectUnauthorized": false
+            }
+        },
+        "timezone": "+07:00"
     }
 }

@@ -16,7 +16,9 @@ const { LocalStorage } = require("node-localstorage");
 const localStorage = new LocalStorage("./scratch");
 let initWebRoutes = (app) => {
     app.use("/images", express.static("./images"));
-
+    app.get("/", (req, res) => {
+        res.send("Welcome to PetStore");
+    });
     // Categories Section
     router.get("/api/getAllRoots", categoriesController.handleGetAllRoots);
     router.get(
