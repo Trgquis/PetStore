@@ -3,7 +3,8 @@ import axios from "axios";
 
 export const GetAllCart = createAsyncThunk("GetAllCart", async (userId) => {
     const res = await axios.get(
-        "http://localhost:8888/api/getAllCart?userId=" + userId,
+        `https://petstore-backend-pgof.onrender.com/api/getAllCart?userId=` +
+            userId,
         {
             withCredentials: true,
         }
@@ -12,7 +13,9 @@ export const GetAllCart = createAsyncThunk("GetAllCart", async (userId) => {
     return res;
 });
 export const GetOrders = createAsyncThunk("GetOrders", async () => {
-    const res = await axios.get("http://localhost:8888/api/handleGetAllOrders");
+    const res = await axios.get(
+        `https://petstore-backend-pgof.onrender.com/api/handleGetAllOrders`
+    );
     console.log(res);
     return res;
 });

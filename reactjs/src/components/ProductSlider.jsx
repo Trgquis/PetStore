@@ -100,7 +100,7 @@ function ProductSlider({ type }) {
             const userId = User?.data.userData.user.id;
             console.log(pID, qt + 1, userId);
             const response = await axios.post(
-                "http://localhost:8888/api/addcart",
+                "https://petstore-backend-pgof.onrender.com/api/addcart",
                 {
                     userId: userId,
                     product_id: pID,
@@ -132,10 +132,10 @@ function ProductSlider({ type }) {
         handlegetAllProducts(dispatch);
         handleGetAllCarts(dispatch);
         handlegetAllPopular(dispatch);
-            const tmp1 = Math.floor(Math.random() * 95) + 10;
-            const tmp2 = Math.floor(Math.random() * 95) + 10;
-            setN1(tmp1);
-            setN2(tmp2);
+        const tmp1 = Math.floor(Math.random() * 95) + 10;
+        const tmp2 = Math.floor(Math.random() * 95) + 10;
+        setN1(tmp1);
+        setN2(tmp2);
     }, [dispatch]);
     const settings = {
         // dots: true,

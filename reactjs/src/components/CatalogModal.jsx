@@ -43,7 +43,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
                 const fetchCategoryDetails = async () => {
                     try {
                         const response = await axios.get(
-                            `http://localhost:8888/api/getChild/?id=${catalogId}`
+                            `https://petstore-backend-pgof.onrender.com/api/getChild/?id=${catalogId}`
                         );
                         const categoryDetails = response.data; // Adjust based on your API response structure
                         console.log(categoryDetails);
@@ -114,7 +114,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
             setMess("Chỉnh sửa danh mục thành công!");
             console.log(status, mess);
             toggleAlert();
-            handlegetAllChilds(dispatch)
+            handlegetAllChilds(dispatch);
         } else if (response.data.errCode === 1) {
             setStatus(response.data.errCode);
             setMess("Thiếu dữ liệu");

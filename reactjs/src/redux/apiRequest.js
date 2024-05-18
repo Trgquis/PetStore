@@ -290,7 +290,10 @@ export const searchProduct = async (key, dispatch) => {
 export const deleteCatalog = async (dispatch, id) => {
     try {
         console.log(id);
-        await axios.delete("http://localhost:8888/api/deletecategory?id=" + id);
+        await axios.delete(
+            "https://petstore-backend-pgof.onrender.com/api/deletecategory?id=" +
+                id
+        );
         const res = await dispatch(Deletecatalog(id));
 
         const deleted = unwrapResult(res);
@@ -319,7 +322,9 @@ export const deleteProduct = async (dispatch, id) => {
 export const deleteUser = async (dispatch, id) => {
     try {
         console.log(id);
-        await axios.delete("http://localhost:8888/api/deleteuser?id=" + id);
+        await axios.delete(
+            "https://petstore-backend-pgof.onrender.com/api/deleteuser?id=" + id
+        );
         const res = await dispatch(DeleteUser(id));
         const deleted = unwrapResult(res);
         handlegetAllUsers(dispatch);

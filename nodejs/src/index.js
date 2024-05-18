@@ -8,6 +8,12 @@ let app = express();
 
 app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(
+    cors({
+        origin: "https://petstore-backend-pgof.onrender.com",
+        credentials: true,
+    })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -58,7 +58,7 @@ function UserModal({ isOpen, userId, onClose }) {
                 const fetchUserData = async () => {
                     try {
                         const response = await axios.get(
-                            `http://localhost:8888/api/getuser/?id=${userId}`
+                            `https://petstore-backend-pgof.onrender.com/api/getuser/?id=${userId}`
                         );
                         const userInfo = response.data.user; // Adjust based on your API response structure
                         console.log(userInfo);
@@ -170,7 +170,7 @@ function UserModal({ isOpen, userId, onClose }) {
                 backgroundColor: "#fff",
                 width: "700px",
                 top: "30%",
-                left:"30%",
+                left: "30%",
                 boxShadow:
                     "rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px",
             }}

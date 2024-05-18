@@ -77,7 +77,7 @@ function ProductDetail() {
             setIsLoading(true);
             console.log(pID, count);
             const response = await axios.post(
-                "http://localhost:8888/api/addcart",
+                "https://petstore-backend-pgof.onrender.com/api/addcart",
                 {
                     product_id: pID,
                     quantity: count,
@@ -103,7 +103,7 @@ function ProductDetail() {
         try {
             console.log(pID, count);
             const response = await axios.post(
-                "http://localhost:8888/api/addcart",
+                "https://petstore-backend-pgof.onrender.com/api/addcart",
                 {
                     product_id: pID,
                     quantity: count,
@@ -176,7 +176,7 @@ function ProductDetail() {
                 comment: comment,
             };
             const res = await axios.post(
-                "http://localhost:8888/api/handleSendReview",
+                "https://petstore-backend-pgof.onrender.com/api/handleSendReview",
                 data
             );
             console.log(res);
@@ -202,24 +202,6 @@ function ProductDetail() {
         handlegetAllChilds(dispatch);
     }, [dispatch, id]);
     // console.log(product.product);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    "https://06a0-35-196-161-65.ngrok-free.app/"
-                );
-                console.log(response.data);
-                const data = await response.toString();
-                console.log(data);
-                // const data = await response.json();
-                // Xử lý dữ liệu trả về ở đây
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-
-        fetchData();
-    }, [User?.data.userData.user.id]);
 
     const currentChild = childList?.data.childs.childs.find(
         (child) => child.id === product?.data.product.product.category_id
