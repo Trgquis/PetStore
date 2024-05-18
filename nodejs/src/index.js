@@ -16,7 +16,9 @@ initWebRoutes(app);
 connectDB();
 
 let port = process.env.PORT || 8888;
-
+app.get("/", (req, res) => {
+    res.send("Hello World!");
+});
 app.listen(port, () => {
     console.log("Backend Nodejs is running on the port: " + port);
 });

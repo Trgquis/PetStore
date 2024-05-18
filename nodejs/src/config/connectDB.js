@@ -1,12 +1,18 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("petstore", "postgres", "150602", {
+const sequelize = new Sequelize({
     dialect: "postgres",
-    host: "127.0.0.1",
+    database: "postgres",
+    username: "postgres.xuvkitjdclpsegbbrutg",
+    password: "emlaQui@150602",
+    host: "aws-0-ap-southeast-1.pooler.supabase.com",
     port: 5432,
-    username: "postgres",
-    password: 150602,
-    database: "petstore",
     logging: false,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false,
+        },
+    },
 });
 
 let connectDB = async () => {
