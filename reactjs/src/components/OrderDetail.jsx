@@ -22,7 +22,7 @@ function OrderDetail({ isOpen, details, onClose }) {
         };
         if (status) {
             const res = await axios.put(
-                `https://petstore-backend-pgof.onrender.com/api/editStatus`,
+                `http://localhost:8888/api/editStatus`,
                 formData
             );
             console.log(res);

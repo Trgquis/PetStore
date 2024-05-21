@@ -2,9 +2,7 @@ import axios from "axios";
 
 const userAPI = {
     getAllUsers: async () => {
-        const res = await axios.get(
-            "https://petstore-backend-pgof.onrender.com/api/get-all-users"
-        );
+        const res = await axios.get("http://localhost:8888/api/get-all-users");
         return res;
     },
     // Login: async(user) => {
@@ -14,7 +12,7 @@ const userAPI = {
     Login: async (user) => {
         try {
             const res = await axios.post(
-                `https://petstore-backend-pgof.onrender.com/api/login`,
+                `http://localhost:8888/api/login`,
                 user
             );
             if (res.status === 200) {
@@ -34,28 +32,19 @@ const userAPI = {
 
     Regist: async (user) => {
         console.log(user);
-        const res = await axios.post(
-            `https://petstore-backend-pgof.onrender.com/api/regist`,
-            user
-        );
+        const res = await axios.post(`http://localhost:8888/api/regist`, user);
         return res;
     },
 
     Logout: async (accessToken) => {
         // console.log(id)
-        await axios.put(
-            `https://petstore-backend-pgof.onrender.com/api/logout`,
-            {
-                headers: { token: `Bearer ${accessToken}` },
-                withCredentials: true,
-            }
-        );
+        await axios.put(`http://localhost:8888/api/logout`, {
+            headers: { token: `Bearer ${accessToken}` },
+            withCredentials: true,
+        });
     },
     EditUser: async (user) => {
-        const res = await axios.put(
-            `https://petstore-backend-pgof.onrender.com/api/edituser`,
-            user
-        );
+        const res = await axios.put(`http://localhost:8888/api/edituser`, user);
         console.log(res);
         return res;
     },

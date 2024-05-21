@@ -111,7 +111,7 @@ const CatalogManage = () => {
         try {
             if (catalogToDelete) {
                 let res = await axios.delete(
-                    `https://petstore-backend-pgof.onrender.com/api/deletechild/?id=${catalogToDelete.id}`
+                    `http://localhost:8888/api/deletechild/?id=${catalogToDelete.id}`
                 );
                 if (res) {
                     setStatus(0);

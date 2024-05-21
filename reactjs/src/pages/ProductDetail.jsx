@@ -77,7 +77,7 @@ function ProductDetail() {
             setIsLoading(true);
             console.log(pID, count);
             const response = await axios.post(
-                "https://petstore-backend-pgof.onrender.com/api/addcart",
+                "http://localhost:8888/api/addcart",
                 {
                     product_id: pID,
                     quantity: count,
@@ -103,7 +103,7 @@ function ProductDetail() {
         try {
             console.log(pID, count);
             const response = await axios.post(
-                "https://petstore-backend-pgof.onrender.com/api/addcart",
+                "http://localhost:8888/api/addcart",
                 {
                     product_id: pID,
                     quantity: count,
@@ -176,7 +176,7 @@ function ProductDetail() {
                 comment: comment,
             };
             const res = await axios.post(
-                "https://petstore-backend-pgof.onrender.com/api/handleSendReview",
+                "http://localhost:8888/api/handleSendReview",
                 data
             );
             console.log(res);

@@ -8,10 +8,7 @@ let app = express();
 
 app.use(cookieParser());
 const customCors = function (req, callback) {
-    const whitelist = [
-        "http://localhost:3000",
-        "https://petstore-backend-pgof.onrender.com",
-    ];
+    const whitelist = ["http://localhost:3000", "http://localhost:8888"];
     let corsOptions;
     if (whitelist.indexOf(req.header("Origin")) !== -1) {
         corsOptions = { origin: true, credentials: true }; // Chấp nhận yêu cầu từ trang web trong whitelist

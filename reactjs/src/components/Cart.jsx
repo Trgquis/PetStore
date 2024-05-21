@@ -38,7 +38,7 @@ const Cart = () => {
     const handleRemoveItemCart = async (productID) => {
         try {
             await axios.delete(
-                "https://petstore-backend-pgof.onrender.com/api/removeItemCart/?productID=" +
+                "http://localhost:8888/api/removeItemCart/?productID=" +
                     productID,
                 { withCredentials: true }
             );
@@ -62,7 +62,7 @@ const Cart = () => {
             console.log(pID, qt, currentUser?.data.userData.user.id);
             if (pID && qt) {
                 const response = await axios.post(
-                    "https://petstore-backend-pgof.onrender.com/api/addcart",
+                    "http://localhost:8888/api/addcart",
                     {
                         product_id: pID,
                         quantity: qt,
@@ -117,8 +117,7 @@ const Cart = () => {
         try {
             console.log(productID);
             await axios.delete(
-                "https://petstore-backend-pgof.onrender.com/api/deleteCart/?productID=" +
-                    productID,
+                "http://localhost:8888/api/deleteCart/?productID=" + productID,
                 { withCredentials: true }
             );
             try {

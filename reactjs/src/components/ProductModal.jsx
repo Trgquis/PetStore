@@ -42,8 +42,7 @@ function ProductModal({ isOpen, mode, productId, onClose }) {
             console.log(productId);
             const fetchData = async () => {
                 const results = await axios.get(
-                    "https://petstore-backend-pgof.onrender.com/api/getproduct/?id=" +
-                        productId
+                    "http://localhost:8888/api/getproduct/?id=" + productId
                 );
                 console.log(results.data.product);
                 let data = results.data.product;

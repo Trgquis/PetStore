@@ -1,17 +1,11 @@
 {
     "development": {
-        "username": "postgres.xuvkitjdclpsegbbrutg",
-        "password": "emlaQui@150602",
-        "database": "postgres",
-        "host": "aws-0-ap-southeast-1.pooler.supabase.com",
+        "username": "postgres",
+        "password": 150602,
+        "database": "petstore",
+        "host": "localhost",
         "port": 5432,
         "dialect": "postgres",
-        "dialectOptions": {
-            "ssl": {
-                "require": true,
-                "rejectUnauthorized": false
-            }
-        },
         "timezone": "+07:00"
     },
     "test": {

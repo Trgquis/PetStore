@@ -37,8 +37,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
             console.log(productId);
             const fetchData = async () => {
                 const results = await axios.get(
-                    "https://petstore-backend-pgof.onrender.com/api/getproduct/?id=" +
-                        productId
+                    "http://localhost:8888/api/getproduct/?id=" + productId
                 );
                 console.log(results.data.product);
                 const productdata = results.data.product;
@@ -170,10 +169,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
         };
         console.log("Dữ liệu sản phẩm:", productData.EditcategoryId);
 
-        await axios.put(
-            "https://petstore-backend-pgof.onrender.com/api/editproduct",
-            productData
-        );
+        await axios.put("http://localhost:8888/api/editproduct", productData);
         // handlegetAllProducts(dispatch);
     };
     const onDrop = (acceptedFiles) => {

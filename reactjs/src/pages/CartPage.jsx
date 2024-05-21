@@ -66,7 +66,7 @@ export default function CartPage() {
     const handleRemoveItemCart = async (productID) => {
         try {
             await axios.delete(
-                "https://petstore-backend-pgof.onrender.com/api/removeItemCart/?productID=" +
+                "http://localhost:8888/api/removeItemCart/?productID=" +
                     productID,
                 { withCredentials: true }
             );
@@ -87,7 +87,7 @@ export default function CartPage() {
             console.log(pID, qt);
             if (pID && qt) {
                 const response = await axios.post(
-                    "https://petstore-backend-pgof.onrender.com/api/addcart",
+                    "http://localhost:8888/api/addcart",
                     {
                         product_id: pID,
                         quantity: qt,
@@ -112,8 +112,7 @@ export default function CartPage() {
         try {
             console.log(productID);
             await axios.delete(
-                "https://petstore-backend-pgof.onrender.com/api/deleteCart/?productID=" +
-                    productID,
+                "http://localhost:8888/api/deleteCart/?productID=" + productID,
                 { withCredentials: true }
             );
             setAlertMessage("Cập nhật vào giỏ hàng thành công!"); // Set success message

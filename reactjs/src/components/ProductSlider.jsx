@@ -100,7 +100,7 @@ function ProductSlider({ type }) {
             const userId = User?.data.userData.user.id;
             console.log(pID, qt + 1, userId);
             const response = await axios.post(
-                "https://petstore-backend-pgof.onrender.com/api/addcart",
+                "http://localhost:8888/api/addcart",
                 {
                     userId: userId,
                     product_id: pID,

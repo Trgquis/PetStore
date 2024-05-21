@@ -168,7 +168,7 @@ export default function OrderPage() {
             if (userId) {
                 console.log(userId);
                 const response = await axios.post(
-                    "https://petstore-backend-pgof.onrender.com/api/submitOrder",
+                    "http://localhost:8888/api/submitOrder",
                     {
                         cart: cartItems,
                         totalPrice: parseFloat(totalPayment),
@@ -187,19 +187,16 @@ export default function OrderPage() {
                 );
                 console.log("Đơn hàng đã được đặt thành công:", response.data);
 
-                await axios.get(
-                    "https://petstore-backend-pgof.onrender.com/clear",
-                    {
-                        withCredentials: true,
-                    }
-                );
+                await axios.get("http://localhost:8888/clear", {
+                    withCredentials: true,
+                });
                 setTimeout(() => {
                     setIsLoading(false);
                     navigate("/");
                 }, 2000);
             } else {
                 const response = await axios.post(
-                    "https://petstore-backend-pgof.onrender.com/api/submitOrder",
+                    "http://localhost:8888/api/submitOrder",
                     {
                         cart: cartItems,
                         totalPrice: parseFloat(totalTempPayment),
@@ -217,7 +214,7 @@ export default function OrderPage() {
                     { withCredentials: true }
                 );
                 console.log("Đơn hàng đã được đặt thành công:", response.data);
-                // await axios.get("https://petstore-backend-pgof.onrender.com/clear", {
+                // await axios.get("http://localhost:8888/clear", {
                 //     withCredentials: true,
                 // });
                 // navigate("/");

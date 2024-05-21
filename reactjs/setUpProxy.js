@@ -4,7 +4,7 @@ module.exports = function (app) {
     app.use(
         "/api",
         createProxyMiddleware({
-            target: `https://petstore-backend-pgof.onrender.com`,
+            target: `http://localhost:8888`,
             changeOrigin: true,
         })
     );

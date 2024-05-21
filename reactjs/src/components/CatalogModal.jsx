@@ -43,7 +43,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
                 const fetchCategoryDetails = async () => {
                     try {
                         const response = await axios.get(
-                            `https://petstore-backend-pgof.onrender.com/api/getChild/?id=${catalogId}`
+                            `http://localhost:8888/api/getChild/?id=${catalogId}`
                         );
                         const categoryDetails = response.data; // Adjust based on your API response structure
                         console.log(categoryDetails);

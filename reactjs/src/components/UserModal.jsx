@@ -58,7 +58,7 @@ function UserModal({ isOpen, userId, onClose }) {
                 const fetchUserData = async () => {
                     try {
                         const response = await axios.get(
-                            `https://petstore-backend-pgof.onrender.com/api/getuser/?id=${userId}`
+                            `http://localhost:8888/api/getuser/?id=${userId}`
                         );
                         const userInfo = response.data.user; // Adjust based on your API response structure
                         console.log(userInfo);
