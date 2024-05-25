@@ -4,23 +4,23 @@ import "../Styles/Modal.scss";
 import { Link } from "react-router-dom";
 function WebsitePolicy() {
     const { name } = useParams();
-    console.log(name);
+    // console.log(name);
     return (
         <>
             {name === "chinh-sach-giao-hang" && (
-                <div class="layout-pageDetail">
-                    <div class="breadcrumb-shop">
-                        <div class="container"></div>
+                <div className="layout-pageDetail">
+                    <div className="breadcrumb-shop">
+                        <div className="container"></div>
                     </div>
-                    <div class="wrapper-pageDetail">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-9 col-sm-8 col-xs-12 pageDetail-main-left">
-                                    <div class="pageDetail-content">
-                                        <div class="heading-pageDetail">
+                    <div className="wrapper-pageDetail">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-md-9 col-sm-8 col-xs-12 pageDetail-main-left">
+                                    <div className="pageDetail-content">
+                                        <div className="heading-pageDetail">
                                             <h3>Chính sách giao hàng</h3>
                                         </div>
-                                        <div class="content-pageDetail typeList-style">
+                                        <div className="content-pageDetail typeList-style">
                                             <p>
                                                 Thông thường sau khi nhận được
                                                 thông tin đặt hàng chúng tôi sẽ
@@ -73,18 +73,18 @@ function WebsitePolicy() {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-4 col-xs-12 pageDetail-aside-right">
-                                    <aside class="sidebar-page">
-                                        <div class="group-sidebox">
-                                            <div class="sidebox-title ">
-                                                <h3 class="htitle">
+                                <div className="col-md-3 col-sm-4 col-xs-12 pageDetail-aside-right">
+                                    <aside className="sidebar-page">
+                                        <div className="group-sidebox">
+                                            <div className="sidebox-title ">
+                                                <h3 className="htitle">
                                                     Danh mục page
-                                                    <span class="fa fa-angle-down"></span>
+                                                    <span className="fa fa-angle-down"></span>
                                                 </h3>
                                             </div>
-                                            <div class="sidebox-content sidebox-content-togged">
-                                                <ul class="menuList-links">
-                                                    <li class="">
+                                            <div className="sidebox-content sidebox-content-togged">
+                                                <ul className="menuList-links">
+                                                    <li className="">
                                                         <Link
                                                             to="/search"
                                                             title="Tìm kiếm"
@@ -95,7 +95,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/gioi-thieu"
                                                             title="Giới thiệu"
@@ -106,7 +106,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/chinh-sach-bao-mat"
                                                             title="Chính sách bảo mật"
@@ -118,7 +118,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/chinh-sach-thanh-toan"
                                                             title="Chính sách thanh toán"
@@ -130,7 +130,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class=" active ">
+                                                    <li className=" active ">
                                                         <Link
                                                             to="/pages/chinh-sach-giao-hang"
                                                             title="Chính sách giao hàng"
@@ -142,7 +142,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/chinh-sach-doi-tra"
                                                             title="Chính sách đổi trả"
@@ -154,7 +154,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/huong-dan-mua-hang"
                                                             title="Hướng dẫn mua hàng"
@@ -166,7 +166,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/dieu-khoan-dich-vu"
                                                             title="Điều khoản dịch vụ"
@@ -188,20 +188,20 @@ function WebsitePolicy() {
                 </div>
             )}
             {name === "chinh-sach-doi-tra" && (
-                <div class="layout-pageDetail">
-                    <div class="breadcrumb-shop">
-                        <div class="container"></div>
+                <div className="layout-pageDetail">
+                    <div className="breadcrumb-shop">
+                        <div className="container"></div>
                     </div>
-                    <div class="wrapper-pageDetail">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-9 col-sm-8 col-xs-12 pageDetail-main-left">
-                                    <div class="pageDetail-content">
-                                        <div class="heading-pageDetail">
+                    <div className="wrapper-pageDetail">
+                        <div className="container">
+                            <div className="row">
+                                <div className="col-md-9 col-sm-8 col-xs-12 pageDetail-main-left">
+                                    <div className="pageDetail-content">
+                                        <div className="heading-pageDetail">
                                             <h3>Chính sách đổi trả</h3>
                                         </div>
 
-                                        <div class="content-pageDetail typeList-style">
+                                        <div className="content-pageDetail typeList-style">
                                             <p>
                                                 <strong>
                                                     1. Điều kiện đổi trả
@@ -289,18 +289,18 @@ function WebsitePolicy() {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-4 col-xs-12 pageDetail-aside-right">
-                                    <aside class="sidebar-page">
-                                        <div class="group-sidebox">
-                                            <div class="sidebox-title ">
-                                                <h3 class="htitle">
+                                <div className="col-md-3 col-sm-4 col-xs-12 pageDetail-aside-right">
+                                    <aside className="sidebar-page">
+                                        <div className="group-sidebox">
+                                            <div className="sidebox-title ">
+                                                <h3 className="htitle">
                                                     Danh mục page
-                                                    <span class="fa fa-angle-down"></span>
+                                                    <span className="fa fa-angle-down"></span>
                                                 </h3>
                                             </div>
-                                            <div class="sidebox-content sidebox-content-togged">
-                                                <ul class="menuList-links">
-                                                    <li class="">
+                                            <div className="sidebox-content sidebox-content-togged">
+                                                <ul className="menuList-links">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/chinh-sach-bao-mat"
                                                             title="Chính sách bảo mật"
@@ -312,7 +312,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/chinh-sach-thanh-toan"
                                                             title="Chính sách thanh toán"
@@ -324,7 +324,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class=" active ">
+                                                    <li className=" active ">
                                                         <Link
                                                             to="/pages/chinh-sach-giao-hang"
                                                             title="Chính sách giao hàng"
@@ -336,7 +336,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/chinh-sach-doi-tra"
                                                             title="Chính sách đổi trả"
@@ -348,7 +348,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/huong-dan-mua-hang"
                                                             title="Hướng dẫn mua hàng"
@@ -360,7 +360,7 @@ function WebsitePolicy() {
                                                         </Link>
                                                     </li>
 
-                                                    <li class="">
+                                                    <li className="">
                                                         <Link
                                                             to="/pages/dieu-khoan-dich-vu"
                                                             title="Điều khoản dịch vụ"

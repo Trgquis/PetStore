@@ -1,3 +1,5 @@
+@import 'color';
+
 #login-content {
     height: auto;
     position: relative;
@@ -16,7 +18,7 @@
 }
 
 .box h1 {
-    color: #ec7263;
+    color: $primary-color;
     text-transform: uppercase;
     font-weight: bold;
     margin-bottom: 40px;
@@ -41,7 +43,7 @@
 .box #email:focus,
 .box #ps:focus {
     width: 280px;
-    border-color: #ec7263;
+    border-color: $primary-color;
 }
 .box input[type="submit"] {
     border: 0;
@@ -58,6 +60,6 @@
     cursor: pointer;
 }
 .box input[type="submit"]:hover {
-    background-color: #ec7263;
+    background-color: $primary-color;
     color: #ffffff;
 }

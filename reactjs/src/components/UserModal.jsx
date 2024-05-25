@@ -61,7 +61,7 @@ function UserModal({ isOpen, userId, onClose }) {
                             `http://localhost:8888/api/getuser/?id=${userId}`
                         );
                         const userInfo = response.data.user; // Adjust based on your API response structure
-                        console.log(userInfo);
+                        // console.log(userInfo);
                         setEditemail(userInfo.email);
                         setEditlastName(userInfo.lastName);
                         setEditfirstName(userInfo.firstName);
@@ -79,12 +79,12 @@ function UserModal({ isOpen, userId, onClose }) {
             generateRandomPassword();
             handlegetAllUsers(dispatch);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     }, []);
 
     let validate = (user) => {
-        console.log(user);
+        // console.log(user);
         if (
             !user.email ||
             !user.lastName ||
@@ -94,7 +94,7 @@ function UserModal({ isOpen, userId, onClose }) {
             // !user.gender ||
             // !user.roleId
         ) {
-            console.log("missing parameter");
+            // console.log("missing parameter");
             return false;
         } else {
             return true;
@@ -139,17 +139,17 @@ function UserModal({ isOpen, userId, onClose }) {
             gender: EditGender,
             phonenumber: EditPhone,
         };
-        console.log(EditUserData);
+        // console.log(EditUserData);
         if (validate(EditUserData) !== true) {
             alert("not valid");
             return false;
         }
         const response = await editUser(EditUserData, dispatch);
-        console.log(response);
+        // console.log(response);
         if (response.data.errCode === 0) {
             setStatus(response.data.errCode);
             setMess("Chỉnh sửa thông tin thành công!");
-            console.log(status, mess);
+            // console.log(status, mess);
             handleShowAlert();
         } else if (response.data.errCode === 1) {
             setStatus(response.data.errCode);

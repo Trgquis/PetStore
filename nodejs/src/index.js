@@ -7,18 +7,22 @@ const cookieParser = require("cookie-parser");
 let app = express();
 
 app.use(cookieParser());
-const customCors = function (req, callback) {
-    const whitelist = ["http://localhost:3000", "http://localhost:8888"];
-    let corsOptions;
-    if (whitelist.indexOf(req.header("Origin")) !== -1) {
-        corsOptions = { origin: true, credentials: true }; // Chấp nhận yêu cầu từ trang web trong whitelist
-    } else {
-        corsOptions = { origin: false }; // Từ chối yêu cầu từ các trang web khác
-    }
-    callback(null, corsOptions);
-};
-
-app.use(cors(customCors));
+// app.use(cors());
+// app.use(
+//     cors({
+//         origin: "http://localhost:3000", // Chỉ cho phép truy cập từ domain này
+//         credentials: true, // Cho phép gửi cookie qua các domain khác nhau
+//     })
+// );
+app.use(
+    cors({
+        origin: function (origin, callback) {
+            // Allow all origins
+            callback(null, origin);
+        },
+        credentials: true, // Allow cookies to be sent
+    })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

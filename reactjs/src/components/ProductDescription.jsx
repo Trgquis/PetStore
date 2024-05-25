@@ -34,12 +34,12 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     const dispatch = useDispatch();
     useEffect(() => {
         if (productId) {
-            console.log(productId);
+            // console.log(productId);
             const fetchData = async () => {
                 const results = await axios.get(
                     "http://localhost:8888/api/getproduct/?id=" + productId
                 );
-                console.log(results.data.product);
+                // console.log(results.data.product);
                 const productdata = results.data.product;
                 setEditName(productdata.product.name);
                 setEditCategoryId(productdata.product.category_id);
@@ -121,7 +121,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
         setCategoryId(e.target.value);
     };
     const handleEditCategoryChange = (e) => {
-        console.log(e.target.value);
+        // console.log(e.target.value);
         setEditCategoryId(e.target.value);
     };
     const handleDescriptionChange = (content) => {
@@ -136,8 +136,8 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
             category_id: parseInt(categoryId),
             amount: parseInt(amount),
         };
-        console.log("Dữ liệu sản phẩm:", productData);
-        console.log(uploadedImages);
+        // console.log("Dữ liệu sản phẩm:", productData);
+        // console.log(uploadedImages);
         const formData = new FormData();
         formData.append("category_id", productData.category_id);
         formData.append("name", productData.name);
@@ -167,7 +167,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
             category_id: EditcategoryId,
             amount: parseInt(Editamount),
         };
-        console.log("Dữ liệu sản phẩm:", productData.EditcategoryId);
+        // console.log("Dữ liệu sản phẩm:", productData.EditcategoryId);
 
         await axios.put("http://localhost:8888/api/editproduct", productData);
         // handlegetAllProducts(dispatch);

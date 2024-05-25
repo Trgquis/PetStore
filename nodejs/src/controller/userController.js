@@ -6,7 +6,7 @@ const TokenArr = [];
 
 const Token = {
     generateAccessToken: (userdata) => {
-        console.log(userdata);
+        // console.log(userdata);
         return jwt.sign(
             {
                 email: userdata.user.email,
@@ -65,7 +65,7 @@ const Token = {
 
         jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
             if (err) {
-                console.log(err);
+                // console.log(err);
                 return res.status(401).json("Error: ", err);
             }
             const newAccessToken = RefreshAccessToken(user);
@@ -78,7 +78,7 @@ const Token = {
 
             res.cookie("newRefreshToken", newRefreshToken, {
                 httpOnly: true,
-                security: false,
+                security: true,
                 path: "/",
                 sameSite: "strict",
             });
@@ -90,7 +90,7 @@ const Token = {
 const userController = {
     handleGetAllUsers: async (req, res) => {
         let users = await userService.GetAllUsers();
-        // console.log(users);
+        // // console.log(users);
         return res.status(200).json({
             // errCode: 0,
             // errMessage: 'OK',
@@ -100,7 +100,7 @@ const userController = {
 
     handleGetUser: async (req, res) => {
         id = req.query.id;
-        console.log(id);
+        // console.log(id);
         if (!id) {
             return res.status(400).json({
                 errCode: 1,
@@ -128,9 +128,9 @@ const userController = {
             gender: parseInt(req.body.gender, 10),
             roleId: "0",
         };
-        console.log(req.body);
+        // console.log(req.body);
         let message = await userService.Regist(data);
-        console.log(message);
+        // console.log(message);
         return res.status(200).json(message);
     },
 
@@ -140,7 +140,7 @@ const userController = {
             password: String(req.body.password),
         };
         let userData = await userService.Login(data);
-        console.log(userData);
+        // console.log(userData);
         if (!userData.success) {
             res.status(401).json({
                 errCode: 1,
@@ -154,7 +154,7 @@ const userController = {
 
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             path: "/",
             sameSite: "strict",
         });
@@ -183,7 +183,7 @@ const userController = {
             const mess = await userService.EditUser(data);
             return res.status(200).json(mess);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             return res.status(500).json({
                 error: "Error",
             });
@@ -197,7 +197,7 @@ const userController = {
                 message: "oke",
             });
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             return res.status(500).json({
                 error: "Error",
             });

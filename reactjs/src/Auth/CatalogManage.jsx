@@ -24,7 +24,7 @@ const CatalogManage = () => {
     const rootList = useSelector((state) => state?.sales.allRoots);
     const catalogList = useSelector((state) => state?.sales.allCatalogs);
     const childList = useSelector((state) => state?.sales.allChilds);
-    console.log(childList);
+    // console.log(childList);
     const dispatch = useDispatch();
     const [modal, setModal] = useState(false);
     const [rootmodal, setRootModal] = useState(null);
@@ -48,7 +48,7 @@ const CatalogManage = () => {
             handlegetAllRoots(dispatch);
             handlegetAllChilds(dispatch);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     }, []);
 
@@ -56,9 +56,9 @@ const CatalogManage = () => {
         try {
             setModal(true);
             setId(id);
-            console.log(id);
+            // console.log(id);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
@@ -67,14 +67,14 @@ const CatalogManage = () => {
             setModal(false);
             setId(null);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
     const handlerootOpen = async () => {
         try {
             setRootModal(true);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
@@ -82,16 +82,16 @@ const CatalogManage = () => {
         try {
             setRootModal(false);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
     const handleRefresh = async () => {
         try {
             let res = await handlegetAllCatalogs(dispatch);
-            console.log(res);
+            // console.log(res);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
@@ -101,7 +101,7 @@ const CatalogManage = () => {
             setShowDeleteConfirmation(true);
             setcatalogToDelete(catalog);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             alert("Error");
         }
     };
@@ -126,7 +126,7 @@ const CatalogManage = () => {
             }
             setShowDeleteConfirmation(false);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             alert("Error");
         }
     };

@@ -15,7 +15,7 @@ function OrderDetail({ isOpen, details, onClose }) {
     }, [dispatch]);
 
     const handleUpdateStatus = async () => {
-        console.log(status);
+        // console.log(status);
         const formData = {
             status: status,
             id: id,
@@ -25,7 +25,7 @@ function OrderDetail({ isOpen, details, onClose }) {
                 `http://localhost:8888/api/editStatus`,
                 formData
             );
-            console.log(res);
+            // console.log(res);
         }
         setStatus(null);
         handleGetOrders(dispatch);

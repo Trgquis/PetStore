@@ -13,7 +13,7 @@ const Search = ({ keyword }) => {
     const searchResults = useSelector(
         (state) => state?.sales.ProductSearchInfo
     );
-    console.log(searchResults);
+    // console.log(searchResults);
     useEffect(() => {
         setSearchKey(keyword); // Cập nhật giá trị của searchKey mỗi khi keyword thay đổi
 

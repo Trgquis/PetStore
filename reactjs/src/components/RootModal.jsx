@@ -36,7 +36,7 @@ const RootModal = ({ isOpen, onClose }) => {
                 "http://localhost:8888/api/dragroot",
                 updatedCategories
             );
-            console.log("Successfully updated root category priority");
+            // console.log("Successfully updated root category priority");
             handlegetAllRoots(dispatch);
         } catch (error) {
             console.error("Error updating root category priority", error);
@@ -47,7 +47,7 @@ const RootModal = ({ isOpen, onClose }) => {
         const destination = result.destination.index;
         const draggableId = result.draggableId;
         const source = result.source.index;
-        console.log(destination);
+        // console.log(destination);
         const requestData = {
             movedId: draggableId,
             destinationIndex: destination + 1,
@@ -59,7 +59,7 @@ const RootModal = ({ isOpen, onClose }) => {
 
     const handleEditClick = (index, name) => {
         setEdit(!edit);
-        console.log(index);
+        // console.log(index);
         setEditingIndex(index);
         setEditName(name);
     };
@@ -70,7 +70,7 @@ const RootModal = ({ isOpen, onClose }) => {
             name: editName,
         };
         const res = await axios.put("http://localhost:8888/api/editroot", data);
-        console.log(res);
+        // console.log(res);
         handlegetAllRoots(dispatch);
         setEditingIndex(null);
     };
@@ -78,17 +78,17 @@ const RootModal = ({ isOpen, onClose }) => {
         const res = await axios.delete(
             `http://localhost:8888/api/deleteroot/?id=${id}`
         );
-        console.log(res);
+        // console.log(res);
         setEditingIndex(null);
         handlegetAllRoots(dispatch);
     };
     const handleAddRoot = async () => {
-        console.log("first");
+        // console.log("first");
         const res = await axios.post(
             "http://localhost:8888/api/create-new-root",
             { name }
         );
-        console.log(res);
+        // console.log(res);
         setAddRoot(false);
         handlegetAllRoots(dispatch);
     };

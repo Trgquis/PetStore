@@ -41,8 +41,8 @@ function ProductDetail() {
     const [isLoading, setIsLoading] = useState(false);
     const childList = useSelector((state) => state.sales.allChilds);
 
-    console.log(product);
-    console.log(id);
+    // console.log(product);
+    // console.log(id);
     const userId = User?.data.userData.user.id;
     const [expandedButtonText, setExpandedButtonText] = useState("Xem thêm");
 
@@ -75,7 +75,7 @@ function ProductDetail() {
     const handleBuyNow = async (pID) => {
         try {
             setIsLoading(true);
-            console.log(pID, count);
+            // console.log(pID, count);
             const response = await axios.post(
                 "http://localhost:8888/api/addcart",
                 {
@@ -84,7 +84,7 @@ function ProductDetail() {
                 },
                 { withCredentials: true }
             );
-            console.log(response.data);
+            // console.log(response.data);
             if (userId) {
                 await handleGetAllCarts(userId, dispatch); // gọi hàm getAllCart với user_id
             } else {
@@ -101,7 +101,7 @@ function ProductDetail() {
 
     const handleAddToCart = async (pID) => {
         try {
-            console.log(pID, count);
+            // console.log(pID, count);
             const response = await axios.post(
                 "http://localhost:8888/api/addcart",
                 {
@@ -110,7 +110,7 @@ function ProductDetail() {
                 },
                 { withCredentials: true }
             );
-            console.log(response.data);
+            // console.log(response.data);
             setAlertMessage("Thêm vào giỏ hàng thành công!"); // Set success message
             setAlertType(0); // Set success type
             setAlertOpen(true); // Open the alert modal
@@ -179,7 +179,7 @@ function ProductDetail() {
                 "http://localhost:8888/api/handleSendReview",
                 data
             );
-            console.log(res);
+            // console.log(res);
             setAlertMessage("Đánh giá sản phẩm thành công!"); // Set success message
             setAlertType(0); // Set success type
             setAlertOpen(true);
@@ -187,13 +187,13 @@ function ProductDetail() {
             setRating(0);
             handlegetProduct(dispatch, id);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             setAlertMessage("Đánh giá sản phẩm thất bại!"); // Set success message
             setAlertType(1); // Set success type
             setAlertOpen(true);
         }
     };
-    console.log(User?.data.userData.user.id);
+    // console.log(User?.data.userData.user.id);
 
     useEffect(() => {
         handlegetProduct(dispatch, id);
@@ -201,12 +201,12 @@ function ProductDetail() {
         handlegetAllUsers(dispatch);
         handlegetAllChilds(dispatch);
     }, [dispatch, id]);
-    // console.log(product.product);
+    // // console.log(product.product);
 
     const currentChild = childList?.data.childs.childs.find(
         (child) => child.id === product?.data.product.product.category_id
     );
-    console.log(currentChild?.name);
+    // console.log(currentChild?.name);
     return (
         <>
             {product?.data.product.product ? (

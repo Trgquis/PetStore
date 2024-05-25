@@ -15,12 +15,12 @@ export default function AllProducts() {
     const dispatch = useDispatch();
     const data = useSelector((state) => state?.sales.allProducts);
     const { id, name } = useParams();
-    console.log(name);
+    // console.log(name);
     const product = useSelector((state) => state?.sales.ProductDetail);
     const rootList = useSelector((state) => state.sales.allRoots);
     const catalogList = useSelector((state) => state.sales.allCatalogs);
     const childList = useSelector((state) => state.sales.allChilds);
-    console.log(product);
+    // console.log(product);
     useEffect(() => {
         handlegetAllProducts(dispatch);
         handlegetAllChilds(dispatch);
@@ -35,7 +35,7 @@ export default function AllProducts() {
         ).format(price);
         return converted;
     };
-    console.log(id, name);
+    // console.log(id, name);
 
     let currentRoot;
     let currentCatalog;
@@ -54,8 +54,8 @@ export default function AllProducts() {
             );
         }
     }
-    console.log(childList);
-    console.log(currentRoot, currentChild);
+    // console.log(childList);
+    // console.log(currentRoot, currentChild);
     return (
         <>
             <CategoryBar catalogId={parseInt(id)} catalogName={name} />

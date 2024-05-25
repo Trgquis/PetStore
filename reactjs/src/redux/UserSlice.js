@@ -8,13 +8,11 @@ export const getAllUsers = createAsyncThunk("getallusers", async () => {
 });
 
 export const EditUser = createAsyncThunk("editUser", async (user) => {
-    console.log(user);
     const res = await userAPI.EditUser(user);
     return res;
 });
 
 export const DeleteUser = createAsyncThunk("deleteUser", async (userId) => {
-    console.log(userId);
     return true;
 });
 
@@ -34,7 +32,6 @@ const UserSlice = createSlice({
         [getAllUsers.fulfilled]: (state, action) => {
             state.isFetching = false;
             state.allUsers = action.payload;
-            console.log(action.payload);
             state.error = false;
         },
         [getAllUsers.rejected]: (state) => {
@@ -47,7 +44,6 @@ const UserSlice = createSlice({
         },
         [EditUser.fulfilled]: (state, action) => {
             state.isFetching = false;
-            console.log(action.payload);
             state.error = false;
         },
         [EditUser.rejected]: (state, action) => {
@@ -60,12 +56,10 @@ const UserSlice = createSlice({
         // },
         // [DeleteUser.fulfilled]: (state, action) => {
         //     state.users.isFetching = false;
-        //     console.log(action.payload);
         //     // state.users.allUsers = action.payload
         //     state.users.error = false;
         // },
         // [DeleteUser.rejected]: (state, action) => {
-        //     console.log(action.payload);
         //     state.users.isFetching = false;
         //     state.users.error = true;
         // },

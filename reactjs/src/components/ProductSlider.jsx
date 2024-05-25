@@ -98,7 +98,7 @@ function ProductSlider({ type }) {
         const qt = quantities[pID] || 0;
         try {
             const userId = User?.data.userData.user.id;
-            console.log(pID, qt + 1, userId);
+            // console.log(pID, qt + 1, userId);
             const response = await axios.post(
                 "http://localhost:8888/api/addcart",
                 {
@@ -108,7 +108,7 @@ function ProductSlider({ type }) {
                 },
                 { withCredentials: true }
             );
-            console.log(response.data);
+            // console.log(response.data);
 
             setTimeout(() => {
                 setAlertMessage("Thêm vào giỏ hàng thành công!");

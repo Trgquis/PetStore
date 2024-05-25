@@ -26,7 +26,7 @@ const Usermanage = () => {
     const dispatch = useDispatch();
     const User = useSelector((state) => state.auth.currentUser);
     const userList = useSelector((state) => state?.users.allUsers);
-    console.log(userList);
+    // console.log(userList);
     const [modal, setModal] = useState(false);
     const [currentPage, setCurrentPage] = useState(0);
     let [id, setId] = useState("");
@@ -35,14 +35,14 @@ const Usermanage = () => {
     const [mess, setMess] = useState();
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [deleteInfo, setdeleteUser] = useState(null);
-    console.log(User);
+    // console.log(User);
     useEffect(() => {
         try {
             // handlegetAllCatalogs(dispatch);
             handlegetAllUsers(dispatch);
             // handlegetAllRoots(dispatch);
         } catch (e) {
-            console.log("Lỗi fetch dữ liệu", e);
+            // console.log("Lỗi fetch dữ liệu", e);
         }
     }, []);
 
@@ -58,9 +58,9 @@ const Usermanage = () => {
         try {
             setModal(true);
             setId(id);
-            console.log(id);
+            // console.log(id);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
@@ -69,18 +69,18 @@ const Usermanage = () => {
             setModal(false);
             setId(null);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
     // Trong hàm handleDeleteUser
     const handleDeleteUser = async (user) => {
         try {
-            console.log(user);
+            // console.log(user);
             setdeleteUser(user); // Truyền user thay vì user trực tiếp
             setShowDeleteConfirmation(true);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             alert("Error");
         }
     };
@@ -89,9 +89,9 @@ const Usermanage = () => {
     const confirmDelete = async () => {
         try {
             if (deleteInfo) {
-                console.log("info", deleteInfo);
+                // console.log("info", deleteInfo);
                 let res = await deleteUser(dispatch, deleteInfo.id);
-                console.log(res);
+                // console.log(res);
                 if (res) {
                     setStatus(0);
                     setMess("Xóa người dùng thành công");
@@ -104,7 +104,7 @@ const Usermanage = () => {
             }
             setShowDeleteConfirmation(false);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             alert("Error");
         }
     };

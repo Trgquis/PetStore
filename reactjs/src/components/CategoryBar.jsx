@@ -88,8 +88,8 @@ const CategoryBar = ({ catalogId, catalogName, productName }) => {
         findCategoryChain();
     }, [catalogId, catalogName, catalogList, childList, rootList]);
 
-    console.log(categoryChain);
-    console.log(rootCategory);
+    // console.log(categoryChain);
+    // console.log(rootCategory);
     return (
         <div className="categoryBar">
             <Link to="/">Trang chủ</Link>

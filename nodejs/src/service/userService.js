@@ -15,10 +15,10 @@ const userService = {
 
                 let count = await db.User.count({});
                 let result = { users, count };
-                console.log(result);
+                // console.log(result);
                 resolve(result);
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -37,10 +37,10 @@ const userService = {
                         raw: true,
                     });
                 }
-                console.log(user);
+                // console.log(user);
                 resolve(user);
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -52,7 +52,7 @@ const userService = {
                 let user = await db.User.findOne({
                     where: { email: email },
                 });
-                console.log(user);
+                // console.log(user);
                 if (user) {
                     resolve(true);
                 } else {
@@ -104,7 +104,7 @@ const userService = {
                     });
                 }
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -118,13 +118,13 @@ const userService = {
                         id: id,
                     },
                 });
-                console.log(res);
+                // console.log(res);
                 resolve({
                     errCode: 0,
                     errMessage: "Oke",
                 });
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -181,13 +181,13 @@ const userService = {
                         where: { id: data.id },
                     }
                 );
-                console.log(user);
+                // console.log(user);
                 resolve({
                     errCode: 0,
                     errMessage: "Oke",
                 });
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });

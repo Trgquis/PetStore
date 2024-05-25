@@ -34,7 +34,7 @@ const ProductManage = () => {
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [catalogToDelete, setcatalogToDelete] = useState();
 
-    console.log(productList);
+    // console.log(productList);
     const handleShowAlert = () => {
         setShowAlert(true);
     };
@@ -51,7 +51,7 @@ const ProductManage = () => {
             handlegetAllCatalogs(dispatch);
             handlegetAllRoots(dispatch);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     }, []);
 
@@ -59,9 +59,9 @@ const ProductManage = () => {
         try {
             setModal(true);
             setId(id);
-            console.log(id);
+            // console.log(id);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
@@ -70,16 +70,16 @@ const ProductManage = () => {
             setModal(false);
             setId(null);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
     const handleRefresh = async () => {
         try {
             let res = await handlegetAllCatalogs(dispatch);
-            console.log(res);
+            // console.log(res);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
@@ -88,13 +88,13 @@ const ProductManage = () => {
             setcatalogToDelete(catalog); // Assuming you have a state variable catalogToDelete
             setShowDeleteConfirmation(true);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             alert("Error");
         }
     };
 
     const confirmDelete = async (catalogToDelete) => {
-        console.log(catalogToDelete);
+        // console.log(catalogToDelete);
         try {
             if (catalogToDelete) {
                 let res = await deleteCatalog(dispatch, catalogToDelete.id);
@@ -111,7 +111,7 @@ const ProductManage = () => {
             }
             setShowDeleteConfirmation(false);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
             alert("Error");
         }
     };

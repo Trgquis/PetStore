@@ -139,7 +139,7 @@ const categoryService = {
     checkRoot: async (rootInfo) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(rootInfo);
+                // console.log(rootInfo);
                 let root = await db.RootCategories.findOne({
                     where: {
                         name: rootInfo.name,
@@ -159,7 +159,7 @@ const categoryService = {
     checkCatalog: async (catalogInfo) => {
         return new Promise(async (resolve, reject) => {
             try {
-                // console.log(catalogInfo)
+                // // console.log(catalogInfo)
                 let catalog = await db.Categories.findOne({
                     where: {
                         name: catalogInfo.name,
@@ -168,7 +168,7 @@ const categoryService = {
                 });
 
                 if (catalog) {
-                    console.log(catalog);
+                    // console.log(catalog);
                     resolve(true);
                 } else {
                     resolve(false);
@@ -182,7 +182,7 @@ const categoryService = {
     checkChild: async (childInfo) => {
         return new Promise(async (resolve, reject) => {
             try {
-                // console.log(catalogInfo)
+                // // console.log(catalogInfo)
                 let child = await db.ChildCategories.findOne({
                     where: {
                         name: childInfo.name,
@@ -191,7 +191,7 @@ const categoryService = {
                 });
 
                 if (child) {
-                    console.log(child);
+                    // console.log(child);
                     resolve(true);
                 } else {
                     resolve(false);
@@ -205,7 +205,7 @@ const categoryService = {
     createNewRoot: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(data);
+                // console.log(data);
                 let inspect = await categoryService.checkRoot(data);
                 // let secondInspect = await checkParentandSort(data.parent_id, data.sort_order)
                 if (inspect === true) {
@@ -227,7 +227,7 @@ const categoryService = {
                     });
                 }
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -248,13 +248,13 @@ const categoryService = {
                         },
                     }
                 );
-                console.log(rootCategory);
+                // console.log(rootCategory);
                 resolve({
                     errCode: 0,
                     errMessage: "Oke",
                 });
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -263,7 +263,7 @@ const categoryService = {
     createNewCatalog: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(data);
+                // console.log(data);
                 // Check thông tin về tên danh mục vị trí sắp xếp
                 let inspect = await categoryService.checkCatalog(data);
                 // let secondInspect = await checkParentandSort(data.parent_id, data.sort_order)
@@ -285,7 +285,7 @@ const categoryService = {
                     });
                 }
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -294,10 +294,8 @@ const categoryService = {
     createNewChild: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(data);
-                // Check thông tin về tên danh mục vị trí sắp xếp
+                // console.log(data);
                 let inspect = await categoryService.checkChild(data);
-                // let secondInspect = await checkParentandSort(data.parent_id, data.sort_order)
                 if (inspect === true) {
                     resolve({
                         errCode: 1,
@@ -318,7 +316,7 @@ const categoryService = {
                     });
                 }
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -339,13 +337,13 @@ const categoryService = {
                         },
                     }
                 );
-                console.log(child);
+                // console.log(child);
                 resolve({
                     errCode: 0,
                     errMessage: "Oke",
                 });
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -359,7 +357,7 @@ const categoryService = {
                     attributes: {
                         raw: true,
                     },
-                    order: [["priority", "ASC"]], // Sắp xếp theo priority tăng dần
+                    order: [["priority", "ASC"]],
                 });
                 let count = await db.RootCategories.count({});
                 let result = { roots, count };
@@ -378,7 +376,7 @@ const categoryService = {
                         id: findId,
                     },
                 });
-                console.log(catalog);
+                // console.log(catalog);
                 resolve({ catalog });
             } catch (e) {
                 reject(e);
@@ -394,7 +392,7 @@ const categoryService = {
                         id: findId,
                     },
                 });
-                console.log(child);
+                // console.log(child);
                 resolve({ child });
             } catch (e) {
                 reject(e);
@@ -409,7 +407,7 @@ const categoryService = {
                     attributes: {
                         raw: true,
                     },
-                    order: [["priority", "ASC"]], // Sắp xếp theo priority tăng dần
+                    order: [["priority", "ASC"]],
                 });
                 let count = await db.Categories.count({});
                 let result = { catalogs, count };
@@ -428,14 +426,14 @@ const categoryService = {
                     attributes: {
                         raw: true,
                     },
-                    order: [["priority", "ASC"]], // Sắp xếp theo priority tăng dần
+                    order: [["priority", "ASC"]],
                 });
 
                 let count = await db.ChildCategories.count({});
 
                 resolve({ childs, count });
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -462,13 +460,13 @@ const categoryService = {
                     }
                 );
 
-                console.log(catalog);
+                // console.log(catalog);
                 resolve({
                     errCode: 0,
                     errMessage: "Oke",
                 });
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -477,27 +475,22 @@ const categoryService = {
     deleteRoot: async (rootId) => {
         try {
             return new Promise(async (resolve, reject) => {
-                // Tìm tất cả các cấp 2 dựa trên rootId
                 const categories = await db.Categories.findAll({
                     where: { rootcategory_id: rootId },
                 });
-                console.log(categories);
-                // Duyệt qua từng cấp 2 và xóa tất cả các cấp 3 của nó
+                // console.log(categories);
                 for (let i = 0; i < categories.length; i++) {
                     const categoryId = categories[i].id;
-                    console.log(categoryId);
-                    // Xóa tất cả các   cấp 3 của cấp 2 hiện tại
+                    // console.log(categoryId);
                     await db.ChildCategories.destroy({
                         where: { parent_id: parseInt(categoryId) },
                     });
                 }
 
-                // Sau khi xóa tất cả cấp 3, tiếp tục xóa tất cả cấp 2
                 await db.Categories.destroy({
                     where: { rootcategory_id: rootId },
                 });
 
-                // Cuối cùng, xóa root category (cấp 1)
                 await db.RootCategories.destroy({
                     where: { id: rootId },
                 });
@@ -508,7 +501,7 @@ const categoryService = {
                 });
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             reject(error);
         }
     },
@@ -539,7 +532,7 @@ const categoryService = {
                 });
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             reject(error);
         }
     },
@@ -568,7 +561,7 @@ const categoryService = {
                 });
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             reject(error);
         }
     },

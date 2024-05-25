@@ -23,7 +23,7 @@ function ManageOrder() {
             handlegetAllProducts(dispatch);
             handleGetOrders(dispatch);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     }, [dispatch]);
     const closeAlert = () => {

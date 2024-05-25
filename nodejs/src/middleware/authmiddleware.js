@@ -9,7 +9,7 @@ const AuthMiddleware = {
                 if (err) {
                     return res.status(403).json("Token is not valid");
                 }
-                console.log(user);
+                // console.log(user);
                 req.user = user;
                 next();
             });
@@ -19,13 +19,13 @@ const AuthMiddleware = {
     },
 
     verifyAdminToken: (req, res, next) => {
-        console.log(req.user);
+        // console.log(req.user);
         AuthMiddleware.verifyToken(req, res, () => {
             if (parseInt(req.user.roleId) === 1) {
-                // console.log(req.user.roleId)
+                // // console.log(req.user.roleId)
                 next();
             } else {
-                console.log("dont have permission");
+                // console.log("dont have permission");
                 return res.status(403).json("You dont have permission!");
             }
         });
@@ -33,10 +33,10 @@ const AuthMiddleware = {
     // verifyManagerToken: (req, res, next) => {
     //     AuthMiddleware.verifyToken(req, res, () => {
     //         if (parseInt(req.user.roleId) === 2) {
-    //             // console.log(req.user.roleId)
+    //             // // console.log(req.user.roleId)
     //             next();
     //         } else {
-    //             console.log("dont have permission");
+    //             // console.log("dont have permission");
     //             return res.status(403).json("You dont have permission!");
     //         }
     //     });

@@ -53,11 +53,11 @@ export default function CatalogBar() {
                     <Link to={"/pages/chinh-sach-mua-hang"}>Liên hệ</Link>
                     <Link to={"/pages/chinh-sach-mua-hang"}>Giới thiệu</Link>
                     <Link to={"/maintenance"}>Tin tức</Link>
-                    <div class="mobile-menu__help">
-                        <p class="help-title">LIÊN HỆ VỚI HAPPYPET</p>{" "}
-                        <div class="help-item">
+                    <div className="mobile-menu__help">
+                        <p className="help-title">LIÊN HỆ VỚI HAPPYPET</p>{" "}
+                        <div className="help-item">
                             <a
-                                class="help-item--link"
+                                className="help-item--link"
                                 href="tel:0988004089"
                                 rel="nofollow"
                             >
@@ -81,9 +81,9 @@ export default function CatalogBar() {
                                 0364.998.896
                             </a>
                         </div>
-                        <div class="help-item">
+                        <div className="help-item">
                             <a
-                                class="help-item--link"
+                                className="help-item--link"
                                 href="mailto:info@mozzi.vn"
                                 rel="nofollow"
                             >

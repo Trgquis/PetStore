@@ -15,7 +15,7 @@ const productService = {
                     score: data.rating,
                     comment: data.comment,
                 });
-                console.log(review);
+                // console.log(review);
                 if (review) {
                     resolve(true);
                 } else {
@@ -47,7 +47,7 @@ const productService = {
     createNewProduct: async (data, images) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log(data);
+                // console.log(data);
                 let inspect = await productService.checkProduct(data.name);
                 if (inspect === true) {
                     resolve({
@@ -83,7 +83,7 @@ const productService = {
                         amount: parseInt(data.amount),
                         sold_amount: data.sold_amount,
                     });
-                    console.log(product);
+                    // console.log(product);
 
                     const imageRecords = [];
                     try {
@@ -110,7 +110,7 @@ const productService = {
                     });
                 }
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         }).catch((error) => {
@@ -160,16 +160,14 @@ const productService = {
                                 "avgScore",
                             ],
                         ],
-                        // attributes: {
-                        //     raw: true,
-                        // },
+
                         where: { product_id: productId },
                     });
                     // Lấy số lượng đánh giá và điểm trung bình từ kết quả
-                    if (reviews.length > 0) {
-                        reviewsCount = parseInt(reviews[0].reviewCount);
+                    if (reviewsData.length > 0) {
+                        reviewsCount = parseInt(reviewsData.length) || 0;
                         averageRating = Math.round(
-                            parseFloat(reviews[0].avgScore || 0)
+                            parseFloat(reviews[0].dataValues.avgScore || 0)
                         );
                     }
                 }
@@ -181,7 +179,7 @@ const productService = {
                     reviewsCount,
                     averageRating,
                 };
-                console.log(result);
+                // console.log(result);
                 resolve(result);
             } catch (e) {
                 console.log(e);
@@ -194,7 +192,7 @@ const productService = {
         return new Promise(async (resolve, reject) => {
             try {
                 const reviews = await db.Review.findAll();
-                console.log(reviews);
+                // console.log(reviews);
                 resolve(reviews);
             } catch (error) {
                 throw error;
@@ -221,75 +219,92 @@ const productService = {
     },
 
     getAllProducts: async () => {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const reviewsCount = await db.Review.findAll({
-                    attributes: [
-                        "product_id",
-                        [
-                            Sequelize.fn("COUNT", Sequelize.col("id")),
-                            "reviewCount",
-                        ],
-                    ],
-                    group: ["product_id"],
-                });
+        try {
+            console.log("Fetching review counts...");
+            const reviewsCount = await db.Review.findAll({
+                attributes: [
+                    "product_id",
+                    [Sequelize.fn("COUNT", Sequelize.col("id")), "reviewCount"],
+                ],
+                group: ["product_id"],
+            });
+            console.log("Review counts fetched:", reviewsCount);
 
-                // Lấy trung bình đánh giá từ bảng reviews
-                const averageRatings = await db.Review.findAll({
-                    attributes: [
-                        "product_id",
-                        [
-                            Sequelize.fn("AVG", Sequelize.col("score")),
-                            "avgScore",
-                        ],
-                    ],
-                    group: ["product_id"],
-                });
+            console.log("Fetching average ratings...");
+            const averageRatings = await db.Review.findAll({
+                attributes: [
+                    "product_id",
+                    [Sequelize.fn("AVG", Sequelize.col("score")), "avgScore"],
+                ],
+                group: ["product_id"],
+            });
+            console.log("Average ratings fetched:", averageRatings);
 
-                // Chuyển danh sách số lượng đánh giá và trung bình đánh giá thành các bản đồ
-                const reviewCountMap = {};
-                reviewsCount.forEach((review) => {
-                    reviewCountMap[review.product_id] = review.reviewCount;
-                });
+            console.log("Fetching all reviews...");
+            const allReviews = await db.Review.findAll({
+                attributes: [
+                    "id",
+                    "product_id",
+                    "score",
+                    "comment",
+                    "createdAt",
+                ],
+            });
+            console.log("All reviews fetched:", allReviews);
 
-                const avgRatingMap = {};
-                averageRatings.forEach((review) => {
-                    avgRatingMap[review.product_id] = review.avgScore || 0;
-                });
+            const reviewCountMap = {};
+            reviewsCount.forEach((review) => {
+                reviewCountMap[review.dataValues.product_id] =
+                    review.dataValues.reviewCount;
+            });
+            console.log("Review count map:", reviewCountMap);
 
-                let products = "";
-                products = await db.Product.findAll({
-                    attributes: {
-                        raw: true,
+            const avgRatingMap = {};
+            averageRatings.forEach((review) => {
+                avgRatingMap[review.dataValues.product_id] = parseFloat(
+                    review.dataValues.avgScore || 0
+                ).toFixed(1);
+            });
+
+            const reviewsMap = {};
+            allReviews.forEach((review) => {
+                if (!reviewsMap[review.product_id]) {
+                    reviewsMap[review.product_id] = [];
+                }
+                reviewsMap[review.product_id].push(review);
+            });
+
+            console.log("Fetching products...");
+            const products = await db.Product.findAll({
+                raw: true,
+                order: [["discount", "DESC"]],
+            });
+
+            // Enhance products with review data
+            products.forEach((product) => {
+                product.avgRating = parseFloat(avgRatingMap[product.id] || 0);
+                product.reviewCount = parseInt(reviewCountMap[product.id] || 0);
+                product.reviews = reviewsMap[product.id] || [];
+            });
+
+            console.log("Fetching images...");
+            const images = await db.Image.findAll({
+                where: {
+                    product_id: {
+                        [Op.not]: null,
                     },
-                    order: [["discount", "DESC"]], // Sắp xếp theo discount giảm dần
-                });
+                },
+            });
+            console.log("Images fetched:", images);
 
-                products.forEach((product) => {
-                    const reviewCount = reviewCountMap[product.id] || 0; // Nếu không có đánh giá nào, đặt số lượng là 0
-                    const averageRating = avgRatingMap[product.id] || 0; // Nếu không có trung bình đánh giá, đặt là 0
-                    // Làm tròn trung bình đánh giá thành số nguyên
-                    product.avgRating = parseFloat(averageRating.toFixed(1));
-                    product.reviewCount = parseInt(reviewCount);
-                });
+            const count = await db.Product.count();
+            console.log("Product count:", count);
 
-                let images = "";
-                images = await db.Image.findAll({
-                    where: {
-                        product_id: {
-                            [Op.not]: null,
-                        },
-                    },
-                });
-                let count = await db.Product.count();
-                // console.log(products);
-                let result = { products, images, count };
-
-                resolve(result);
-            } catch (e) {
-                reject(e);
-            }
-        });
+            return { products, images, count };
+        } catch (e) {
+            console.error("Error fetching products:", e);
+            throw e;
+        }
     },
 
     getAllPopular: async () => {
@@ -317,7 +332,6 @@ const productService = {
                     ],
                     group: ["product_id"],
                 });
-
                 // Chuyển danh sách số lượng đánh giá và trung bình đánh giá thành các bản đồ
                 const reviewCountMap = {};
                 reviewsCount.forEach((review) => {
@@ -354,7 +368,7 @@ const productService = {
                     },
                 });
                 let count = await db.Product.count();
-                // console.log(products);
+                // // console.log(products);
                 let result = { products, images, count };
 
                 resolve(result);
@@ -368,23 +382,23 @@ const productService = {
         return new Promise(async (resolve, reject) => {
             try {
                 const productId = data.id;
-                console.log(productId);
+                // console.log(productId);
                 const exist = await db.Product.findOne({
                     where: {
                         id: productId,
                     },
                 });
-                console.log(exist);
-                console.log(typeof data.id);
-                console.log(typeof data.category_id);
-                console.log(typeof data.price);
-                console.log(typeof data.name);
-                console.log(typeof data.discount);
-                console.log(typeof data.content);
-                console.log(typeof data.amount);
+                // console.log(exist);
+                // console.log(typeof data.id);
+                // console.log(typeof data.category_id);
+                // console.log(typeof data.price);
+                // console.log(typeof data.name);
+                // console.log(typeof data.discount);
+                // console.log(typeof data.content);
+                // console.log(typeof data.amount);
 
-                console.log(parseInt(data.category_id));
-                console.log(parseInt(data.amount));
+                // console.log(parseInt(data.category_id));
+                // console.log(parseInt(data.amount));
 
                 if (!exist) {
                     resolve({
@@ -453,7 +467,7 @@ const productService = {
                                 where: { product_id: productId },
                             });
                         } catch (e) {
-                            console.log(e);
+                            // console.log(e);
                             reject(e);
                         }
                     }
@@ -464,7 +478,7 @@ const productService = {
                 });
             });
         } catch (error) {
-            console.log(error);
+            // console.log(error);
             reject(error);
         }
     },
@@ -527,7 +541,7 @@ const productService = {
                 resolve(result);
             });
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     },
 

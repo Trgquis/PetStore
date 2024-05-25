@@ -31,13 +31,11 @@ const userAPI = {
     },
 
     Regist: async (user) => {
-        console.log(user);
         const res = await axios.post(`http://localhost:8888/api/regist`, user);
         return res;
     },
 
     Logout: async (accessToken) => {
-        // console.log(id)
         await axios.put(`http://localhost:8888/api/logout`, {
             headers: { token: `Bearer ${accessToken}` },
             withCredentials: true,
@@ -45,7 +43,6 @@ const userAPI = {
     },
     EditUser: async (user) => {
         const res = await axios.put(`http://localhost:8888/api/edituser`, user);
-        console.log(res);
         return res;
     },
 };

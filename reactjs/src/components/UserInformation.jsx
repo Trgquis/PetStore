@@ -12,7 +12,7 @@ const UserInformation = ({ User }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    console.log(User);
+    // console.log(User);
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };

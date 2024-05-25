@@ -19,11 +19,11 @@ export default function SalesLogin() {
                 email: email,
                 password: password,
             };
-            // console.log(user)
+            // // console.log(user)
             await loginSales(user, dispatch);
             navigate("/productsmanage");
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 

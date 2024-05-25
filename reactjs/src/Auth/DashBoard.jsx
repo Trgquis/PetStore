@@ -32,7 +32,7 @@ function DashBoard() {
     const orderList = useSelector((state) => state?.order.Order);
     const [openDetail, setOpenDetail] = useState(false);
     const [details, setDetails] = useState(false);
-    console.log(productList?.data.products.count);
+    // console.log(productList?.data.products.count);
 
     useEffect(() => {
         try {
@@ -40,7 +40,7 @@ function DashBoard() {
             handlegetAllProducts(dispatch);
             handleGetOrders(dispatch);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     }, [dispatch]);
 
@@ -60,7 +60,7 @@ function DashBoard() {
             setOpenDetail(true);
             setDetails(filteredOrders[0]);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 
@@ -69,7 +69,7 @@ function DashBoard() {
             setOpenDetail(false);
             setDetails(null);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 

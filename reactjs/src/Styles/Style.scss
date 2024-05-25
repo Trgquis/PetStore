@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 /* CSS Reset */
+@import 'color';
+
 * {
     margin: 0;
     padding: 0;
@@ -30,7 +32,7 @@ header {
     position: fixed;
     width: 100%;
     height: 3vh;
-    background-color: #ec7263;
+    background-color: $primary-color;
     top: 0;
     z-index: 10;
     text-align: center;
@@ -85,12 +87,12 @@ header {
             a {
                 text-decoration: none;
                 text-transform: uppercase;
-                color: #ec7263;
+                color: $primary-color;
             }
         }
         .toggleCatalog {
             text-align: center;
-            color: #ec7263;
+            color: $primary-color;
             font-size: 14px;
             border-radius: 5px;
             height: 40px;
@@ -98,7 +100,7 @@ header {
             padding: 0 5px;
             &:hover {
                 color: #fff;
-                background-color: #ec7263;
+                background-color: $primary-color;
                 cursor: pointer;
                 transition: 0.5s;
             }
@@ -116,10 +118,10 @@ header {
             padding-left: 15px;
             transition: 0.3s;
             &:focus-within {
-                border: 1px solid #ec7263;
-                color: #ec7263;
+                border: 1px solid $primary-color;
+                color: $primary-color;
                 .iconsearch {
-                    color: #ec7263;
+                    color: $primary-color;
                 }
             }
             input {
@@ -143,7 +145,7 @@ header {
         .contactnumber {
             display: flex;
             justify-content: space-around;
-            color: #ec7263;
+            color: $primary-color;
             align-items: end;
             div {
                 line-height: 14px;
@@ -160,7 +162,7 @@ header {
             .icon-btn {
                 position: relative;
                 border: none;
-                color: #ec7263;
+                color: $primary-color;
                 background-color: transparent;
                 margin: 0 10px;
                 svg {
@@ -175,7 +177,7 @@ header {
                         top: -8px;
                         right: -8px;
                         background-color: #fff;
-                        border: 1px solid #ec7263;
+                        border: 1px solid $primary-color;
                         color: white;
                         border-radius: 50%;
                         padding: 0px;
@@ -184,7 +186,7 @@ header {
                         line-height: 16px;
                         min-width: 16px;
                         text-align: center;
-                        color: #ec7263;
+                        color: $primary-color;
                         font-weight: 600;
                     }
                 }
@@ -326,7 +328,7 @@ header {
     bottom: 27px;
     right: 20px;
     border: none;
-    background-color: #ec7263;
+    background-color: $primary-color;
     color: #fff;
     width: 40px;
     height: 35px;

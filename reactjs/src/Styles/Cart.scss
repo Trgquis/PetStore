@@ -1,3 +1,5 @@
+@import 'color';
+
 .layoutCart {
     margin: 40px 150px;
     padding: 0;
@@ -23,7 +25,6 @@
             }
 
             .headingCart::after {
-                content: "";
                 display: block;
                 margin: 20px auto;
                 width: 50px;
@@ -126,7 +127,7 @@
                                             font-size: 16px;
                                             text-decoration: none;
                                             font-weight: 600;
-                                            color: #000;
+                                            color: $dark-color;
                                             width: 90%;
                                             white-space: nowrap;
                                             overflow: hidden;
@@ -144,7 +145,7 @@
                                     }
                                 }
                                 .btnsection {
-                                    color: red;
+                                    color: $danger-color;
                                     font-weight: 500;
                                 }
                                 .remove {
@@ -229,8 +230,8 @@
 
                             #checkout-btn {
                                 display: block;
-                                background: red;
-                                color: #fff;
+                                background: $danger-color;
+                                color: $light-color;
                                 text-decoration: none;
                                 text-transform: uppercase;
                                 padding: 10px 5px;

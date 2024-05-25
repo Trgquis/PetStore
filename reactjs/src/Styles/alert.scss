@@ -1,3 +1,5 @@
+@import "color";
+
 .custom-alert {
     position: fixed;
     top: 120px; /* Giữ nguyên hoặc điều chỉnh top tùy thích */
@@ -7,7 +9,7 @@
     border-radius: 5px;
     z-index: 199;
     display: block;
-    background-color: #ffffff;
+    background-color: $light-color;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
@@ -20,14 +22,14 @@
     content: "\2714"; /* Unicode character for a checkmark */
     font-size: 20px;
     margin-right: 10px;
-    color: #4caf50;
+    color: $success-alert;
 }
 
 .crossmark::before {
     content: "\2716"; /* Unicode character for a cross mark (X) */
     font-size: 20px;
     margin-right: 10px;
-    color: red;
+    color: $danger-color;
 }
 
 button {

@@ -159,11 +159,11 @@ const Footer = () => {
                             <h4 className="title-footer opened">
                                 Chăm sóc khách hàng
                             </h4>
-                            <div class="footerInfo-hline">
-                                <div class="box-icon">
+                            <div className="footerInfo-hline">
+                                <div className="box-icon">
                                     <CiHeadphones />{" "}
                                 </div>
-                                <div class="box-content">
+                                <div className="box-content">
                                     <span>
                                         <strong>
                                             <a href="tel:0364998896">
@@ -176,7 +176,7 @@ const Footer = () => {
                             </div>
                             <div className="content-footer">
                                 <div className="footerInfo-hline"></div>
-                                <h4 class="fter-title">Follow Us</h4>
+                                <h4 className="fter-title">Follow Us</h4>
                                 <div id="iconlist">
                                     <Link>
                                         <FaFacebook />

@@ -150,7 +150,7 @@ export default function OrderPage() {
     };
     const handleSubmitOrder = async () => {
         if (!cartList.data || cartList.data.cart.length === 0) {
-            console.log("Giỏ hàng của bạn đang trống");
+            // console.log("Giỏ hàng của bạn đang trống");
             return;
         }
         setIsLoading(true);
@@ -166,7 +166,7 @@ export default function OrderPage() {
         const totalqt = cartList?.data.totalQuantity;
         try {
             if (userId) {
-                console.log(userId);
+                // console.log(userId);
                 const response = await axios.post(
                     "http://localhost:8888/api/submitOrder",
                     {
@@ -185,7 +185,7 @@ export default function OrderPage() {
                     },
                     { withCredentials: true }
                 );
-                console.log("Đơn hàng đã được đặt thành công:", response.data);
+                // console.log("Đơn hàng đã được đặt thành công:", response.data);
 
                 await axios.get("http://localhost:8888/clear", {
                     withCredentials: true,
@@ -213,7 +213,7 @@ export default function OrderPage() {
                     },
                     { withCredentials: true }
                 );
-                console.log("Đơn hàng đã được đặt thành công:", response.data);
+                // console.log("Đơn hàng đã được đặt thành công:", response.data);
                 // await axios.get("http://localhost:8888/clear", {
                 //     withCredentials: true,
                 // });
@@ -224,7 +224,7 @@ export default function OrderPage() {
             console.error("Đã xảy ra lỗi khi đặt hàng:", error);
         } finally {
             if (isLoading) {
-                console.log("sdasdasd");
+                // console.log("sdasdasd");
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 2000);
@@ -284,10 +284,10 @@ export default function OrderPage() {
                                         </p>
                                     </div>
                                     <div className="formOrder">
-                                        <div class="form__group field">
+                                        <div className="form__group field">
                                             <input
                                                 type="input"
-                                                class="form__field"
+                                                className="form__field"
                                                 placeholder="Name"
                                                 name="name"
                                                 id="name"
@@ -296,15 +296,15 @@ export default function OrderPage() {
                                             />
                                             <label
                                                 for="name"
-                                                class="form__label"
+                                                className="form__label"
                                             >
                                                 Họ và tên
                                             </label>
                                         </div>
-                                        <div class="form__group field">
+                                        <div className="form__group field">
                                             <input
                                                 type="input"
-                                                class="form__field"
+                                                className="form__field"
                                                 placeholder="Name"
                                                 name="name"
                                                 id="name"
@@ -318,15 +318,15 @@ export default function OrderPage() {
                                             />
                                             <label
                                                 for="name"
-                                                class="form__label"
+                                                className="form__label"
                                             >
                                                 Số điện thoại
                                             </label>
                                         </div>
-                                        <div class="form__group field">
+                                        <div className="form__group field">
                                             <input
                                                 type="input"
-                                                class="form__field"
+                                                className="form__field"
                                                 placeholder="Name"
                                                 name="name"
                                                 id="name"
@@ -338,7 +338,7 @@ export default function OrderPage() {
                                             />
                                             <label
                                                 for="name"
-                                                class="form__label"
+                                                className="form__label"
                                             >
                                                 Địa chỉ
                                             </label>
@@ -654,10 +654,10 @@ export default function OrderPage() {
                                         </p>
                                     </div>
                                     <div className="formOrder">
-                                        <div class="form__group field">
+                                        <div className="form__group field">
                                             <input
                                                 type="input"
-                                                class="form__field"
+                                                className="form__field"
                                                 placeholder="Name"
                                                 name="name"
                                                 id="name"
@@ -669,15 +669,15 @@ export default function OrderPage() {
                                             />
                                             <label
                                                 for="name"
-                                                class="form__label"
+                                                className="form__label"
                                             >
                                                 Họ và tên
                                             </label>
                                         </div>
-                                        <div class="form__group field">
+                                        <div className="form__group field">
                                             <input
                                                 type="input"
-                                                class="form__field"
+                                                className="form__field"
                                                 placeholder="Name"
                                                 name="name"
                                                 id="name"
@@ -689,15 +689,15 @@ export default function OrderPage() {
                                             />
                                             <label
                                                 for="name"
-                                                class="form__label"
+                                                className="form__label"
                                             >
                                                 Số điện thoại
                                             </label>
                                         </div>
-                                        <div class="form__group field">
+                                        <div className="form__group field">
                                             <input
                                                 type="input"
-                                                class="form__field"
+                                                className="form__field"
                                                 placeholder="Name"
                                                 name="name"
                                                 id="name"
@@ -711,7 +711,7 @@ export default function OrderPage() {
                                             />
                                             <label
                                                 for="name"
-                                                class="form__label"
+                                                className="form__label"
                                             >
                                                 Địa chỉ
                                             </label>

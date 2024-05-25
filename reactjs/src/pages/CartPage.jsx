@@ -19,7 +19,7 @@ export default function CartPage() {
     const [alertType, setAlertType] = useState(0); // 0: Success, 1: Error
     const [alertOpen, setAlertOpen] = useState(false);
 
-    console.log(cartList);
+    // console.log(cartList);
     const userId = currentUser?.data.userData.user.id;
     const guestId = Cookies.get("guestuserId");
 
@@ -79,12 +79,12 @@ export default function CartPage() {
                 await handleGetAllCarts(null, dispatch); // gọi hàm getAllCart với user_id
             }
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
     const handleAddToCart = async (pID, qt) => {
         try {
-            console.log(pID, qt);
+            // console.log(pID, qt);
             if (pID && qt) {
                 const response = await axios.post(
                     "http://localhost:8888/api/addcart",
@@ -94,7 +94,7 @@ export default function CartPage() {
                     },
                     { withCredentials: true }
                 );
-                console.log(response.data);
+                // console.log(response.data);
                 setAlertMessage("Cập nhật vào giỏ hàng thành công!"); // Set success message
                 setAlertType(0); // Set success type
                 setAlertOpen(true); // Open the alert modal
@@ -110,7 +110,7 @@ export default function CartPage() {
     };
     const handleDeleteItem = async (productID) => {
         try {
-            console.log(productID);
+            // console.log(productID);
             await axios.delete(
                 "http://localhost:8888/api/deleteCart/?productID=" + productID,
                 { withCredentials: true }
@@ -124,7 +124,7 @@ export default function CartPage() {
                 await handleGetAllCarts(null, dispatch); // gọi hàm getAllCart với user_id
             }
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 

@@ -12,7 +12,7 @@ const Cart = () => {
     const dispatch = useDispatch();
     const [totalPrice, setTotalPrice] = useState(0); // Khởi tạo state để lưu tổng giá trị đơn hàng
     const userId = currentUser?.data.userData.user.id;
-    console.log(cartList);
+    // console.log(cartList);
     useEffect(() => {
         async function fetchCartItems() {
             try {
@@ -54,12 +54,12 @@ const Cart = () => {
                 // Handle error here if needed
             }
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
     const handleAddToCart = async (pID, qt) => {
         try {
-            console.log(pID, qt, currentUser?.data.userData.user.id);
+            // console.log(pID, qt, currentUser?.data.userData.user.id);
             if (pID && qt) {
                 const response = await axios.post(
                     "http://localhost:8888/api/addcart",
@@ -69,7 +69,7 @@ const Cart = () => {
                     },
                     { withCredentials: true }
                 );
-                console.log(response.data);
+                // console.log(response.data);
                 try {
                     if (userId) {
                         await handleGetAllCarts(userId, dispatch);
@@ -115,7 +115,7 @@ const Cart = () => {
 
     const handleDeleteItem = async (productID) => {
         try {
-            console.log(productID);
+            // console.log(productID);
             await axios.delete(
                 "http://localhost:8888/api/deleteCart/?productID=" + productID,
                 { withCredentials: true }
@@ -131,7 +131,7 @@ const Cart = () => {
                 // Handle error here if needed
             }
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
     return (

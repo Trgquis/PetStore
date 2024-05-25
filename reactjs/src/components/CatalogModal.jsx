@@ -46,7 +46,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
                             `http://localhost:8888/api/getChild/?id=${catalogId}`
                         );
                         const categoryDetails = response.data; // Adjust based on your API response structure
-                        console.log(categoryDetails);
+                        // console.log(categoryDetails);
                         // Set the fetched data to the state variables
                         setEditName(categoryDetails.child.child.name);
                         setEditParentId(categoryDetails.child.child.parent_id);
@@ -60,7 +60,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
             }
             handlegetAllRoots(dispatch);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     }, []);
 
@@ -68,7 +68,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
         let isValid = true;
         if (!catalog.name || !catalog.parent_id) {
             isValid = false;
-            console.log("missing parameter");
+            // console.log("missing parameter");
         }
         return isValid;
     };
@@ -79,7 +79,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
             name: name,
             parent_id: parseInt(rootcategory_id),
         };
-        console.log(catalog);
+        // console.log(catalog);
         if (validate(catalog) !== true) {
             return false;
         }
@@ -102,17 +102,17 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
             name: Editname,
             parent_id: Editparent_id,
         };
-        console.log(Editcatalog);
+        // console.log(Editcatalog);
         if (validate(Editcatalog) !== true) {
             alert("not valid");
             return false;
         }
         const response = await editCatalog(Editcatalog, dispatch);
-        console.log(response.data.errCode);
+        // console.log(response.data.errCode);
         if (response.data.errCode === 0) {
             setStatus(response.data.errCode);
             setMess("Chỉnh sửa danh mục thành công!");
-            console.log(status, mess);
+            // console.log(status, mess);
             toggleAlert();
             handlegetAllChilds(dispatch);
         } else if (response.data.errCode === 1) {

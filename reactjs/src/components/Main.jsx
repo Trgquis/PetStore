@@ -86,7 +86,7 @@ const Main = () => {
         const qt = quantities[pID] || 0;
         try {
             const userId = User?.data.userData.user.id;
-            console.log(pID, qt + 1, userId);
+            // console.log(pID, qt + 1, userId);
             const response = await axios.post(
                 "http://localhost:8888/api/addcart",
                 {
@@ -96,7 +96,7 @@ const Main = () => {
                 },
                 { withCredentials: true }
             );
-            console.log(response.data);
+            // console.log(response.data);
 
             setTimeout(() => {
                 setAlertMessage("Thêm vào giỏ hàng thành công!");
@@ -247,11 +247,13 @@ const Main = () => {
                                 Giới thiệu
                             </Link>
                             <Link to={"/maintenance"}>Tin tức</Link>
-                            <div class="mobile-menu__help">
-                                <p class="help-title">LIÊN HỆ VỚI HAPPYPET</p>{" "}
-                                <div class="help-item">
+                            <div className="mobile-menu__help">
+                                <p className="help-title">
+                                    LIÊN HỆ VỚI HAPPYPET
+                                </p>{" "}
+                                <div className="help-item">
                                     <a
-                                        class="help-item--link"
+                                        className="help-item--link"
                                         href="tel:0988004089"
                                         rel="nofollow"
                                     >
@@ -278,9 +280,9 @@ const Main = () => {
                                         0364.998.896
                                     </a>
                                 </div>
-                                <div class="help-item">
+                                <div className="help-item">
                                     <a
-                                        class="help-item--link"
+                                        className="help-item--link"
                                         href="mailto:info@mozzi.vn"
                                         rel="nofollow"
                                     >
@@ -367,68 +369,68 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
-                <section class="section-index-promotion">
-                    <div class="container container-md-pd0">
-                        <div class="promotion-bgwhite">
-                            <div class="list-promotion">
-                                <div class="promotion-item">
-                                    <div class="promotion-item__inner">
+                <section className="section-index-promotion">
+                    <div className="container container-md-pd0">
+                        <div className="promotion-bgwhite">
+                            <div className="list-promotion">
+                                <div className="promotion-item">
+                                    <div className="promotion-item__inner">
                                         <Link
                                             to="pages/chinh-sach-giao-hang"
                                             title="SHIP COD TOÀN QUỐC"
                                         >
-                                            <span class="title">
+                                            <span className="title">
                                                 SHIP COD TOÀN QUỐC
                                             </span>
-                                            <span class="content">
+                                            <span className="content">
                                                 Thanh toán khi nhận hàng
                                             </span>
                                         </Link>
                                     </div>
                                 </div>
 
-                                <div class="promotion-item">
-                                    <div class="promotion-item__inner">
+                                <div className="promotion-item">
+                                    <div className="promotion-item__inner">
                                         <Link
                                             to="/pages/chinh-sach-doi-tra"
                                             title="MIỄN PHÍ ĐỔI HÀNG *"
                                         >
-                                            <span class="title">
+                                            <span className="title">
                                                 MIỄN PHÍ ĐỔI HÀNG *
                                             </span>
-                                            <span class="content">
+                                            <span className="content">
                                                 Trong vòng 7 ngày
                                             </span>
                                         </Link>
                                     </div>
                                 </div>
 
-                                <div class="promotion-item">
-                                    <div class="promotion-item__inner">
+                                <div className="promotion-item">
+                                    <div className="promotion-item__inner">
                                         <Link
                                             to="/pages/chinh-sach-giao-hang"
                                             title="GIAO HÀNG TRONG NGÀY"
                                         >
-                                            <span class="title">
+                                            <span className="title">
                                                 GIAO HÀNG TRONG NGÀY
                                             </span>
-                                            <span class="content">
+                                            <span className="content">
                                                 Đối với đơn nội thành Cần Thơ
                                             </span>
                                         </Link>
                                     </div>
                                 </div>
 
-                                <div class="promotion-item">
-                                    <div class="promotion-item__inner">
+                                <div className="promotion-item">
+                                    <div className="promotion-item__inner">
                                         <Link
                                             to="allproducts/0/san-pham-khuyen-mai"
                                             title="ĐẶT HÀNG TRỰC TUYẾN"
                                         >
-                                            <span class="title">
+                                            <span className="title">
                                                 ĐẶT HÀNG TRỰC TUYẾN
                                             </span>
-                                            <span class="content">
+                                            <span className="content">
                                                 Hotline: 0364.998.996
                                             </span>
                                         </Link>
@@ -571,7 +573,7 @@ const Main = () => {
                     </Slider>
                 </div>
                 <Link
-                    to="/allproducts/1/Mua%20sắm%20cho%20mèo"
+                    to="/allproducts/1/Shop%20cho%20mèo"
                     className="imagebackground"
                 >
                     <img src="/images/image1.png" alt="" />
@@ -731,7 +733,7 @@ const Main = () => {
                     )}
                 </div>
                 <Link
-                    to="/allproducts/2/Mua%20sắm%20cho%20chó"
+                    to="/allproducts/2/Shop%20cho%20chó"
                     className="imagebackground"
                 >
                     <img src="/images/image2.png" alt="" />

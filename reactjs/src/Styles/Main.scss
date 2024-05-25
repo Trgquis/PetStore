@@ -1,3 +1,5 @@
+@import 'color';
+
 .catalog {
     width: 20%;
     height: 100%;
@@ -10,7 +12,7 @@
         height: 30px;
         text-align: center;
         border-bottom: solid 1px #333333;
-        background-color: #ec7263;
+        background-color: $primary-color;
         padding-top: 2px;
 
         span {
@@ -75,7 +77,7 @@
             justify-content: space-between;
             align-items: center;
             &:hover {
-                color: #ec7263;
+                color: $primary-color;
             }
         }
     }
@@ -94,7 +96,7 @@
         height: 30px;
         text-align: center;
         border-bottom: solid 1px #333333;
-        background-color: #ec7263;
+        background-color: $primary-color;
         padding-top: 2px;
 
         span {
@@ -152,7 +154,7 @@
             color: #000;
             text-decoration: none;
             &:hover {
-                color: #ec7263;
+                color: $primary-color;
             }
         }
         .active {
@@ -164,7 +166,7 @@
             justify-content: space-between;
             align-items: center;
             &:hover {
-                color: #ec7263;
+                color: $primary-color;
             }
         }
     }
@@ -187,7 +189,7 @@
             text-transform: uppercase;
             text-align: center;
             border-bottom: solid 1px #333333;
-            background-color: #ec7263;
+            background-color: $primary-color;
             padding-top: 2px;
             span {
                 color: #fff;
@@ -270,7 +272,7 @@
                         .promotion-item__inner {
                             height: 100%;
                             border-radius: 4px;
-                            border: 1px solid #ec7263;
+                            border: 1px solid $primary-color;
                             padding: 10px;
                             display: flex;
                             flex-direction: column;
@@ -414,7 +416,7 @@
     a:hover {
         font-weight: 600;
         text-decoration: none;
-        color: #ec7263;
+        color: $primary-color;
     }
     .price {
         display: flex;
@@ -447,7 +449,7 @@
     text-align: center;
     padding-top: 20px;
     /* margin-left: 50px; */
-    color: #ec7263 !important;
+    color: $primary-color !important;
     font-size: 10px;
     text-transform: uppercase;
     border-bottom: 1px solid #e7e7e7;

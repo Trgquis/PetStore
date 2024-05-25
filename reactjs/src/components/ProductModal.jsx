@@ -12,7 +12,7 @@ import { editProduct } from "../redux/apiRequest";
 
 function ProductModal({ isOpen, mode, productId, onClose }) {
     // const User = useSelector((state) => state.auth.currentUser)
-    // console.log(User)
+    // // console.log(User)
     const [catalogId, setcatalogId] = useState();
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
@@ -36,15 +36,15 @@ function ProductModal({ isOpen, mode, productId, onClose }) {
     const catalogChildList = useSelector(
         (state) => state?.sales.allChilds.data
     );
-    console.log("ádasd", catalogChildList);
+    // console.log("ádasd", catalogChildList);
     useEffect(() => {
         if (productId) {
-            console.log(productId);
+            // console.log(productId);
             const fetchData = async () => {
                 const results = await axios.get(
                     "http://localhost:8888/api/getproduct/?id=" + productId
                 );
-                console.log(results.data.product);
+                // console.log(results.data.product);
                 let data = results.data.product;
                 setEditcatalogId(data.catalog_id);
                 setEditName(data.name);
@@ -79,10 +79,10 @@ function ProductModal({ isOpen, mode, productId, onClose }) {
             );
         }
 
-        console.log(formData.get(name));
+        // console.log(formData.get(name));
         AddProduct(formData, dispatch, navigate);
     };
-    console.log(productId);
+    // console.log(productId);
     let handleUpdateProduct = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -113,7 +113,7 @@ function ProductModal({ isOpen, mode, productId, onClose }) {
         setPrice(parseFloat(formattedValue.replace(/,/g, "")));
     };
 
-    console.log(img);
+    // console.log(img);
     if (!isOpen) {
         return null;
     }

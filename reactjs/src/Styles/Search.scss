@@ -1,3 +1,5 @@
+@import 'color';
+
 .dropdown-contentSearch {
     position: absolute;
     width: 700px;
@@ -50,7 +52,7 @@
                 }
                 &:hover a {
                     transition: 0.3s;
-                    color: #ec7263 !important;
+                    color: $primary-color !important;
                 }
                 .productInfo-name {
                     height: 50px;

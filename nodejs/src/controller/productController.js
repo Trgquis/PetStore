@@ -12,14 +12,14 @@ const productController = {
             let message = await productService.sendReview(data);
             return res.status(200).json(message);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     },
 
     handleCreateNewProduct: async (req, res) => {
         try {
-            console.log(req.body);
-            // console.log(req.files)
+            // console.log(req.body);
+            // // console.log(req.files)
             let images = req.files;
             // let productId = req.params.id
             let data = {
@@ -34,12 +34,12 @@ const productController = {
             let message = await productService.createNewProduct(data, images);
             return res.status(200).json(message);
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     },
 
     handleEditProduct: async (req, res) => {
-        console.log(req.body);
+        // console.log(req.body);
         let data = {
             id: req.body.id,
             catalog_id: req.body.catalog_id,
@@ -48,7 +48,7 @@ const productController = {
             content: req.body.content,
             discount: req.body.discount,
         };
-        console.log(data);
+        // console.log(data);
         let message = await productService.updateProduct(data);
         return res.status(200).json(message);
     },
@@ -91,7 +91,7 @@ const productController = {
 
     handleGetProduct: async (req, res) => {
         let id = await req.query.id;
-        console.log(id);
+        // console.log(id);
         if (!id) {
             return res.status(400).json({
                 errCode: 1,
@@ -101,7 +101,7 @@ const productController = {
         }
 
         let product = await productService.getProductById(id);
-        console.log(product);
+        // console.log(product);
         return res.status(200).json({
             errCode: 0,
             errMessage: "OK",
@@ -111,22 +111,22 @@ const productController = {
 
     handleDeleteProduct: async (req, res) => {
         const id = req.query.id;
-        console.log(id);
+        // console.log(id);
         if (!id) {
             return res.status(400).json({
                 errCode: 1,
                 errMessage: "Missing Parameters",
             });
         }
-        console.log(req.body.id);
+        // console.log(req.body.id);
         let message = await productService.deleteProduct(id);
-        console.log(message);
+        // console.log(message);
         return res.status(200).json(message);
     },
 
     handleSearchProduct: async (req, res) => {
         let keyword = req.query.name;
-        console.log(keyword);
+        // console.log(keyword);
         if (!keyword) {
             return res.status(400).json({
                 errCode: 1,

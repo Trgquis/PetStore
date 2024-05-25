@@ -6,7 +6,7 @@ const orderService = {
     handleSubmitOrder: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
-                // console.log(data);
+                // // console.log(data);
                 // Tạo đơn hàng mới
                 if (data.guestuserId) {
                     const order = await db.Order.create({
@@ -24,7 +24,7 @@ const orderService = {
                         shipFee: data.deliveryPrice,
                     });
                     const OrderValue = order.dataValues;
-                    // console.log(OrderValue);
+                    // // console.log(OrderValue);
                     console.log(
                         `Khách hàng: ${data.guestuserId} đã đặt sản phẩm `
                     );
@@ -40,7 +40,7 @@ const orderService = {
                         });
                         orderItemList.push(orderItem.dataValues);
                     }
-                    // console.log(orderItemList);
+                    // // console.log(orderItemList);
 
                     for (const productOrder of data.cart) {
                         try {
@@ -56,12 +56,12 @@ const orderService = {
                                 const updatedSold =
                                     product.sold_amount +
                                     parseInt(productOrder.quantity);
-                                console.log(updatedSold, updatedAmount);
+                                // console.log(updatedSold, updatedAmount);
                                 const res = await product.update({
                                     amount: updatedAmount,
                                     sold_amount: updatedSold,
                                 });
-                                console.log(res);
+                                // console.log(res);
                                 return res;
                             } else {
                                 // Xử lý trường hợp không tìm thấy sản phẩm
@@ -100,7 +100,7 @@ const orderService = {
                         shipFee: data.deliveryPrice,
                     });
                     const OrderValue = order.dataValues;
-                    console.log(`Khách hàng: ${data.userId} đã đặt sản phẩm `);
+                    // console.log(`Khách hàng: ${data.userId} đã đặt sản phẩm `);
                     // Tạo bản ghi mới cho các sản phẩm
                     const orderItemList = [];
                     for (const productOrder of data.cart) {
@@ -128,7 +128,7 @@ const orderService = {
                                 const updatedSold =
                                     product.sold_amount +
                                     parseInt(productOrder.quantity);
-                                console.log(updatedSold, updatedAmount);
+                                // console.log(updatedSold, updatedAmount);
                                 const res = await db.Product.update(
                                     {
                                         amount: updatedAmount,
@@ -141,7 +141,7 @@ const orderService = {
                                         returning: true,
                                     }
                                 );
-                                console.log(res);
+                                // console.log(res);
                             } else {
                                 // Xử lý trường hợp không tìm thấy sản phẩm
                                 console.log(
@@ -165,7 +165,7 @@ const orderService = {
                     });
                 }
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 return false;
             }
         });
@@ -199,7 +199,7 @@ const orderService = {
                     details,
                 });
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });
@@ -209,22 +209,22 @@ const orderService = {
         return new Promise(async (resolve, reject) => {
             try {
                 const updatedOrder = await db.Order.update(
-                    { status: status }, 
+                    { status: status },
                     {
                         where: {
-                            id: orderId
+                            id: orderId,
                         },
                     }
                 );
 
-                console.log(updatedOrder); 
+                // console.log(updatedOrder);
 
                 resolve({
                     errCode: 0,
                     errMessage: "Success",
                 });
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 reject(e);
             }
         });

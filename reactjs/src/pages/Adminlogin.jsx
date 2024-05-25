@@ -20,11 +20,11 @@ export default function AdminLogin() {
                 email: email,
                 password: password,
             };
-            // console.log(user)
+            // // console.log(user)
             await loginAdmin(user, dispatch);
             navigate("/manage");
         } catch (e) {
-            console.log(e);
+            // console.log(e);
         }
     };
 

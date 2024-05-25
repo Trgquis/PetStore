@@ -25,7 +25,6 @@ export const addUserByAdmin = createAsyncThunk(
 );
 
 export const Logout = createAsyncThunk("logoutUser", async (accessToken) => {
-    // console.log(id.requestId)
     await userAPI.Logout(accessToken);
     return true;
 });
@@ -42,7 +41,6 @@ const AuthSlice = createSlice({
             state.isFetching = true;
         },
         [Login.fulfilled]: (state, action) => {
-            console.log(action.payload);
             state.isFetching = false;
             state.currentUser = action.payload;
             state.error = false;
@@ -56,7 +54,6 @@ const AuthSlice = createSlice({
             state.isFetching = true;
         },
         [Regist.fulfilled]: (state, action) => {
-            console.log(action.payload);
             state.isFetching = false;
             // state.currentUser = action.payload
             state.error = false;
@@ -70,7 +67,6 @@ const AuthSlice = createSlice({
             state.isFetching = true;
         },
         [addUserByAdmin.fulfilled]: (state, action) => {
-            console.log(action.payload);
             state.error = false;
             state.isFetching = false;
         },
@@ -84,7 +80,6 @@ const AuthSlice = createSlice({
         },
 
         [Logout.fulfilled]: (state, action) => {
-            // console.log(action.payload)
             state.isFetching = false;
             state.currentUser = null;
             state.error = false;

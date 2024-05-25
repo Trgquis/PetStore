@@ -9,8 +9,8 @@ export default function SearchResult() {
     const searchData = useSelector((state) => state.sales.ProductSearchInfo);
     const location = useLocation();
     const keyword = new URLSearchParams(location.search).get("keyword");
-    console.log(keyword);
-    console.log(searchData);
+    // console.log(keyword);
+    // console.log(searchData);
     return (
         <div id="content">
             <div className="title">

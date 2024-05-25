@@ -74,7 +74,7 @@ const Header = () => {
         handlegetAllChilds(dispatch);
         if (currentUser) {
             const userId = currentUser?.data.userData.user.id;
-            console.log(userId);
+            // console.log(userId);
             handleGetAllCarts(userId, dispatch);
         }
         handleGetAllCarts(null, dispatch);

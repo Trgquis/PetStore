@@ -55,15 +55,12 @@ export const addnewProduct = createAsyncThunk("addProduct", async (product) => {
 });
 
 export const EditCatalog = createAsyncThunk("editcatalog", async (catalog) => {
-    console.log(catalog);
     const res = await salesAPI.EditCatalog(catalog);
-    console.log(res);
     return res;
 });
 
 export const EditProduct = createAsyncThunk("editproduct", async (product) => {
     const res = await salesAPI.Editproduct(product);
-    console.log(res);
     return res;
 });
 
@@ -75,7 +72,6 @@ export const SearchProduct = createAsyncThunk("search", async (keyword) => {
 export const Deletecatalog = createAsyncThunk(
     "deletecatalog",
     async (catalogId) => {
-        console.log(catalogId);
         return true;
     }
 );
@@ -83,7 +79,6 @@ export const Deletecatalog = createAsyncThunk(
 export const DeleteProduct = createAsyncThunk(
     "deleteproduct",
     async (ProductId) => {
-        console.log(ProductId);
         return true;
     }
 );
@@ -171,7 +166,6 @@ const SaleSlice = createSlice({
         },
         [SearchProduct.fulfilled]: (state, action) => {
             state.isFetching = false;
-            console.log(action.payload);
             state.ProductSearchInfo = action.payload;
             state.error = false;
         },
@@ -185,7 +179,6 @@ const SaleSlice = createSlice({
         },
         [getProduct.fulfilled]: (state, action) => {
             state.isFetching = false;
-            console.log(action.payload);
             state.ProductDetail = action.payload;
             state.error = false;
         },
@@ -198,7 +191,6 @@ const SaleSlice = createSlice({
             state.isFetching = true;
         },
         [addRootCategory.fulfilled]: (state, action) => {
-            console.log(action.payload);
             state.error = false;
             state.isFetching = false;
         },
@@ -211,7 +203,6 @@ const SaleSlice = createSlice({
             state.isFetching = true;
         },
         [addnewCatalog.fulfilled]: (state, action) => {
-            console.log(action.payload);
             state.error = false;
             state.isFetching = false;
         },
@@ -224,7 +215,6 @@ const SaleSlice = createSlice({
             state.isFetching = true;
         },
         [addnewChild.fulfilled]: (state, action) => {
-            console.log(action.payload);
             state.error = false;
             state.isFetching = false;
         },
@@ -237,7 +227,6 @@ const SaleSlice = createSlice({
             state.isFetching = true;
         },
         [addnewProduct.fulfilled]: (state, action) => {
-            console.log(action.payload);
             state.error = false;
             state.isFetching = false;
         },
@@ -251,7 +240,6 @@ const SaleSlice = createSlice({
         },
         [EditCatalog.fulfilled]: (state, action) => {
             state.isFetching = false;
-            console.log(action.payload);
             state.error = false;
         },
         [EditCatalog.rejected]: (state) => {
@@ -264,7 +252,6 @@ const SaleSlice = createSlice({
         },
         [EditProduct.fulfilled]: (state, action) => {
             state.isFetching = false;
-            console.log(action.payload);
             state.error = false;
         },
         [EditProduct.rejected]: (state) => {
@@ -277,7 +264,6 @@ const SaleSlice = createSlice({
         },
         [getChildCatalogs.fulfilled]: (state, action) => {
             state.isFetching = false;
-            console.log(action.payload);
             state.allChilds = action.payload;
             state.error = false;
         },

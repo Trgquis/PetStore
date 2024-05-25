@@ -11,7 +11,7 @@ const StarRating = ({ rating, onRatingChange }) => {
     };
 
     const handleClick = (star) => {
-        console.log(star);
+        // console.log(star);
         onRatingChange(star);
     };
 

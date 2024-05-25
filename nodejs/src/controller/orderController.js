@@ -19,11 +19,11 @@ let handleSubmitOrder = async (req, res) => {
         });
     }
     let message = await orderService.handleSubmitOrder(data);
-    console.log("return", message);
+    // console.log("return", message);
     if (message.isGuest) {
         res.cookie("submittedOrder", message, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             path: "/",
             sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,
@@ -34,7 +34,7 @@ let handleSubmitOrder = async (req, res) => {
 
 const handleAddCart = async (req, res) => {
     const data = req.body;
-    console.log(data);
+    // console.log(data);
     if (!data || !data.product_id || !data.quantity) {
         return res.status(400).json({
             errCode: 1,
@@ -45,9 +45,14 @@ const handleAddCart = async (req, res) => {
         let requestId = req.cookies.guestuserId;
         if (data.userId) {
             userId = data.userId;
-            console.log(userId);
+            // console.log(userId);
             res.clearCookie("guestuserId");
-            // res.cookie("userId", userId, { maxAge: 24 * 60 * 60 * 1000 });
+            res.cookie("userId", userId, {
+                maxAge: 24 * 60 * 60 * 1000,
+                httpOnly: true,
+                secure: true,
+                sameSite: "strict",
+            });
         } else {
             res.clearCookie("userId");
             if (!requestId) {
@@ -58,7 +63,7 @@ const handleAddCart = async (req, res) => {
 
         // Xử lý logic thêm sản phẩm vào giỏ hàng
         let cartData = req.cookies.cartData || {};
-        console.log(cartData);
+        // console.log(cartData);
         const productId = parseInt(data.product_id); // Chuyển đổi product_id thành số nguyên
         const qt = parseInt(data.quantity); // Chuyển đổi quantity thành số nguyên
         if (isNaN(productId) || isNaN(qt)) {
@@ -77,7 +82,7 @@ const handleAddCart = async (req, res) => {
         // Lưu thông tin giỏ hàng vào cookies
         res.cookie("cartData", cartData, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             path: "/",
             sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,
@@ -94,7 +99,7 @@ const handleAddCart = async (req, res) => {
 
 const handleRemoveCart = async (req, res) => {
     const data = req.query.productID;
-    console.log(data);
+    // console.log(data);
     if (!data) {
         return res.status(400).json({
             errCode: 1,
@@ -103,7 +108,7 @@ const handleRemoveCart = async (req, res) => {
     }
     try {
         let cartData = req.cookies.cartData || {};
-        console.log(cartData);
+        // console.log(cartData);
         const productId = parseInt(data); // Chuyển đổi product_id thành số nguyên
         if (isNaN(productId)) {
             throw new Error("Invalid input data");
@@ -118,7 +123,7 @@ const handleRemoveCart = async (req, res) => {
         // Lưu thông tin giỏ hàng vào cookies
         res.cookie("cartData", cartData, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             path: "/",
             sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,
@@ -136,9 +141,11 @@ const handleRemoveCart = async (req, res) => {
 const getAllCart = async (req, res) => {
     try {
         const userId = req.query.userId;
-        console.log(userId);
+        if (userId) {
+            // console.log(userId);
+        }
         let cartData = req.cookies.cartData || {};
-        console.log(cartData);
+        // console.log(cartData);
 
         let totalQuantity = 0;
 
@@ -157,7 +164,7 @@ const getAllCart = async (req, res) => {
             }
         }
 
-        console.log(cart);
+        // console.log(cart);
         return res.status(200).json({
             cart,
             totalQuantity,
@@ -173,7 +180,7 @@ const getAllCart = async (req, res) => {
 
 const deleteCartItem = async (req, res) => {
     const productId = req.query.productID;
-    console.log(productId);
+    // console.log(productId);
     if (!productId) {
         return res.status(400).json({
             errCode: 1,
@@ -182,7 +189,7 @@ const deleteCartItem = async (req, res) => {
     }
     try {
         let cartData = req.cookies.cartData || {};
-        console.log(cartData);
+        // console.log(cartData);
 
         if (!cartData[productId]) {
             return res.status(400).json({
@@ -195,7 +202,7 @@ const deleteCartItem = async (req, res) => {
 
         res.cookie("cartData", cartData, {
             httpOnly: true,
-            secure: false,
+            secure: true,
             path: "/",
             sameSite: "strict",
             maxAge: 24 * 60 * 60 * 1000,
@@ -219,7 +226,7 @@ let getOrder = async (req, res) => {
         });
     }
     let message = await orderService.getOrder(userId);
-    console.log(message);
+    // console.log(message);
     return res.status(200).json(message);
 };
 
@@ -231,7 +238,7 @@ const handleGetAllOrders = async (req, res) => {
 const handleEditStatus = async (req, res) => {
     const orderId = parseInt(req.body.id);
     const status = req.body.status;
-    console.log(status);
+    // console.log(status);
     let message = await orderService.editStatus(orderId, status);
     return res.status(200).json(message);
 };
