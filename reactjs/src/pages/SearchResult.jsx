@@ -36,9 +36,9 @@ export default function SearchResult() {
                                         .map((item, index) => {
                                             return (
                                                 <img
+                                                    alt="Hình ảnh"
                                                     key={item.id}
                                                     src={`${item.secure_url}`}
-                                                    alt=""
                                                     onMouseOver={(e) => {
                                                         if (index === 0) {
                                                             e.currentTarget.style.transition =

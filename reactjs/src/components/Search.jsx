@@ -95,9 +95,9 @@ const Search = ({ keyword }) => {
                                                             key={imgIndex}
                                                         >
                                                             <img
+                                                                alt="Hình ảnh"
                                                                 className="product-image"
                                                                 src={`${item.secure_url}`}
-                                                                alt=""
                                                             />
                                                         </div>
                                                     ))}

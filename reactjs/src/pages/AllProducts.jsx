@@ -22,11 +22,12 @@ export default function AllProducts() {
     const childList = useSelector((state) => state.sales.allChilds);
     // console.log(product);
     useEffect(() => {
+        document.title = `${name} | HappyPet`
         handlegetAllProducts(dispatch);
         handlegetAllChilds(dispatch);
         handlegetAllCatalogs(dispatch);
         handlegetAllRoots(dispatch);
-    }, [dispatch, id]);
+    }, [dispatch, id, name]);
 
     let convertPrice = (price) => {
         let converted = new Intl.NumberFormat(
@@ -102,10 +103,10 @@ export default function AllProducts() {
                                                         key={item.id}
                                                     >
                                                         <img
+                                                            alt="Hình ảnh"
                                                             src={
                                                                 item.secure_url
                                                             }
-                                                            alt=""
                                                             onMouseOver={(
                                                                 e
                                                             ) => {
@@ -228,10 +229,10 @@ export default function AllProducts() {
                                                         key={item.id}
                                                     >
                                                         <img
+                                                            alt="Hình ảnh"
                                                             src={
                                                                 item.secure_url
                                                             }
-                                                            alt=""
                                                             onMouseOver={(
                                                                 e
                                                             ) => {
@@ -354,10 +355,10 @@ export default function AllProducts() {
                                                         key={item.id}
                                                     >
                                                         <img
+                                                            alt="Hình ảnh"
                                                             src={
                                                                 item.secure_url
                                                             }
-                                                            alt=""
                                                             onMouseOver={(
                                                                 e
                                                             ) => {
@@ -477,10 +478,10 @@ export default function AllProducts() {
                                                         key={item.id}
                                                     >
                                                         <img
+                                                            alt="Hình ảnh"
                                                             src={
                                                                 item.secure_url
                                                             }
-                                                            alt=""
                                                             onMouseOver={(
                                                                 e
                                                             ) => {

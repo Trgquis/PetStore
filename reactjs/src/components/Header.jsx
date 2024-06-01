@@ -126,9 +126,9 @@ const Header = () => {
                     <div className="logo">
                         <Link to="/">
                             <img
+                                alt="Hình ảnh"
                                 src="/flavicon.ico"
                                 style={{ height: "60px", width: "70px" }}
-                                alt=""
                             />
                         </Link>
                     </div>

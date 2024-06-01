@@ -179,6 +179,7 @@ const Cart = () => {
                                                 to={`/detail/${item?.product.product.id}`}
                                             >
                                                 <img
+                                                    alt="Hình ảnh"
                                                     style={{
                                                         width: "85px",
                                                         height: "85px",
@@ -188,7 +189,6 @@ const Cart = () => {
                                                         item?.product.images[0]
                                                             .secure_url
                                                     }
-                                                    alt=""
                                                 />
                                             </Link>
                                         </div>
@@ -259,8 +259,8 @@ const Cart = () => {
                                             }
                                         >
                                             <img
+                                                alt="Hình ảnh"
                                                 src="https://theme.hstatic.net/1000296747/1000891809/14/delete-cart.png?v=20"
-                                                alt=""
                                             />
                                         </span>
                                     </div>

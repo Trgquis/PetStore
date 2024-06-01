@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { registerUser } from "../redux/apiRequest";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -53,6 +53,9 @@ export default function Regist() {
         }
     };
 
+    useEffect(() => {
+        document.title = "Đăng ký | HappyPet"
+    })
     return (
         <div id="content">
             <form id="box" name="refg" onSubmit={handleRegist}>

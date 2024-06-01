@@ -37,6 +37,7 @@ const Footer = () => {
                                         rel="noreferrer"
                                     >
                                         <img
+                                            alt="Hình ảnh"
                                             className="ls-is-cached lazyloaded"
                                             data-src="//theme.hstatic.net/200000263355/1001161916/14/footer_logobct_img.png?v=67"
                                             src="//theme.hstatic.net/200000263355/1001161916/14/footer_logobct_img.png?v=67"

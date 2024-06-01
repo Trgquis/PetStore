@@ -99,6 +99,7 @@ export default function OrderPage() {
         }
     };
     useEffect(() => {
+        document.title = "Thanh toán | HappyPet";
         async function fetchCartItems() {
             await handleGetAllCarts(userId, dispatch); // gọi hàm getAllCart với user_id
         }
@@ -236,9 +237,9 @@ export default function OrderPage() {
             <div className="logoandtitle">
                 <Link to={"/"}>
                     <img
+                        alt="Hình ảnh"
                         style={{ width: "100px", height: "70px" }}
                         src="/flavicon.ico"
-                        alt=""
                     />
                 </Link>
             </div>
@@ -588,12 +589,12 @@ export default function OrderPage() {
                                                     }}
                                                 >
                                                     <img
+                                                        alt="Hình ảnh"
                                                         style={{
                                                             height: "35px",
                                                             width: "auto",
                                                         }}
                                                         src="images/purchase.png"
-                                                        alt=""
                                                     />
                                                 </span>
                                             </label>
@@ -961,12 +962,12 @@ export default function OrderPage() {
                                                     }}
                                                 >
                                                     <img
+                                                        alt="Hình ảnh"
                                                         style={{
                                                             height: "35px",
                                                             width: "auto",
                                                         }}
                                                         src="images/purchase.png"
-                                                        alt=""
                                                     />
                                                 </span>
                                             </label>
@@ -1036,11 +1037,11 @@ export default function OrderPage() {
                                                     }}
                                                 >
                                                     <img
+                                                        alt="Hình ảnh"
                                                         style={{
                                                             maxWidth: "70px",
                                                         }}
                                                         src={`${item?.product.images[0].secure_url}`}
-                                                        alt=""
                                                     />
                                                 </span>
                                                 <li

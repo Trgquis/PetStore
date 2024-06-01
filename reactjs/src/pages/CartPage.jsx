@@ -41,6 +41,7 @@ export default function CartPage() {
     };
 
     useEffect(() => {
+        document.title = "Giỏ hàng | HappyPet";
         if (cartList.data) {
             let totalPrice = 0;
             cartList.data.cart.forEach((item) => {
@@ -176,13 +177,13 @@ export default function CartPage() {
                                                                                 to={`/detail/${item.product.product.id}`}
                                                                             >
                                                                                 <img
+                                                                                    alt="Hình ảnh"
                                                                                     src={
                                                                                         item
                                                                                             .product
                                                                                             .images[0]
                                                                                             .secure_url
                                                                                     }
-                                                                                    alt=""
                                                                                 />
                                                                             </Link>
                                                                         </div>
@@ -298,8 +299,8 @@ export default function CartPage() {
                                                                                 >
                                                                                     <Link>
                                                                                         <img
+                                                                                            alt="Hình ảnh"
                                                                                             src="https://theme.hstatic.net/1000296747/1000891809/14/delete-cart.png?v=20"
-                                                                                            alt=""
                                                                                         />
                                                                                     </Link>
                                                                                 </div>

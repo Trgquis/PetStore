@@ -90,12 +90,12 @@ function OrderDetail({ isOpen, details, onClose }) {
                                             </p>
                                             <p>
                                                 <img
+                                                    alt="Hình ảnh"
                                                     style={{
                                                         height: "50px",
                                                         width: "50px",
                                                     }}
                                                     src={images.secure_url}
-                                                    alt=""
                                                 />
                                             </p>
                                         </li>

@@ -209,11 +209,11 @@ function ProductSlider({ type }) {
                                                     .slice(0, 1) // get last of product image
                                                     .map((item, index) => (
                                                         <img
+                                                            alt="Hình ảnh"
                                                             key={item.id}
                                                             src={
                                                                 item.secure_url
                                                             }
-                                                            alt=""
                                                         />
                                                     ))}
                                             </Link>
@@ -311,9 +311,9 @@ function ProductSlider({ type }) {
                                                 .slice(0, 1) // get last of product image
                                                 .map((item, index) => (
                                                     <img
+                                                        alt="Hình ảnh"
                                                         key={item.id}
                                                         src={item.secure_url}
-                                                        alt=""
                                                     />
                                                 ))}
                                         </Link>
@@ -412,11 +412,11 @@ function ProductSlider({ type }) {
                                                     .slice(0, 1) // get last of product image
                                                     .map((item, index) => (
                                                         <img
+                                                            alt="Hình ảnh"
                                                             key={item.id}
                                                             src={
                                                                 item.secure_url
                                                             }
-                                                            alt=""
                                                         />
                                                     ))}
                                             </Link>

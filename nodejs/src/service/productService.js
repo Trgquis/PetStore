@@ -228,7 +228,6 @@ const productService = {
                 ],
                 group: ["product_id"],
             });
-            console.log("Review counts fetched:", reviewsCount);
 
             console.log("Fetching average ratings...");
             const averageRatings = await db.Review.findAll({
@@ -238,7 +237,6 @@ const productService = {
                 ],
                 group: ["product_id"],
             });
-            console.log("Average ratings fetched:", averageRatings);
 
             console.log("Fetching all reviews...");
             const allReviews = await db.Review.findAll({
@@ -250,14 +248,12 @@ const productService = {
                     "createdAt",
                 ],
             });
-            console.log("All reviews fetched:", allReviews);
 
             const reviewCountMap = {};
             reviewsCount.forEach((review) => {
                 reviewCountMap[review.dataValues.product_id] =
                     review.dataValues.reviewCount;
             });
-            console.log("Review count map:", reviewCountMap);
 
             const avgRatingMap = {};
             averageRatings.forEach((review) => {
@@ -274,7 +270,6 @@ const productService = {
                 reviewsMap[review.product_id].push(review);
             });
 
-            console.log("Fetching products...");
             const products = await db.Product.findAll({
                 raw: true,
                 order: [["discount", "DESC"]],
@@ -287,7 +282,6 @@ const productService = {
                 product.reviews = reviewsMap[product.id] || [];
             });
 
-            console.log("Fetching images...");
             const images = await db.Image.findAll({
                 where: {
                     product_id: {
@@ -295,7 +289,6 @@ const productService = {
                     },
                 },
             });
-            console.log("Images fetched:", images);
 
             const count = await db.Product.count();
             console.log("Product count:", count);

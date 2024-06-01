@@ -63,8 +63,8 @@ export default function AllProducts() {
                                                 key={item.id}
                                             >
                                                 <img
+                                                    alt="Hình ảnh"
                                                     src={item.secure_url}
-                                                    alt=""
                                                     onMouseOver={(e) => {
                                                         if (index === 0) {
                                                             e.currentTarget.style.transition =

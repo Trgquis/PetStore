@@ -278,8 +278,8 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                     style={{ width: "100px", height: "100px" }}
                                 >
                                     <img
+                                        alt="Hình ảnh"
                                         src={URL.createObjectURL(image)}
-                                        alt=""
                                         className="uploaded-image"
                                         onClick={() => deleteImage(index)}
                                     />
@@ -409,8 +409,8 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                     style={{ width: "100px", height: "100px" }}
                                 >
                                     <img
+                                        alt="Hình ảnh"
                                         src={image.secure_url}
-                                        alt=""
                                         className="uploaded-image"
                                         onClick={() => deleteImage(index)}
                                     />

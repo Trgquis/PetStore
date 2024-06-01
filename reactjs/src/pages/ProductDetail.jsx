@@ -29,20 +29,15 @@ function ProductDetail() {
     const [alertType, setAlertType] = useState(0); // 0: Success, 1: Error
     const [alertOpen, setAlertOpen] = useState(false);
     const [describeOpen, setDescribeOpen] = useState(true);
-
     const User = useSelector((state) => state.auth.currentUser);
     const product = useSelector((state) => state?.sales.ProductDetail);
     const userList = useSelector((state) => state?.users.allUsers);
-
     const [count, setCount] = useState(1);
     const navigate = useNavigate();
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const childList = useSelector((state) => state.sales.allChilds);
-
-    // console.log(product);
-    // console.log(id);
     const userId = User?.data.userData.user.id;
     const [expandedButtonText, setExpandedButtonText] = useState("Xem thêm");
 
@@ -201,7 +196,12 @@ function ProductDetail() {
         handlegetAllUsers(dispatch);
         handlegetAllChilds(dispatch);
     }, [dispatch, id]);
-    // // console.log(product.product);
+
+    useEffect(() => {
+        if (product && product?.data.product.product.name) {
+            document.title = product?.data.product.product.name;
+        }
+    }, [product]);
 
     const currentChild = childList?.data.childs.childs.find(
         (child) => child.id === product?.data.product.product.category_id
@@ -241,8 +241,8 @@ function ProductDetail() {
                                         return (
                                             <div className="slider-images">
                                                 <img
+                                                    alt="Hình ảnh"
                                                     src={`${image.secure_url}`}
-                                                    alt=""
                                                     key={index}
                                                     className={
                                                         index === currentSlide
@@ -263,12 +263,12 @@ function ProductDetail() {
                         {product?.data.product.images !== undefined && (
                             <div className="product-image">
                                 <img
+                                    alt="Hình ảnh"
                                     src={
                                         currentImage
                                             ? `${currentImage}`
                                             : `${product?.data.product.images[0].secure_url}`
                                     }
-                                    alt={product.name}
                                 />
                             </div>
                         )}
@@ -463,8 +463,8 @@ function ProductDetail() {
                                         </h2>
                                         <div className="moredetail--content">
                                             <img
+                                                alt="Hình ảnh"
                                                 src="/images/purchase.png"
-                                                alt=""
                                             />
                                         </div>
                                     </div>

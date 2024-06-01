@@ -201,6 +201,7 @@ const Main = () => {
         setShow(false);
     };
     useEffect(() => {
+        document.title = "Trang chủ | HappyPet";
         handlegetAllProducts(dispatch);
     }, []);
 
@@ -333,37 +334,37 @@ const Main = () => {
                             <div className="home-img">
                                 <Slider {...homeImageSettings}>
                                     <img
+                                        alt="Hình ảnh"
                                         src="/images/Cover01.jpg"
-                                        alt=""
                                         className="slider-img"
                                     />
                                     <img
+                                        alt="Hình ảnh"
                                         src="/images/Cover07.jpg"
-                                        alt=""
                                         className="slider-img"
                                     />
                                     <img
+                                        alt="Hình ảnh"
                                         src="/images/Cover03.jpg"
-                                        alt=""
                                         className="slider-img"
                                     />
                                     <img
+                                        alt="Hình ảnh"
                                         src="/images/Cover04.jpg"
-                                        alt=""
                                         className="slider-img"
                                     />
                                 </Slider>
                             </div>
                             <div className="sub-img">
                                 <img
+                                    alt="Hình ảnh"
                                     src="/images/SUB01.jpg"
                                     className="subslider-img"
-                                    alt=""
                                 />
                                 <img
+                                    alt="Hình ảnh"
                                     src="/images/SUB02.jpg"
                                     className="subslider-img"
-                                    alt=""
                                 />
                             </div>
                         </div>
@@ -488,13 +489,13 @@ const Main = () => {
                                                                     index
                                                                 ) => (
                                                                     <img
+                                                                        alt="Hình ảnh"
                                                                         key={
                                                                             item.id
                                                                         }
                                                                         src={
                                                                             item.secure_url
                                                                         }
-                                                                        alt=""
                                                                     />
                                                                 )
                                                             )}
@@ -576,7 +577,7 @@ const Main = () => {
                     to="/allproducts/1/Shop%20cho%20mèo"
                     className="imagebackground"
                 >
-                    <img src="/images/image1.png" alt="" />
+                    <img alt="Hình ảnh" src="/images/image1.png" />
                 </Link>
 
                 <div className="title">
@@ -639,13 +640,13 @@ const Main = () => {
                                                                                 index
                                                                             ) => (
                                                                                 <img
+                                                                                    alt="Hình ảnh"
                                                                                     key={
                                                                                         item.id
                                                                                     }
                                                                                     src={
                                                                                         item.secure_url
                                                                                     }
-                                                                                    alt=""
                                                                                 />
                                                                             )
                                                                         )}
@@ -736,7 +737,7 @@ const Main = () => {
                     to="/allproducts/2/Shop%20cho%20chó"
                     className="imagebackground"
                 >
-                    <img src="/images/image2.png" alt="" />
+                    <img alt="Hình ảnh" src="/images/image2.png" />
                 </Link>
             </div>
         </>
