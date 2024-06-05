@@ -179,7 +179,9 @@ const ProductManage = () => {
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
+                                    <th>Mã sản phẩm</th>
                                     <th>Sản phẩm</th>
+                                    <th>Hình ảnh</th>
                                     <th>Đơn giá</th>
                                     <th>Tỉ lệ giảm</th>
                                     <th>Thao tác</th>
@@ -188,10 +190,31 @@ const ProductManage = () => {
                             <tbody style={{ textAlign: "center" }}>
                                 {categoryToShow?.map((product, index) => (
                                     <tr key={product.id}>
+                                        <td>{product.code}</td>
                                         <td>{product.name}</td>
+
+                                        <td>
+                                            {productList?.data.products.images
+                                                .filter(
+                                                    (p) =>
+                                                        p.product_id ===
+                                                        product.id
+                                                )
+                                                .slice(0, 1)
+                                                .map((p) => (
+                                                    <img
+                                                        style={{
+                                                            width: "60px",
+                                                        }}
+                                                        key={p.id}
+                                                        src={p.secure_url}
+                                                        alt="Product Image"
+                                                    />
+                                                ))}
+                                        </td>
                                         <td>{convertPrice(product.price)}</td>
                                         <td>
-                                            {product.discount}%(-
+                                            -{product.discount}%(-
                                             {convertPrice(
                                                 product.price *
                                                     (product.discount / 100)

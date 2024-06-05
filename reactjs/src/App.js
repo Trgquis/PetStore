@@ -4,7 +4,6 @@ import Main from "./components/Main";
 import Footer from "./components/Footer";
 import Regist from "./pages/Regist";
 import ProductManage from "./Auth/ProductManage";
-import ProductModal from "./components/ProductModal";
 import CatalogManage from "./Auth/CatalogManage";
 import CatalogModal from "./components/CatalogModal";
 import Usermanage from "./Auth/Usermanage";

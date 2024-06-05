@@ -190,8 +190,7 @@ function ProductSlider({ type }) {
                                     <div id="discount-percent">
                                         <p id="discount-percent--content">
                                             <i className="fa-solid fa-tags"></i>
-                                            <span> </span>
-                                            {product.discount}% GIẢM
+                                            <span> </span>-{product.discount}%
                                         </p>
                                     </div>
                                     <div className="overlayout">
@@ -290,9 +289,7 @@ function ProductSlider({ type }) {
                                     <div id="discount-percent">
                                         <p id="discount-percent--content">
                                             <i className="fa-solid fa-tags"></i>
-                                            <span>
-                                                {product.discount}% GIẢM
-                                            </span>
+                                            <span>-{product.discount}%</span>
                                         </p>
                                     </div>
                                 ) : null}
@@ -393,8 +390,7 @@ function ProductSlider({ type }) {
                                     <div id="discount-percent">
                                         <p id="discount-percent--content">
                                             <i className="fa-solid fa-tags"></i>
-                                            <span> </span>
-                                            {product.discount}% GIẢM
+                                            <span> </span>-{product.discount}%
                                         </p>
                                     </div>
                                     <div className="overlayout">

@@ -22,7 +22,7 @@ export default function SearchResult() {
                     return (
                         <div className="post-items" key={product.id}>
                             <div id="discount-percent--contents">
-                                {product.discount}% GIẢM
+                                -{product.discount}%
                             </div>
                             <div className="overlayouts">
                                 <div className="overlayout-img">

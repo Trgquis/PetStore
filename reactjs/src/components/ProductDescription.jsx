@@ -14,6 +14,7 @@ import axios from "axios";
 import { EditProduct } from "../redux/SaleSlice";
 const ProductDescription = ({ isOpen, productId, onClose }) => {
     const [name, setName] = useState("");
+    const [code, setCode] = useState("");
     const [price, setPrice] = useState("0");
     const [discount, setDiscount] = useState("");
     const [amount, setAmount] = useState("");
@@ -21,6 +22,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     const [uploadedImages, setUploadedImages] = useState([]);
     const [productDescription, setProductDescription] = useState("");
     //
+    const [Editcode, setEditCode] = useState("");
     const [Editname, setEditName] = useState("");
     const [Editprice, setEditPrice] = useState();
     const [Editdiscount, setEditDiscount] = useState("");
@@ -42,6 +44,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                 // console.log(results.data.product);
                 const productdata = results.data.product;
                 setEditName(productdata.product.name);
+                setEditCode(productdata.product.code);
                 setEditCategoryId(productdata.product.category_id);
                 setEditDiscount(productdata.product.discount);
                 setEditPrice(productdata.product.price);
@@ -55,7 +58,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
             fetchData();
         }
         handlegetAllChilds(dispatch);
-    }, [productId]);
+    }, [productId, dispatch]);
     const modules = {
         toolbar: [
             [{ font: [] }],
@@ -91,6 +94,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     const handlePriceChange = (e) => {
         setPrice(e.target.value);
     };
+
     let convertPrice = (price) => {
         let numericPrice = price.replace(/[^\d]/g, "");
 
@@ -102,6 +106,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
 
         return formattedPrice;
     };
+
     let convertEditPrice = (price) => {
         // Chuyển đổi chuỗi số thành một số thực và định dạng giá tiền
         let formattedPrice = new Intl.NumberFormat("vi-VN", {
@@ -110,6 +115,9 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
         }).format(parseFloat(price));
 
         return formattedPrice;
+    };
+    const handleCodeChange = (e) => {
+        setCode(e.target.value);
     };
     const handleDiscountChange = (e) => {
         setDiscount(e.target.value);
@@ -130,6 +138,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
     const submitProductDescription = () => {
         const productData = {
             name: name,
+            code: code,
             price: price,
             discount: parseFloat(discount),
             content: productDescription,
@@ -141,6 +150,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
         const formData = new FormData();
         formData.append("category_id", productData.category_id);
         formData.append("name", productData.name);
+        formData.append("code", productData.code);
         formData.append("amount", productData.amount);
         formData.append("price", parseFloat(productData.price));
         formData.append("content", productData.content);
@@ -161,6 +171,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
         const productData = {
             id: parseInt(productId),
             name: Editname,
+            code: Editname,
             price: parseFloat(Editprice),
             discount: parseFloat(Editdiscount),
             content: EditproductDescription,
@@ -239,7 +250,14 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                 </div>
                             </div>
                             <div className="section3">
-                                <div className="insection3"></div>
+                                <div className="insection3">
+                                    <div>Mã sản phẩm</div>
+                                    <input
+                                        type="text"
+                                        value={code}
+                                        onChange={handleCodeChange}
+                                    />
+                                </div>
                                 <div className="insection3">
                                     <div>Loại danh mục</div>
                                     <select
@@ -375,7 +393,14 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                                 </div>
                             </div>
                             <div className="section3">
-                                <div className="insection3"></div>
+                                <div className="insection3">
+                                    <div>Mã sản phẩm</div>
+                                    <input
+                                        type="text"
+                                        value={Editcode}
+                                        onChange={handleCodeChange}
+                                    />
+                                </div>
                                 <div className="insection3">
                                     <div>Loại danh mục</div>
                                     <select

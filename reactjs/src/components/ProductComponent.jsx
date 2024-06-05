@@ -33,7 +33,7 @@ export default function AllProducts() {
                         <div className="post-items" key={product.id}>
                             {product.discount > 0 && product.amount > 0 && (
                                 <div id="discount-percent--contents">
-                                    {product.discount}% GIẢM
+                                    -{product.discount}%
                                 </div>
                             )}
                             {product.discount === 0 && (

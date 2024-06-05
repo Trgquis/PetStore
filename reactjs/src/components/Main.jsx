@@ -133,40 +133,56 @@ const Main = () => {
 
     const settings = {
         // dots: true,
-        initialSlide: 0,
+        initialSlide: 1,
         infinite: true,
         slidesToShow: 5,
         slidesToScroll: 1,
-        rows: 2,
         speed: 500,
-        // autoplay: true,
-        // autoplaySpeed: 2000,
+        rows: 2,
         prevArrow: <SamplePrevArrow />,
         nextArrow: <SampleNextArrow />,
         adaptiveHeight: true,
         responsive: [
             {
-                breakpoint: 1024,
+                breakpoint: 1025,
                 settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
+                    rows: 2,
+                    initialSlide: 0,
+                    slidesToShow: 3,
                     infinite: false,
                     dots: false,
                 },
             },
             {
-                breakpoint: 600,
+                breakpoint: 768,
                 settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 3,
-                    initialSlide: 2,
+                    rows: 1,
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    dots: false,
+                },
+            },
+            {
+                breakpoint: 640,
+                settings: {
+                    rows: 1,
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    dots: false,
                 },
             },
             {
                 breakpoint: 480,
                 settings: {
-                    slidesToShow: 1,
+                    rows: 2,
+                    slidesToShow: 2,
                     slidesToScroll: 1,
+                    dots: false,
+                    prevArrow: false,
+                    nextArrow: false,
+                    autoplay: true,
+                    autoplaySpeed: 2000,
+                    speed: 500,
                 },
             },
         ],
@@ -456,7 +472,7 @@ const Main = () => {
                                 product.discount !== 0
                             ) {
                                 return (
-                                    <Fragment>
+                                    <>
                                         <div
                                             className="post-item"
                                             key={product.id}
@@ -464,8 +480,8 @@ const Main = () => {
                                             <div id="discount-percent">
                                                 <p id="discount-percent--content">
                                                     <i className="fa-solid fa-tags"></i>
-                                                    <span> </span>
-                                                    {product.discount}% GIẢM
+                                                    <span> </span>-
+                                                    {product.discount}%
                                                 </p>
                                             </div>
                                             <div className="overlayout">
@@ -482,7 +498,7 @@ const Main = () => {
                                                                     item.product_id ===
                                                                     product.id
                                                             )
-                                                            .slice(0, 1) // get last of product image
+                                                            .slice(0, 1)
                                                             .map(
                                                                 (
                                                                     item,
@@ -565,7 +581,7 @@ const Main = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </Fragment>
+                                    </>
                                 );
                             } else {
                                 return null;
@@ -611,7 +627,7 @@ const Main = () => {
                                                                 {
                                                                     product.discount
                                                                 }
-                                                                % GIẢM
+                                                                %
                                                             </p>
                                                         </div>
                                                         <div className="overlayout">

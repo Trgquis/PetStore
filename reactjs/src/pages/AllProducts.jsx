@@ -22,7 +22,7 @@ export default function AllProducts() {
     const childList = useSelector((state) => state.sales.allChilds);
     // console.log(product);
     useEffect(() => {
-        document.title = `${name} | HappyPet`
+        document.title = `${name} | HappyPet`;
         handlegetAllProducts(dispatch);
         handlegetAllChilds(dispatch);
         handlegetAllCatalogs(dispatch);
@@ -72,7 +72,7 @@ export default function AllProducts() {
                                     {product.discount > 0 &&
                                         product.amount > 0 && (
                                             <div id="discount-percent--contents">
-                                                {product.discount}% GIẢM
+                                                -{product.discount}%
                                             </div>
                                         )}
                                     {product.discount === 0 && (
@@ -198,7 +198,7 @@ export default function AllProducts() {
                                     {product.discount > 0 &&
                                         product.amount > 0 && (
                                             <div id="discount-percent--contents">
-                                                {product.discount}% GIẢM
+                                                -{product.discount}%
                                             </div>
                                         )}
                                     {product.discount === 0 && (
@@ -324,7 +324,7 @@ export default function AllProducts() {
                                     {product.discount > 0 &&
                                         product.amount > 0 && (
                                             <div id="discount-percent--contents">
-                                                {product.discount}% GIẢM
+                                                -{product.discount}%
                                             </div>
                                         )}
                                     {product.discount === 0 && (
@@ -447,7 +447,7 @@ export default function AllProducts() {
                                     {product.discount > 0 &&
                                         product.amount > 0 && (
                                             <div id="discount-percent--contents">
-                                                {product.discount}% GIẢM
+                                                -{product.discount}%
                                             </div>
                                         )}
                                     {product.discount === 0 && (

@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const salesAPI = {
     search: async (key) => {
         const res = await axios.get(
@@ -44,7 +43,7 @@ const salesAPI = {
     },
 
     getAllProducts: async () => {
-        const res = await axios.get("http://localhost:8888/api/getAllProducts");
+        const res = await axios.get(`http://localhost:8888/api/getAllProducts`);
         return res;
     },
 

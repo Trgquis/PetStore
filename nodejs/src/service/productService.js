@@ -27,13 +27,16 @@ const productService = {
         });
     },
 
-    checkProduct: (productInfo) => {
+    checkProduct: (productInfo, codeforcheck) => {
         return new Promise(async (resolve, reject) => {
             try {
                 let product = await db.Product.findOne({
                     where: { name: productInfo },
                 });
-                if (product) {
+                let codecheck = await db.Product.findOne({
+                    where: { code: codeforcheck },
+                });
+                if (product || codecheck) {
                     resolve(true);
                 } else {
                     resolve(false);
@@ -48,11 +51,14 @@ const productService = {
         return new Promise(async (resolve, reject) => {
             try {
                 // console.log(data);
-                let inspect = await productService.checkProduct(data.name);
+                let inspect = await productService.checkProduct(
+                    data.name,
+                    data.code
+                );
                 if (inspect === true) {
                     resolve({
                         errCode: 1,
-                        errMessage: "Product already exists!",
+                        errMessage: "Product or Code already exists!",
                     });
                 } else {
                     const childcategory = await db.ChildCategories.findOne({
@@ -77,6 +83,7 @@ const productService = {
                         root_id: parseInt(root.id),
                         category_id: parseInt(data.category_id),
                         name: data.name,
+                        code: data.code,
                         price: parseFloat(data.price),
                         discount: parseFloat(data.discount),
                         content: data.content,
@@ -403,6 +410,7 @@ const productService = {
                         {
                             category_id: 2,
                             name: data.name,
+                            code: data.code,
                             price: parseFloat(data.price),
                             discount: parseInt(data.discount),
                             content: data.content,

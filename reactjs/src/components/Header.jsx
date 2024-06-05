@@ -150,7 +150,7 @@ const Header = () => {
                             <CiViewList
                                 style={{ fontSize: "25px", fontWeight: "bold" }}
                             />
-                            Danh mục
+                            {/* Danh mục */}
                         </span>
                         {open && <CatalogBar />}
                     </div>

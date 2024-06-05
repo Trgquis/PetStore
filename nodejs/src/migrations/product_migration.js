@@ -10,6 +10,28 @@ module.exports = {
                     primaryKey: true,
                     type: Sequelize.INTEGER,
                 },
+                root_id: {
+                    // new foreign key column
+                    allowNull: false,
+                    type: Sequelize.INTEGER,
+                    references: {
+                        model: "rootcategories",
+                        key: "id",
+                    },
+                    onUpdate: "CASCADE",
+                    onDelete: "CASCADE",
+                },
+                parent_id: {
+                    // new foreign key column
+                    allowNull: false,
+                    type: Sequelize.INTEGER,
+                    references: {
+                        model: "categories",
+                        key: "id",
+                    },
+                    onUpdate: "CASCADE",
+                    onDelete: "CASCADE",
+                },
                 category_id: {
                     // new foreign key column
                     allowNull: false,
@@ -20,6 +42,9 @@ module.exports = {
                     },
                     onUpdate: "CASCADE",
                     onDelete: "CASCADE",
+                },
+                code: {
+                    type: Sequelize.STRING,
                 },
                 name: {
                     allowNull: false,
