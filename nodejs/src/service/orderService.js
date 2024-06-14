@@ -1,7 +1,7 @@
 const { Op, where } = require("sequelize");
-const orderController = require("../controller/orderController");
 const db = require("../model/server");
 const { raw } = require("body-parser");
+const productService = require("../service/productService");
 const orderService = {
     handleSubmitOrder: async (data) => {
         return new Promise(async (resolve, reject) => {
@@ -197,6 +197,45 @@ const orderService = {
                 resolve({
                     orders,
                     details,
+                });
+            } catch (e) {
+                // console.log(e);
+                reject(e);
+            }
+        });
+    },
+
+    getUserOrders: async (userId) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const orders = await db.Order.findAll({
+                    where: { user_id: userId },
+                    raw: true,
+                    order: [["createdAt", "DESC"]],
+                });
+                let orderDetails = null;
+
+                const allProducts = await productService.getAllProducts();
+
+                for (let order of orders) {
+                    orderDetails = await db.Detail.findAll({
+                        where: {
+                            order_id: order.id,
+                        },
+                    });
+                }
+
+                const productDetails = orderDetails.map((detail) => {
+                    const product = allProducts?.products.find(
+                        (item) => item.id === detail.product_id
+                    );
+                    return product;
+                });
+
+                resolve({
+                    orders,
+                    orderDetails,
+                    productDetails,
                 });
             } catch (e) {
                 // console.log(e);

@@ -132,26 +132,38 @@ const Header = () => {
                             />
                         </Link>
                     </div>
-
                     <div
                         className="toggleCatalog"
                         onClick={toggleCatalog}
                         style={{
                             position: "relative",
-                            backgroundColor: open ? "#ec7263" : "#fff",
-                            color: open ? "#fff" : "#ec7263",
+                            backgroundColor: open ? "#005c78" : "#fff",
+                            color: open ? "#fff" : "#005c78",
+                            maxHeight: "100%",
                         }}
                     >
-                        <span
+                        <div
                             style={{
-                                fontSize: "15px",
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "center",
+                                justifyContent: "center",
                             }}
                         >
-                            <CiViewList
-                                style={{ fontSize: "25px", fontWeight: "bold" }}
-                            />
-                            {/* Danh mục */}
-                        </span>
+                            <CiViewList style={{ fontSize: "30px" }} />
+                            <span
+                                style={{
+                                    fontSize: "10px",
+                                    margin: "0",
+                                    padding: "0",
+                                    maxHeight: "15%",
+                                    lineHeight: "1",
+                                    display: "inline-block",
+                                }}
+                            >
+                                Danh Mục
+                            </span>
+                        </div>
                         {open && <CatalogBar />}
                     </div>
                     <div className="searchSection">

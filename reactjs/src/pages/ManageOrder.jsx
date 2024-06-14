@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom"; // Import thẻ Link từ react-router-dom
-import "../Styles/admin.css";
+import "../Styles/Cart.scss";
 import {
     handleGetOrders,
     handlegetAllProducts,
@@ -9,23 +9,28 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import OrderDetail from "../components/OrderDetail";
 import CustomAlert from "../components/CustomAlert";
+import { handleGetUserOrders } from "../redux/apiRequest";
 function ManageOrder() {
     const dispatch = useDispatch();
     const orderList = useSelector((state) => state?.order.Order);
+    const userId = useSelector(
+        (state) => state?.auth.currentUser.data.userData.user.id
+    );
+    const detailItem = useSelector((state) => state?.order.userOrders.data);
     const [alertMessage, setAlertMessage] = useState("");
     const [alertType, setAlertType] = useState(0); // 0: Success, 1: Error
     const [alertOpen, setAlertOpen] = useState(false);
     const productList = useSelector((state) => state?.sales.allProducts);
-
     useEffect(() => {
         try {
             handlegetAllUsers(dispatch);
             handlegetAllProducts(dispatch);
             handleGetOrders(dispatch);
+            handleGetUserOrders(dispatch, userId);
         } catch (e) {
             // console.log(e);
         }
-    }, [dispatch]);
+    }, [dispatch, userId]);
     const closeAlert = () => {
         setAlertOpen(false);
     };
@@ -35,6 +40,18 @@ function ManageOrder() {
             style: "currency",
             currency: "VND",
         }).format(price);
+    };
+
+    const convertDate = (timestamp) => {
+        const date = new Date(timestamp);
+
+        const day = date.getDate();
+        const month = date.getMonth() + 1; // Tháng bắt đầu từ 0 nên cần cộng thêm 1
+        const year = date.getFullYear();
+
+        const formattedDate = `${day}/${month}/${year}`;
+
+        return formattedDate;
     };
     return (
         <div className="layoutCart">
@@ -60,11 +77,50 @@ function ManageOrder() {
                                     <div className="listContent">
                                         <div className="cart-row">
                                             <div className="table-cart">
-                                                <div>
-                                                    Chức năng đang được phát
-                                                    triển. Vui lòng quay lại
-                                                    sau!
-                                                </div>
+                                                {detailItem?.orders
+                                                    .slice(0, 5)
+                                                    .map((order) => {
+                                                        return (
+                                                            <div
+                                                                className="line-item--layout"
+                                                                key={order.id}
+                                                            >
+                                                                <div className="order-line--layout">
+                                                                    <span>
+                                                                        Mã đơn
+                                                                        hàng:{" "}
+                                                                        {
+                                                                            order.id
+                                                                        }{" "}
+                                                                        | Thời
+                                                                        gian tạo{" "}
+                                                                        {convertDate(
+                                                                            order.createdAt
+                                                                        )}
+                                                                    </span>
+
+                                                                    <span>
+                                                                        Tình
+                                                                        trạng:
+                                                                        {orderList?.data.orders.map(
+                                                                            (
+                                                                                item
+                                                                            ) => {
+                                                                                return (
+                                                                                    <Fragment>
+                                                                                        {item.id ===
+                                                                                        order.id
+                                                                                            ? item.status
+                                                                                            : null}
+                                                                                    </Fragment>
+                                                                                );
+                                                                            }
+                                                                        )}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
                                             </div>
                                         </div>
                                     </div>

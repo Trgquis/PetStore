@@ -1,4 +1,4 @@
-@import 'color';
+@import "color";
 
 .layoutCart {
     margin: 40px 150px;
@@ -56,6 +56,15 @@
                         }
 
                         .table-cart {
+                            .line-item--layout {
+                                width: 100%;
+                                border-bottom: 1px solid #f1f1f1;
+                                .order-line--layout {
+                                    display: flex;
+                                    justify-content: space-between;
+                                    padding: 10px 0;
+                                }
+                            }
                             .line-item {
                                 display: flex;
                                 padding: 10px 0px;
@@ -64,6 +73,7 @@
                                 max-height: 15vh;
                                 float: left;
                                 position: relative;
+
                                 .line-item-left {
                                     width: 100px;
                                     float: left;

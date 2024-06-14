@@ -3,7 +3,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { Login } from "../redux/AuthSlice";
 import { Regist, addUserByAdmin, Logout } from "./AuthSlice";
 import { getAllUsers, DeleteUser, EditUser } from "./UserSlice";
-import { GetAllCart, GetOrders } from "./OrderSlice";
+import { GetAllCart, GetOrders, getUserOrders } from "./OrderSlice";
 import {
     getProduct,
     SearchProduct,
@@ -34,6 +34,16 @@ export const handleGetAllCarts = async (userId, dispatch) => {
 export const handleGetOrders = async (dispatch) => {
     try {
         const getorder = await dispatch(GetOrders());
+        const order = unwrapResult(getorder);
+        // console.log("cartList", order.data);
+    } catch (e) {
+        // console.log(e);
+    }
+};
+
+export const handleGetUserOrders = async (dispatch, userId) => {
+    try {
+        const getorder = await dispatch(getUserOrders(userId));
         const order = unwrapResult(getorder);
         // console.log("cartList", order.data);
     } catch (e) {

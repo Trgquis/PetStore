@@ -388,17 +388,6 @@ const productService = {
                         id: productId,
                     },
                 });
-                // console.log(exist);
-                // console.log(typeof data.id);
-                // console.log(typeof data.category_id);
-                // console.log(typeof data.price);
-                // console.log(typeof data.name);
-                // console.log(typeof data.discount);
-                // console.log(typeof data.content);
-                // console.log(typeof data.amount);
-
-                // console.log(parseInt(data.category_id));
-                // console.log(parseInt(data.amount));
 
                 if (!exist) {
                     resolve({

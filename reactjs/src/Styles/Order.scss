@@ -123,60 +123,6 @@ $gray: #9b9b9b;
         }
     }
 }
-@media (max-width: 576px) {
-    .checkout-container {
-        .overlayout--checkout {
-            max-width: 90%;
-            overflow: hidden;
-            flex-direction: column;
-            .user-details {
-                margin-left: 20px;
-                width: 100%;
-            }
-            .order-details {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid #e7e7e7;
-            }
-            .formOrder {
-                .location--picker {
-                    display: flex;
-                    flex-direction: column;
-                }
-                .checkbox--list {
-                    label {
-                        div {
-                            span {
-                                display: none;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-@media (min-width: 568px) and (max-width: 992px) {
-    .checkout-container {
-        .logoandtitle {
-            padding-left: 20px;
-            padding-top: 10px;
-        }
-        .overlayout--checkout {
-            flex-direction: column;
-            .user-details {
-                margin-left: 20px;
-                width: 100%;
-            }
-            .order-details {
-                width: 100%;
-                border-left: none;
-                border-top: 1px solid #e7e7e7;
-            }
-        }
-    }
-}
 
 .form__field {
     font-family: inherit;

@@ -14,11 +14,21 @@ export const GetOrders = createAsyncThunk("GetOrders", async () => {
     const res = await axios.get(`http://localhost:8888/api/handleGetAllOrders`);
     return res;
 });
+export const getUserOrders = createAsyncThunk(
+    "GetUserOrders",
+    async (userId) => {
+        const res = await axios.get(
+            `http://localhost:8888/api/handleGetUserOrders?userId=` + userId
+        );
+        return res;
+    }
+);
 const OrderSlice = createSlice({
     name: "order",
     initialState: {
         allCarts: null,
         Order: null,
+        userOrders: null,
         isFetching: false,
         error: false,
     },
@@ -44,6 +54,18 @@ const OrderSlice = createSlice({
             state.error = false;
         },
         [GetOrders.rejected]: (state) => {
+            state.isFetching = false;
+            state.error = true;
+        },
+        [getUserOrders.pending]: (state) => {
+            state.isFetching = true;
+        },
+        [getUserOrders.fulfilled]: (state, action) => {
+            state.isFetching = false;
+            state.userOrders = action.payload;
+            state.error = false;
+        },
+        [getUserOrders.rejected]: (state) => {
             state.isFetching = false;
             state.error = true;
         },

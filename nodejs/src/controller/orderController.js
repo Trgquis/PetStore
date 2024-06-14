@@ -234,6 +234,11 @@ const handleGetAllOrders = async (req, res) => {
     let message = await orderService.getAllOrders();
     return res.status(200).json(message);
 };
+const handleGetUserOrders = async (req, res) => {
+    const userId = req.query.userId;
+    let message = await orderService.getUserOrders(userId);
+    return res.status(200).json(message);
+};
 
 const handleEditStatus = async (req, res) => {
     const orderId = parseInt(req.body.id);
@@ -250,5 +255,6 @@ module.exports = {
     getOrder: getOrder,
     deleteCartItem: deleteCartItem,
     handleGetAllOrders: handleGetAllOrders,
+    handleGetUserOrders: handleGetUserOrders,
     handleEditStatus: handleEditStatus,
 };

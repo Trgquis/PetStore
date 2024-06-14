@@ -106,6 +106,7 @@ let initWebRoutes = (app) => {
     //Order Section
     router.post("/api/submitOrder", orderController.handleSubmitOrder);
     router.get("/api/handleGetAllOrders", orderController.handleGetAllOrders);
+    router.get("/api/handleGetUserOrders", orderController.handleGetUserOrders);
     router.get("/list", userController.listModels);
     router.put("/api/editStatus", orderController.handleEditStatus);
     return app.use("/", router);
