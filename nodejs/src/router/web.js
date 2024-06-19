@@ -6,14 +6,7 @@ const productController = require("../controller/productController");
 const orderController = require("../controller/orderController");
 const categoriesController = require("../controller/categoryController");
 const uploadmiddleware = require("../middleware/uploadmiddleware");
-const db = require("../model/server");
-const fs = require("fs");
-const csvParser = require("csv-parser");
-const { PythonShell } = require("python-shell");
-const modelFilePath = "src/recommendSystem/recommendation_model.pkl";
-const fileUploader = require("../config/cloudinary.config");
 const { LocalStorage } = require("node-localstorage");
-const localStorage = new LocalStorage("./scratch");
 let initWebRoutes = (app) => {
     app.use("/images", express.static("./images"));
     app.get("/", (req, res) => {

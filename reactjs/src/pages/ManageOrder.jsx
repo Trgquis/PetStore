@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import OrderDetail from "../components/OrderDetail";
 import CustomAlert from "../components/CustomAlert";
 import { handleGetUserOrders } from "../redux/apiRequest";
+import DetailProducts from "../components/DetailProducts";
 function ManageOrder() {
     const dispatch = useDispatch();
     const orderList = useSelector((state) => state?.order.Order);
@@ -118,6 +119,11 @@ function ManageOrder() {
                                                                         )}
                                                                     </span>
                                                                 </div>
+                                                                <DetailProducts
+                                                                    detailItem={
+                                                                        detailItem
+                                                                    }
+                                                                />
                                                             </div>
                                                         );
                                                     })}

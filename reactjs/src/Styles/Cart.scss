@@ -64,6 +64,12 @@
                                     justify-content: space-between;
                                     padding: 10px 0;
                                 }
+                                .line-item--information {
+                                    display: block;
+                                    background-color: #5c5c5c;
+                                    width: 700px;
+                                    height: 100px;
+                                }
                             }
                             .line-item {
                                 display: flex;
