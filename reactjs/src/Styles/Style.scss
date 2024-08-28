@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap");
 /* CSS Reset */
 @import "color";
+@import "reset";
 
 * {
     margin: 0;
@@ -131,6 +132,7 @@ header {
                 font-size: 15px;
                 border: none;
                 outline: none;
+                text-transform: none;
             }
             .iconsearch {
                 height: 100%;

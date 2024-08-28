@@ -137,8 +137,8 @@ const Header = () => {
                         onClick={toggleCatalog}
                         style={{
                             position: "relative",
-                            backgroundColor: open ? "#005c78" : "#fff",
-                            color: open ? "#fff" : "#005c78",
+                            backgroundColor: open ? "#ec7263" : "#fff",
+                            color: open ? "#fff" : "#ec7263",
                             maxHeight: "100%",
                         }}
                     >
