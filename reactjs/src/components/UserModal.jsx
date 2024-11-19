@@ -58,7 +58,7 @@ function UserModal({ isOpen, userId, onClose }) {
                 const fetchUserData = async () => {
                     try {
                         const response = await axios.get(
-                            `http://localhost:8888/api/getuser/?id=${userId}`
+                            `${process.env.REACT_APP_URL_BE}/api/getuser/?id=${userId}`
                         );
                         const userInfo = response.data.user; // Adjust based on your API response structure
                         // console.log(userInfo);

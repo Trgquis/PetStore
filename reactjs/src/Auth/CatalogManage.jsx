@@ -111,7 +111,7 @@ const CatalogManage = () => {
         try {
             if (catalogToDelete) {
                 let res = await axios.delete(
-                    `http://localhost:8888/api/deletechild/?id=${catalogToDelete.id}`
+                    `${process.env.REACT_APP_URL_BE}/api/deletechild/?id=${catalogToDelete.id}`
                 );
                 if (res) {
                     setStatus(0);

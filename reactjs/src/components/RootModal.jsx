@@ -33,7 +33,7 @@ const RootModal = ({ isOpen, onClose }) => {
     const updateRootCategoryPriority = async (updatedCategories) => {
         try {
             await axios.put(
-                "http://localhost:8888/api/dragroot",
+                `${process.env.REACT_APP_URL_BE}/api/dragroot`,
                 updatedCategories
             );
             // console.log("Successfully updated root category priority");
@@ -69,14 +69,14 @@ const RootModal = ({ isOpen, onClose }) => {
             id: editingIndex,
             name: editName,
         };
-        const res = await axios.put("http://localhost:8888/api/editroot", data);
+        const res = await axios.put(`${process.env.REACT_APP_URL_BE}/api/editroot`, data);
         // console.log(res);
         handlegetAllRoots(dispatch);
         setEditingIndex(null);
     };
     const handleDeleteRoot = async (id) => {
         const res = await axios.delete(
-            `http://localhost:8888/api/deleteroot/?id=${id}`
+            `${process.env.REACT_APP_URL_BE}/api/deleteroot/?id=${id}`
         );
         // console.log(res);
         setEditingIndex(null);
@@ -85,7 +85,7 @@ const RootModal = ({ isOpen, onClose }) => {
     const handleAddRoot = async () => {
         // console.log("first");
         const res = await axios.post(
-            "http://localhost:8888/api/create-new-root",
+            `${process.env.REACT_APP_URL_BE}/api/create-new-root`,
             { name }
         );
         // console.log(res);

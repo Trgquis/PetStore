@@ -38,7 +38,7 @@ const Cart = () => {
     const handleRemoveItemCart = async (productID) => {
         try {
             await axios.delete(
-                "http://localhost:8888/api/removeItemCart/?productID=" +
+                "${process.env.REACT_APP_URL_BE}/api/removeItemCart/?productID=" +
                     productID,
                 { withCredentials: true }
             );
@@ -62,7 +62,7 @@ const Cart = () => {
             // console.log(pID, qt, currentUser?.data.userData.user.id);
             if (pID && qt) {
                 const response = await axios.post(
-                    "http://localhost:8888/api/addcart",
+                    "${process.env.REACT_APP_URL_BE}/api/addcart",
                     {
                         product_id: pID,
                         quantity: qt,
@@ -117,7 +117,7 @@ const Cart = () => {
         try {
             // console.log(productID);
             await axios.delete(
-                "http://localhost:8888/api/deleteCart/?productID=" + productID,
+                "${process.env.REACT_APP_URL_BE}/api/deleteCart/?productID=" + productID,
                 { withCredentials: true }
             );
             try {

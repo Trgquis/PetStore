@@ -22,7 +22,7 @@ function OrderDetail({ isOpen, details, onClose }) {
         };
         if (status) {
             const res = await axios.put(
-                `http://localhost:8888/api/editStatus`,
+                `${process.env.REACT_APP_URL_BE}/api/editStatus`,
                 formData
             );
             // console.log(res);

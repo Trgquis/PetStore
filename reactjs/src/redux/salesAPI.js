@@ -2,66 +2,66 @@ import axios from "axios";
 const salesAPI = {
     search: async (key) => {
         const res = await axios.get(
-            "http://localhost:8888/api/search?name=" + key
+            "${process.env.REACT_APP_URL_BE}/api/search?name=" + key
         );
         return res;
     },
     addRoot: async (root) => {
         const res = await axios.post(
-            "http://localhost:8888/api/create-new-root",
+            "${process.env.REACT_APP_URL_BE}/api/create-new-root",
             root
         );
         return res;
     },
     getAllRoots: async () => {
-        const res = await axios.get("http://localhost:8888/api/getAllRoots");
+        const res = await axios.get("${process.env.REACT_APP_URL_BE}/api/getAllRoots");
         return res;
     },
     addCatalog: async (catalog) => {
         const res = await axios.post(
-            "http://localhost:8888/api/create-new-category",
+            "${process.env.REACT_APP_URL_BE}/api/create-new-category",
             catalog
         );
         return res;
     },
     addChild: async (child) => {
         const res = await axios.post(
-            "http://localhost:8888/api/create-new-child",
+            "${process.env.REACT_APP_URL_BE}/api/create-new-child",
             child
         );
         return res;
     },
     getAllCatalogs: async () => {
         const res = await axios.get(
-            "http://localhost:8888/api/getAllCategories"
+            "${process.env.REACT_APP_URL_BE}/api/getAllCategories"
         );
         return res;
     },
     getChildCatalogs: async () => {
-        const res = await axios.get("http://localhost:8888/api/getAllChilds/");
+        const res = await axios.get("${process.env.REACT_APP_URL_BE}/api/getAllChilds/");
         return res;
     },
 
     getAllProducts: async () => {
-        const res = await axios.get(`http://localhost:8888/api/getAllProducts`);
+        const res = await axios.get(`${process.env.REACT_APP_URL_BE}/api/getAllProducts`);
         return res;
     },
 
     getAllPopular: async () => {
-        const res = await axios.get("http://localhost:8888/api/getAllPopular");
+        const res = await axios.get("${process.env.REACT_APP_URL_BE}/api/getAllPopular");
         return res;
     },
 
     getProduct: async (productId) => {
         const res = await axios.get(
-            `http://localhost:8888/api/getProduct/?id=` + productId
+            `${process.env.REACT_APP_URL_BE}/api/getProduct/?id=` + productId
         );
         return res;
     },
 
     addProduct: async (product) => {
         const res = await axios.post(
-            "http://localhost:8888/api/create-new-product",
+            "${process.env.REACT_APP_URL_BE}/api/create-new-product",
             product
         );
         return res;
@@ -69,7 +69,7 @@ const salesAPI = {
 
     EditCatalog: async (catalog) => {
         const res = await axios.put(
-            "http://localhost:8888/api/editchild",
+            "${process.env.REACT_APP_URL_BE}/api/editchild",
             catalog
         );
         return res;
@@ -77,7 +77,7 @@ const salesAPI = {
 
     Editproduct: async (product) => {
         const res = await axios.post(
-            "http://localhost:8888/api/editproduct",
+            "${process.env.REACT_APP_URL_BE}/api/editproduct",
             product
         );
         alert("Edit Product success!");

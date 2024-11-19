@@ -43,7 +43,7 @@ function CatalogModal({ isOpen, catalogId, onClose }) {
                 const fetchCategoryDetails = async () => {
                     try {
                         const response = await axios.get(
-                            `http://localhost:8888/api/getChild/?id=${catalogId}`
+                            `${process.env.REACT_APP_URL_BE}/api/getChild/?id=${catalogId}`
                         );
                         const categoryDetails = response.data; // Adjust based on your API response structure
                         // console.log(categoryDetails);

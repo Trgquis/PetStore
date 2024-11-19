@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const GetAllCart = createAsyncThunk("GetAllCart", async (userId) => {
     const res = await axios.get(
-        `http://localhost:8888/api/getAllCart?userId=` + userId,
+        `${process.env.REACT_APP_URL_BE}/api/getAllCart?userId=` + userId,
         {
             withCredentials: true,
         }
@@ -11,14 +11,14 @@ export const GetAllCart = createAsyncThunk("GetAllCart", async (userId) => {
     return res;
 });
 export const GetOrders = createAsyncThunk("GetOrders", async () => {
-    const res = await axios.get(`http://localhost:8888/api/handleGetAllOrders`);
+    const res = await axios.get(`${process.env.REACT_APP_URL_BE}/api/handleGetAllOrders`);
     return res;
 });
 export const getUserOrders = createAsyncThunk(
     "GetUserOrders",
     async (userId) => {
         const res = await axios.get(
-            `http://localhost:8888/api/handleGetUserOrders?userId=` + userId
+            `${process.env.REACT_APP_URL_BE}/api/handleGetUserOrders?userId=` + userId
         );
         return res;
     }

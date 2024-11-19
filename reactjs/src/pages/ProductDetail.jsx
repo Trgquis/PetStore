@@ -72,7 +72,7 @@ function ProductDetail() {
             setIsLoading(true);
             // console.log(pID, count);
             const response = await axios.post(
-                "http://localhost:8888/api/addcart",
+                "${process.env.REACT_APP_URL_BE}/api/addcart",
                 {
                     product_id: pID,
                     quantity: count,
@@ -98,7 +98,7 @@ function ProductDetail() {
         try {
             // console.log(pID, count);
             const response = await axios.post(
-                "http://localhost:8888/api/addcart",
+                "${process.env.REACT_APP_URL_BE}/api/addcart",
                 {
                     product_id: pID,
                     quantity: count,
@@ -171,7 +171,7 @@ function ProductDetail() {
                 comment: comment,
             };
             const res = await axios.post(
-                "http://localhost:8888/api/handleSendReview",
+                "${process.env.REACT_APP_URL_BE}/api/handleSendReview",
                 data
             );
             // console.log(res);

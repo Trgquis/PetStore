@@ -88,7 +88,7 @@ const Main = () => {
             const userId = User?.data.userData.user.id;
             // console.log(pID, qt + 1, userId);
             const response = await axios.post(
-                "http://localhost:8888/api/addcart",
+                "${process.env.REACT_APP_URL_BE}/api/addcart",
                 {
                     userId: userId,
                     product_id: pID,

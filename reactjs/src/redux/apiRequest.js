@@ -297,7 +297,7 @@ export const searchProduct = async (key, dispatch) => {
 
 export const deleteCatalog = async (dispatch, id) => {
     try {
-        await axios.delete("http://localhost:8888/api/deletecategory?id=" + id);
+        await axios.delete(`${process.env.REACT_APP_URL_BE}/api/deletecategory?id=` + id);
         const res = await dispatch(Deletecatalog(id));
         const deleted = unwrapResult(res);
         handlegetAllCatalogs(dispatch);
@@ -309,7 +309,7 @@ export const deleteCatalog = async (dispatch, id) => {
 
 export const deleteProduct = async (dispatch, id) => {
     try {
-        await axios.delete("http://localhost:8081/api/delete-product?id=" + id);
+        await axios.delete(`http://localhost:8081/api/delete-product?id=` + id);
         const res = await dispatch(DeleteProduct(id));
         const deleted = unwrapResult(res);
         handlegetAllProducts(dispatch);
@@ -321,7 +321,7 @@ export const deleteProduct = async (dispatch, id) => {
 
 export const deleteUser = async (dispatch, id) => {
     try {
-        await axios.delete("http://localhost:8888/api/deleteuser?id=" + id);
+        await axios.delete(`${process.env.REACT_APP_URL_BE}/api/deleteuser?id=` + id);
         const res = await dispatch(DeleteUser(id));
         const deleted = unwrapResult(res);
         handlegetAllUsers(dispatch);

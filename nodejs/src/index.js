@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 initWebRoutes(app);
 connectDB();
 
-let port = process.env.PORT || 8888;
+let port = process.env.PORT;
 
 app.listen(port, () => {
     console.log("Backend Nodejs is running on the port: " + port);

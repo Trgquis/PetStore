@@ -169,7 +169,7 @@ export default function OrderPage() {
             if (userId) {
                 // console.log(userId);
                 const response = await axios.post(
-                    "http://localhost:8888/api/submitOrder",
+                    "${process.env.REACT_APP_URL_BE}/api/submitOrder",
                     {
                         cart: cartItems,
                         totalPrice: parseFloat(totalPayment),
@@ -188,7 +188,7 @@ export default function OrderPage() {
                 );
                 // console.log("Đơn hàng đã được đặt thành công:", response.data);
 
-                await axios.get("http://localhost:8888/clear", {
+                await axios.get("${process.env.REACT_APP_URL_BE}/clear", {
                     withCredentials: true,
                 });
                 setTimeout(() => {
@@ -197,7 +197,7 @@ export default function OrderPage() {
                 }, 2000);
             } else {
                 const response = await axios.post(
-                    "http://localhost:8888/api/submitOrder",
+                    "${process.env.REACT_APP_URL_BE}/api/submitOrder",
                     {
                         cart: cartItems,
                         totalPrice: parseFloat(totalTempPayment),
@@ -215,7 +215,7 @@ export default function OrderPage() {
                     { withCredentials: true }
                 );
                 // console.log("Đơn hàng đã được đặt thành công:", response.data);
-                // await axios.get("http://localhost:8888/clear", {
+                // await axios.get("${process.env.REACT_APP_URL_BE}/clear", {
                 //     withCredentials: true,
                 // });
                 // navigate("/");

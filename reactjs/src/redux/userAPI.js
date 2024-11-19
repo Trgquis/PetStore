@@ -2,7 +2,7 @@ import axios from "axios";
 
 const userAPI = {
     getAllUsers: async () => {
-        const res = await axios.get("http://localhost:8888/api/get-all-users");
+        const res = await axios.get(`${process.env.REACT_APP_URL_BE}/api/get-all-users`);
         return res;
     },
     // Login: async(user) => {
@@ -12,7 +12,7 @@ const userAPI = {
     Login: async (user) => {
         try {
             const res = await axios.post(
-                `http://localhost:8888/api/login`,
+                `${process.env.REACT_APP_URL_BE}/api/login`,
                 user
             );
             if (res.status === 200) {
@@ -31,18 +31,18 @@ const userAPI = {
     },
 
     Regist: async (user) => {
-        const res = await axios.post(`http://localhost:8888/api/regist`, user);
+        const res = await axios.post(`${process.env.REACT_APP_URL_BE}/api/regist`, user);
         return res;
     },
 
     Logout: async (accessToken) => {
-        await axios.put(`http://localhost:8888/api/logout`, {
+        await axios.put(`${process.env.REACT_APP_URL_BE}/api/logout`, {
             headers: { token: `Bearer ${accessToken}` },
             withCredentials: true,
         });
     },
     EditUser: async (user) => {
-        const res = await axios.put(`http://localhost:8888/api/edituser`, user);
+        const res = await axios.put(`${process.env.REACT_APP_URL_BE}/api/edituser`, user);
         return res;
     },
 };
