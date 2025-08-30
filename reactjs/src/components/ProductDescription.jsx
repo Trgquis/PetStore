@@ -44,7 +44,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
                 // console.log(results.data.product);
                 const productdata = results.data.product;
                 setEditName(productdata.product.name);
-                setEditCode(productdata.product.code);
+                // setEditCode(productdata.product.code);
                 setEditCategoryId(productdata.product.category_id);
                 setEditDiscount(productdata.product.discount);
                 setEditPrice(productdata.product.price);
@@ -150,7 +150,7 @@ const ProductDescription = ({ isOpen, productId, onClose }) => {
         const formData = new FormData();
         formData.append("category_id", productData.category_id);
         formData.append("name", productData.name);
-        formData.append("code", productData.code);
+        // formData.append("code", productData.code);
         formData.append("amount", productData.amount);
         formData.append("price", parseFloat(productData.price));
         formData.append("content", productData.content);

@@ -382,7 +382,7 @@ export default function OrderPage() {
                                                     </option>
                                                 ))}
                                             </select>
-                                            <select
+                                            <select   
                                                 className="minimal"
                                                 id="ward"
                                                 onChange={(e) =>

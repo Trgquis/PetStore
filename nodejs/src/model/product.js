@@ -50,7 +50,7 @@ module.exports = async (sequelize, DataTypes) => {
             root_id: DataTypes.INTEGER,
             parent_id: DataTypes.INTEGER,
             category_id: DataTypes.INTEGER,
-            code: DataTypes.STRING,
+            // code: DataTypes.STRING,
             name: DataTypes.STRING,
             price: DataTypes.REAL,
             discount: DataTypes.REAL,

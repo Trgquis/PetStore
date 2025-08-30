@@ -33,9 +33,9 @@ const productService = {
                 let product = await db.Product.findOne({
                     where: { name: productInfo },
                 });
-                let codecheck = await db.Product.findOne({
-                    where: { code: codeforcheck },
-                });
+                // let codecheck = await db.Product.findOne({
+                //     where: { code: codeforcheck },
+                // });
                 if (product || codecheck) {
                     resolve(true);
                 } else {
@@ -53,7 +53,7 @@ const productService = {
                 // console.log(data);
                 let inspect = await productService.checkProduct(
                     data.name,
-                    data.code
+                    // data.code
                 );
                 if (inspect === true) {
                     resolve({
@@ -83,7 +83,7 @@ const productService = {
                         root_id: parseInt(root.id),
                         category_id: parseInt(data.category_id),
                         name: data.name,
-                        code: data.code,
+                        // code: data.code,
                         price: parseFloat(data.price),
                         discount: parseFloat(data.discount),
                         content: data.content,
@@ -399,7 +399,7 @@ const productService = {
                         {
                             category_id: 2,
                             name: data.name,
-                            code: data.code,
+                            // code: data.code,
                             price: parseFloat(data.price),
                             discount: parseInt(data.discount),
                             content: data.content,

@@ -18,7 +18,7 @@ const sequelize = new Sequelize({
     dialect: "postgres",
     database: "petstore",
     username: "postgres",
-    password: 150602,
+    password: "150602",
     host: "localhost",
     port: 5432,
     logging: false,
